@@ -1,1 +1,1 @@
-rootProject.name = "wearsic-server"
+rootProject.name = (":wearsic-server")
