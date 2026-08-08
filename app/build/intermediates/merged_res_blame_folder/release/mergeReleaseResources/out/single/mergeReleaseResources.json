@@ -1,0 +1,614 @@
+[
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/layout_custom_dialog.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/layout/custom_dialog.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable_rectangular_vignette_bottom.png.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-compose-material-1.5.0-38:/drawable/rectangular_vignette_bottom.png"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/layout_notification_template_media_custom.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media-1.7.0-15:/layout/notification_template_media_custom.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/layout-v21_notification_template_icon_group.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/layout-v21/notification_template_icon_group.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_star_unfilled.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_star_unfilled.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-hdpi-v4_notification_bg_low_normal.9.png.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/drawable-hdpi-v4/notification_bg_low_normal.9.png"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable_wear_m3c_check_animation.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-compose-material3-1.5.0-20:/drawable/wear_m3c_check_animation.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_rewind.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_rewind.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-mdpi-v4_notify_panel_notification_icon_bg.png.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/drawable-mdpi-v4/notify_panel_notification_icon_bg.png"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/layout_notification_template_big_media_narrow.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media-1.7.0-15:/layout/notification_template_big_media_narrow.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_plus_circle_unfilled.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_plus_circle_unfilled.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_heart_filled.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_heart_filled.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable_ic_close.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-main-64:/drawable/ic_close.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_plus.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_plus.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable_ic_queue.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-main-64:/drawable/ic_queue.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_check_circle_unfilled.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_check_circle_unfilled.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_album.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_album.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_settings.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_settings.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable_wear_m3c_open_on_phone_animation.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-compose-material3-1.5.0-20:/drawable/wear_m3c_open_on_phone_animation.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-xhdpi-v4_notify_panel_notification_icon_bg.png.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/drawable-xhdpi-v4/notify_panel_notification_icon_bg.png"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable_ic_favorite_filled.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-main-64:/drawable/ic_favorite_filled.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_fast_forward.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_fast_forward.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_playback_speed.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_playback_speed.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_radio.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_radio.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_signal.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_signal.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-hdpi-v4_notify_panel_notification_icon_bg.png.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/drawable-hdpi-v4/notify_panel_notification_icon_bg.png"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-xhdpi-v4_notification_bg_low_pressed.9.png.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/drawable-xhdpi-v4/notification_bg_low_pressed.9.png"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable_ic_skip_next.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-main-64:/drawable/ic_skip_next.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-xhdpi-v4_notification_bg_low_normal.9.png.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/drawable-xhdpi-v4/notification_bg_low_normal.9.png"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/layout_notification_media_cancel_action.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media-1.7.0-15:/layout/notification_media_cancel_action.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-mdpi-v4_notification_bg_normal.9.png.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/drawable-mdpi-v4/notification_bg_normal.9.png"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable_notification_tile_bg.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/drawable/notification_tile_bg.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_repeat_off.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_repeat_off.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_playback_speed_1_5.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_playback_speed_1_5.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable_media3_icon_circular_play.png.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable/media3_icon_circular_play.png"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_playback_speed_0_5.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_playback_speed_0_5.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_playlist_remove.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_playlist_remove.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_playback_speed_1_8.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_playback_speed_1_8.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/layout_notification_template_big_media_custom.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media-1.7.0-15:/layout/notification_template_big_media_custom.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/layout_notification_template_lines_media.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media-1.7.0-15:/layout/notification_template_lines_media.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_playback_speed_0_8.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_playback_speed_0_8.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable_ic_play.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-main-64:/drawable/ic_play.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-hdpi-v4_notification_oversize_large_icon_bg.png.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/drawable-hdpi-v4/notification_oversize_large_icon_bg.png"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_flag_unfilled.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_flag_unfilled.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable_notification_bg_low.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/drawable/notification_bg_low.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-v21_notification_action_background.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/drawable-v21/notification_action_background.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/color_vector_tint_color.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-ui-release-37:/color/vector_tint_color.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable_ic_call_answer_video.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/drawable/ic_call_answer_video.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_feed.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_feed.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_minus.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_minus.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable_ic_call_answer_video_low.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/drawable/ic_call_answer_video_low.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_share.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_share.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/layout_media3_notification_template_big_media_narrow_custom.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/layout/media3_notification_template_big_media_narrow_custom.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_shuffle_on.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_shuffle_on.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_skip_back_10.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_skip_back_10.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_subtitles.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_subtitles.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable_ic_favorite_outline.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-main-64:/drawable/ic_favorite_outline.xml"
+    },
+    {
+        "merged": "com.wearsic.app-release-63:/drawable_ic_settings.xml.flat",
+        "source": "com.wearsic.app-main-64:/drawable/ic_settings.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-hdpi-v4_notification_bg_normal.9.png.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/drawable-hdpi-v4/notification_bg_normal.9.png"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable_ic_settings.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-main-64:/drawable/ic_settings.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_skip_forward_5.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_skip_forward_5.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/layout_media3_notification_template_lines_media.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/layout/media3_notification_template_lines_media.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_skip_back_5.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_skip_back_5.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable_notification_bg.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/drawable/notification_bg.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_playback_speed_1_0.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_playback_speed_1_0.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable_circular_vignette_bottom.png.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-compose-material-1.5.0-38:/drawable/circular_vignette_bottom.png"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_playback_speed_2_0.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_playback_speed_2_0.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/layout_ime_base_split_test_activity.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/layout/ime_base_split_test_activity.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-main-64:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable_ic_call_decline.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/drawable/ic_call_decline.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_flag_filled.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_flag_filled.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/layout_notification_template_media.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media-1.7.0-15:/layout/notification_template_media.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/layout_notification_template_big_media_narrow_custom.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media-1.7.0-15:/layout/notification_template_big_media_narrow_custom.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable_ic_call_answer.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/drawable/ic_call_answer.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_shuffle_off.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_shuffle_off.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_artist.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_artist.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_star_filled.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_star_filled.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_skip_forward_10.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_skip_forward_10.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable_ic_shuffle.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-main-64:/drawable/ic_shuffle.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_queue_add.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_queue_add.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/layout_media3_notification_template_media_custom.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/layout/media3_notification_template_media_custom.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_skip_back_30.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_skip_back_30.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/layout_media3_notification_template_big_media_custom.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/layout/media3_notification_template_big_media_custom.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_play.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_play.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-hdpi-v4_notification_bg_normal_pressed.9.png.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/drawable-hdpi-v4/notification_bg_normal_pressed.9.png"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_minus_circle_unfilled.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_minus_circle_unfilled.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_shuffle_star.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_shuffle_star.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_minus_circle_filled.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_minus_circle_filled.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_bookmark_unfilled.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_bookmark_unfilled.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-mdpi-v4_notification_bg_low_pressed.9.png.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/drawable-mdpi-v4/notification_bg_low_pressed.9.png"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable_ic_repeat.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-main-64:/drawable/ic_repeat.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/layout_notification_template_part_time.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/layout/notification_template_part_time.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_block.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_block.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_repeat_all.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_repeat_all.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable_ic_search.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-main-64:/drawable/ic_search.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_thumb_down_unfilled.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_thumb_down_unfilled.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_playback_speed_1_2.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_playback_speed_1_2.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_playlist_add.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_playlist_add.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable_wear_m3c_failure_animation.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-compose-material3-1.5.0-20:/drawable/wear_m3c_failure_animation.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_volume_up.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_volume_up.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_stop.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_stop.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_skip_back_15.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_skip_back_15.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-xhdpi-v4_notification_bg_normal_pressed.9.png.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/drawable-xhdpi-v4/notification_bg_normal_pressed.9.png"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_previous.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_previous.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_plus_circle_filled.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_plus_circle_filled.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/layout-v21_notification_action_tombstone.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/layout-v21/notification_action_tombstone.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_skip_forward.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_skip_forward.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable_ic_call_answer_low.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/drawable/ic_call_answer_low.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_skip_forward_30.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_skip_forward_30.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-hdpi-v4_notification_bg_low_pressed.9.png.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/drawable-hdpi-v4/notification_bg_low_pressed.9.png"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable_media_session_service_notification_ic_music_note.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable/media_session_service_notification_ic_music_note.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_thumb_down_filled.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_thumb_down_filled.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable_abc_vector_test.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-appcompat-resources-1.6.1-7:/drawable/abc_vector_test.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_thumb_up_unfilled.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_thumb_up_unfilled.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_queue_remove.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_queue_remove.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/layout_media3_notification_template_big_media.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/layout/media3_notification_template_big_media.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/layout_notification_template_big_media.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media-1.7.0-15:/layout/notification_template_big_media.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-main-64:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-xhdpi-v4_notification_bg_normal.9.png.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/drawable-xhdpi-v4/notification_bg_normal.9.png"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_subtitles_off.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_subtitles_off.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_check_circle_filled.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_check_circle_filled.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/layout_media3_notification_media_action.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/layout/media3_notification_media_action.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_skip_forward_15.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_skip_forward_15.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/layout_notification_template_part_chronometer.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/layout/notification_template_part_chronometer.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_thumb_up_filled.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_thumb_up_filled.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/layout_media3_notification_template_big_media_narrow.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/layout/media3_notification_template_big_media_narrow.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_skip_back.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_skip_back.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-mdpi-v4_notification_bg_low_normal.9.png.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/drawable-mdpi-v4/notification_bg_low_normal.9.png"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_closed_captions_off.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_closed_captions_off.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/layout-v21_notification_action.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/layout-v21/notification_action.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/layout_notification_media_action.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media-1.7.0-15:/layout/notification_media_action.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_volume_down.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_volume_down.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_bookmark_filled.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_bookmark_filled.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/color_vector_tint_theme_color.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-ui-release-37:/color/vector_tint_theme_color.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable_notification_icon_background.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/drawable/notification_icon_background.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_heart_unfilled.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_heart_unfilled.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/layout_ime_secondary_split_test_activity.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/layout/ime_secondary_split_test_activity.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable_ic_call_decline_low.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/drawable/ic_call_decline_low.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_repeat_one.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_repeat_one.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_queue_next.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_queue_next.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_next.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_next.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_closed_captions.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_closed_captions.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable_rectangular_vignette_top.png.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-compose-material-1.5.0-38:/drawable/rectangular_vignette_top.png"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable_ic_skip_previous.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-main-64:/drawable/ic_skip_previous.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable_ic_pause.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-main-64:/drawable/ic_pause.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/layout_media3_notification_template_media.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/layout/media3_notification_template_media.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-mdpi-v4_notification_bg_normal_pressed.9.png.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/drawable-mdpi-v4/notification_bg_normal_pressed.9.png"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_quality.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_quality.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/layout-v21_notification_template_custom_big.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-core-1.15.0-22:/layout-v21/notification_template_custom_big.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_volume_off.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_volume_off.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_pause.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_pause.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable_circular_vignette_top.png.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-compose-material-1.5.0-38:/drawable/circular_vignette_top.png"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-release-63:/drawable-anydpi-v21_media3_icon_sync.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-media3-session-1.5.1-23:/drawable-anydpi-v21/media3_icon_sync.xml"
+    }
+]

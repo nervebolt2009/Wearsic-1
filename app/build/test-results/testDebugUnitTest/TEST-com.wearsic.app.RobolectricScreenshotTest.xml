@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.wearsic.app.RobolectricScreenshotTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-08-08T17:10:39" hostname="codespaces-3c9c6d" time="0.845">
+  <properties/>
+  <testcase name="bottomNavigation_watch44mm" classname="com.wearsic.app.RobolectricScreenshotTest" time="0.093"/>
+  <testcase name="search_watch44mm" classname="com.wearsic.app.RobolectricScreenshotTest" time="0.114"/>
+  <testcase name="favorites_watch44mm" classname="com.wearsic.app.RobolectricScreenshotTest" time="0.091"/>
+  <testcase name="playlists_watch44mm" classname="com.wearsic.app.RobolectricScreenshotTest" time="0.09"/>
+  <testcase name="settings_watch44mm" classname="com.wearsic.app.RobolectricScreenshotTest" time="0.111"/>
+  <testcase name="queue_watch44mm" classname="com.wearsic.app.RobolectricScreenshotTest" time="0.124"/>
+  <testcase name="nowPlaying_watch44mm" classname="com.wearsic.app.RobolectricScreenshotTest" time="0.12"/>
+  <testcase name="appShell_watch44mm" classname="com.wearsic.app.RobolectricScreenshotTest" time="0.097"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

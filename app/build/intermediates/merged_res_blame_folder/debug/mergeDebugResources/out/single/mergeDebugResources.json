@@ -1,0 +1,62 @@
+[
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-debug-67:/drawable_ic_repeat.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-main-69:/drawable/ic_repeat.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-debug-67:/drawable_ic_play.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-main-69:/drawable/ic_play.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-debug-67:/drawable_ic_shuffle.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-main-69:/drawable/ic_shuffle.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-debug-67:/drawable_ic_favorite_filled.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-main-69:/drawable/ic_favorite_filled.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-debug-67:/drawable_ic_settings.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-main-69:/drawable/ic_settings.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-debug-67:/drawable_ic_skip_previous.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-main-69:/drawable/ic_skip_previous.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-debug-67:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-main-69:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-debug-67:/drawable_ic_close.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-main-69:/drawable/ic_close.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-debug-67:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-main-69:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-debug-67:/drawable_ic_skip_next.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-main-69:/drawable/ic_skip_next.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-debug-67:/drawable_ic_favorite_outline.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-main-69:/drawable/ic_favorite_outline.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-debug-67:/drawable_ic_search.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-main-69:/drawable/ic_search.xml"
+    },
+    {
+        "merged": "com.wearsic.app-debug-67:/drawable_ic_settings.xml.flat",
+        "source": "com.wearsic.app-main-69:/drawable/ic_settings.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-debug-67:/drawable_ic_pause.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-main-69:/drawable/ic_pause.xml"
+    },
+    {
+        "merged": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-debug-67:/drawable_ic_queue.xml.flat",
+        "source": "/home/vscode/.gradle/daemon/8.11.1/com.wearsic.app-main-69:/drawable/ic_queue.xml"
+    }
+]

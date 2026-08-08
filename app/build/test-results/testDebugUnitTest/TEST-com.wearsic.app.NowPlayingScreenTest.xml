@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.wearsic.app.NowPlayingScreenTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-08-08T17:10:36" hostname="codespaces-3c9c6d" time="0.821">
+  <properties/>
+  <testcase name="testFavoriteToggleCallable" classname="com.wearsic.app.NowPlayingScreenTest" time="0.193"/>
+  <testcase name="testNowPlayingScreenDisplaysTrackInfo" classname="com.wearsic.app.NowPlayingScreenTest" time="0.138"/>
+  <testcase name="testShuffleToggleCallable" classname="com.wearsic.app.NowPlayingScreenTest" time="0.118"/>
+  <testcase name="testRepeatToggleCallable" classname="com.wearsic.app.NowPlayingScreenTest" time="0.13"/>
+  <testcase name="testPlayPauseButtonClickable" classname="com.wearsic.app.NowPlayingScreenTest" time="0.132"/>
+  <testcase name="testNowPlayingScreenDisplaysEmptyState" classname="com.wearsic.app.NowPlayingScreenTest" time="0.11"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

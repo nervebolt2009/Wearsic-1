@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.wearsic.server.ServerTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-08-08T16:45:45" hostname="codespaces-3c9c6d" time="1.068">
+  <properties/>
+  <testcase name="favoritesAndPlaylistsPersist()" classname="com.wearsic.server.ServerTest" time="0.999"/>
+  <testcase name="shortSearchIsRejectedBeforeExtraction()" classname="com.wearsic.server.ServerTest" time="0.034"/>
+  <testcase name="healthIsPublicAndReportsOk()" classname="com.wearsic.server.ServerTest" time="0.024"/>
+  <system-out><![CDATA[16:45:45.566 [DefaultDispatcher-worker-1 @call-context#2] INFO ktor.test -- No ktor.deployment.watch patterns specified, automatic reload is not active.
+16:45:45.731 [DefaultDispatcher-worker-1 @call-context#2] INFO ktor.test -- Application started in 0.175 seconds.
+16:45:45.735 [DefaultDispatcher-worker-3 @coroutine#4] INFO ktor.test -- Responding at http://localhost:80
+16:45:45.735 [DefaultDispatcher-worker-3 @coroutine#4] INFO ktor.test -- Responding at https://localhost:443
+16:45:46.027 [DefaultDispatcher-worker-5 @call-context#24] INFO ktor.test -- No ktor.deployment.watch patterns specified, automatic reload is not active.
+16:45:46.037 [DefaultDispatcher-worker-5 @call-context#24] INFO ktor.test -- Application started in 0.01 seconds.
+16:45:46.038 [DefaultDispatcher-worker-4 @coroutine#26] INFO ktor.test -- Responding at http://localhost:80
+16:45:46.038 [DefaultDispatcher-worker-4 @coroutine#26] INFO ktor.test -- Responding at https://localhost:443
+16:45:46.060 [DefaultDispatcher-worker-4 @call-context#35] INFO ktor.test -- No ktor.deployment.watch patterns specified, automatic reload is not active.
+16:45:46.067 [DefaultDispatcher-worker-4 @call-context#35] INFO ktor.test -- Application started in 0.008 seconds.
+16:45:46.068 [DefaultDispatcher-worker-1 @coroutine#37] INFO ktor.test -- Responding at http://localhost:80
+16:45:46.068 [DefaultDispatcher-worker-1 @coroutine#37] INFO ktor.test -- Responding at https://localhost:443
+]]></system-out>
+  <system-err><![CDATA[SLF4J(I): Connected with provider of type [ch.qos.logback.classic.spi.LogbackServiceProvider]
+]]></system-err>
+</testsuite>

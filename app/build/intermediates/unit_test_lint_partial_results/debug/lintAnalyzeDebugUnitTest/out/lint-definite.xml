@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<incidents format="6" by="lint 8.7.3" type="incidents">
+
+    <incident
+        id="AndroidGradlePluginVersion"
+        severity="warning"
+        message="A newer version of com.android.application than 8.7.3 is available: 9.3.1">
+        <fix-replace
+            description="Change to 9.3.1"
+            family="Update versions"
+            oldString="8.7.3"
+            replacement="9.3.1"
+            priority="0"/>
+        <location
+            file="../gradle/libs.versions.toml"
+            line="2"
+            column="7"
+            startOffset="17"
+            endLine="2"
+            endColumn="14"
+            endOffset="24"/>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of androidx.core:core-ktx than 1.15.0 is available: 1.19.0">
+        <fix-replace
+            description="Change to 1.19.0"
+            family="Update versions"
+            oldString="1.15.0"
+            replacement="1.19.0"
+            priority="0"/>
+        <location
+            file="../gradle/libs.versions.toml"
+            line="4"
+            column="11"
+            startOffset="53"
+            endLine="4"
+            endColumn="19"
+            endOffset="61"/>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of androidx.lifecycle:lifecycle-runtime-ktx than 2.8.7 is available: 2.11.0">
+        <fix-replace
+            description="Change to 2.11.0"
+            family="Update versions"
+            oldString="2.8.7"
+            replacement="2.11.0"
+            priority="0"/>
+        <location
+            file="../gradle/libs.versions.toml"
+            line="5"
+            column="23"
+            startOffset="84"
+            endLine="5"
+            endColumn="30"
+            endOffset="91"/>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of androidx.activity:activity-compose than 1.9.3 is available: 1.13.0">
+        <fix-replace
+            description="Change to 1.13.0"
+            family="Update versions"
+            oldString="1.9.3"
+            replacement="1.13.0"
+            priority="0"/>
+        <location
+            file="../gradle/libs.versions.toml"
+            line="6"
+            column="19"
+            startOffset="110"
+            endLine="6"
+            endColumn="26"
+            endOffset="117"/>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of androidx.compose:compose-bom than 2024.12.01 is available: 2026.06.01">
+        <fix-replace
+            description="Change to 2026.06.01"
+            family="Update versions"
+            oldString="2024.12.01"
+            replacement="2026.06.01"
+            priority="0"/>
+        <location
+            file="../gradle/libs.versions.toml"
+            line="7"
+            column="14"
+            startOffset="131"
+            endLine="7"
+            endColumn="26"
+            endOffset="143"/>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of androidx.wear.compose:compose-material3 than 1.5.0 is available: 1.6.2">
+        <fix-replace
+            description="Change to 1.6.2"
+            family="Update versions"
+            oldString="1.5.0"
+            replacement="1.6.2"
+            priority="0"/>
+        <location
+            file="../gradle/libs.versions.toml"
+            line="8"
+            column="24"
+            startOffset="167"
+            endLine="8"
+            endColumn="31"
+            endOffset="174"/>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of androidx.wear.compose:compose-foundation than 1.5.0 is available: 1.6.2">
+        <fix-replace
+            description="Change to 1.6.2"
+            family="Update versions"
+            oldString="1.5.0"
+            replacement="1.6.2"
+            priority="0"/>
+        <location
+            file="../gradle/libs.versions.toml"
+            line="9"
+            column="25"
+            startOffset="199"
+            endLine="9"
+            endColumn="32"
+            endOffset="206"/>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of androidx.wear.compose:compose-navigation than 1.5.0 is available: 1.6.2">
+        <fix-replace
+            description="Change to 1.6.2"
+            family="Update versions"
+            oldString="1.5.0"
+            replacement="1.6.2"
+            priority="0"/>
+        <location
+            file="../gradle/libs.versions.toml"
+            line="10"
+            column="25"
+            startOffset="231"
+            endLine="10"
+            endColumn="32"
+            endOffset="238"/>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of androidx.media3:media3-exoplayer than 1.5.1 is available: 1.11.0">
+        <fix-replace
+            description="Change to 1.11.0"
+            family="Update versions"
+            oldString="1.5.1"
+            replacement="1.11.0"
+            priority="0"/>
+        <location
+            file="../gradle/libs.versions.toml"
+            line="12"
+            column="10"
+            startOffset="274"
+            endLine="12"
+            endColumn="17"
+            endOffset="281"/>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of androidx.media3:media3-session than 1.5.1 is available: 1.11.0">
+        <fix-replace
+            description="Change to 1.11.0"
+            family="Update versions"
+            oldString="1.5.1"
+            replacement="1.11.0"
+            priority="0"/>
+        <location
+            file="../gradle/libs.versions.toml"
+            line="12"
+            column="10"
+            startOffset="274"
+            endLine="12"
+            endColumn="17"
+            endOffset="281"/>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of io.ktor:ktor-client-content-negotiation than 2.3.7 is available: 2.3.12">
+        <fix-replace
+            description="Change to 2.3.12"
+            family="Update versions"
+            oldString="2.3.7"
+            replacement="2.3.12"
+            priority="0"/>
+        <location
+            file="../gradle/libs.versions.toml"
+            line="13"
+            column="8"
+            startOffset="289"
+            endLine="13"
+            endColumn="15"
+            endOffset="296"/>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of io.ktor:ktor-client-core than 2.3.7 is available: 2.3.12">
+        <fix-replace
+            description="Change to 2.3.12"
+            family="Update versions"
+            oldString="2.3.7"
+            replacement="2.3.12"
+            priority="0"/>
+        <location
+            file="../gradle/libs.versions.toml"
+            line="13"
+            column="8"
+            startOffset="289"
+            endLine="13"
+            endColumn="15"
+            endOffset="296"/>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of io.ktor:ktor-client-okhttp than 2.3.7 is available: 2.3.12">
+        <fix-replace
+            description="Change to 2.3.12"
+            family="Update versions"
+            oldString="2.3.7"
+            replacement="2.3.12"
+            priority="0"/>
+        <location
+            file="../gradle/libs.versions.toml"
+            line="13"
+            column="8"
+            startOffset="289"
+            endLine="13"
+            endColumn="15"
+            endOffset="296"/>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of io.ktor:ktor-serialization-kotlinx-json than 2.3.7 is available: 2.3.12">
+        <fix-replace
+            description="Change to 2.3.12"
+            family="Update versions"
+            oldString="2.3.7"
+            replacement="2.3.12"
+            priority="0"/>
+        <location
+            file="../gradle/libs.versions.toml"
+            line="13"
+            column="8"
+            startOffset="289"
+            endLine="13"
+            endColumn="15"
+            endOffset="296"/>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of androidx.room:room-compiler than 2.6.1 is available: 2.8.4">
+        <fix-replace
+            description="Change to 2.8.4"
+            family="Update versions"
+            oldString="2.6.1"
+            replacement="2.8.4"
+            priority="0"/>
+        <location
+            file="../gradle/libs.versions.toml"
+            line="14"
+            column="8"
+            startOffset="304"
+            endLine="14"
+            endColumn="15"
+            endOffset="311"/>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of androidx.room:room-ktx than 2.6.1 is available: 2.8.4">
+        <fix-replace
+            description="Change to 2.8.4"
+            family="Update versions"
+            oldString="2.6.1"
+            replacement="2.8.4"
+            priority="0"/>
+        <location
+            file="../gradle/libs.versions.toml"
+            line="14"
+            column="8"
+            startOffset="304"
+            endLine="14"
+            endColumn="15"
+            endOffset="311"/>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of androidx.room:room-runtime than 2.6.1 is available: 2.8.4">
+        <fix-replace
+            description="Change to 2.8.4"
+            family="Update versions"
+            oldString="2.6.1"
+            replacement="2.8.4"
+            priority="0"/>
+        <location
+            file="../gradle/libs.versions.toml"
+            line="14"
+            column="8"
+            startOffset="304"
+            endLine="14"
+            endColumn="15"
+            endOffset="311"/>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of androidx.datastore:datastore-preferences than 1.1.1 is available: 1.2.1">
+        <fix-replace
+            description="Change to 1.2.1"
+            family="Update versions"
+            oldString="1.1.1"
+            replacement="1.2.1"
+            priority="0"/>
+        <location
+            file="../gradle/libs.versions.toml"
+            line="15"
+            column="13"
+            startOffset="324"
+            endLine="15"
+            endColumn="20"
+            endOffset="331"/>
+    </incident>
+
+</incidents>

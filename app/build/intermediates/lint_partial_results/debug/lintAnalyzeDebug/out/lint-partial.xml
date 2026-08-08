@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<incidents format="6" by="lint 8.7.3" type="partial_results">
+    <map id="UnsafeIntentLaunch">
+            <map id="unprotected">
+                <entry
+                    name="com.wearsic.app.MainActivity"
+                    boolean="true"/>
+                <entry
+                    name="com.wearsic.app.service.MediaPlaybackService"
+                    boolean="true"/>
+            </map>
+    </map>
+    <map id="UnusedResources">
+        <entry
+            name="model"
+            string="color[ic_launcher_background(U)],drawable[ic_close(U),ic_favorite_filled(U),ic_favorite_outline(U),ic_launcher_foreground(U),ic_pause(U),ic_play(U),ic_queue(U),ic_repeat(U),ic_search(U),ic_settings(U),ic_shuffle(U),ic_skip_next(U),ic_skip_previous(U)],mipmap[ic_launcher(U)],string[app_name(U),search(U),favorites(U),queue(U),settings(U),play(U),pause(U),skip_next(U),skip_previous(U),shuffle(U),repeat(U),add_to_favorites(U),remove_from_favorites(U),no_tracks(U)];e^0^4;;;"/>
+    </map>
+
+</incidents>
