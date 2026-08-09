@@ -1,6 +1,20 @@
+Marking drawable:abc_vector_test:2130968618 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:is_pooling_container_tag:2131034170 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:tag_window_insets_animation_callback:2131034198 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:view_tree_lifecycle_owner:2131034203 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:view_tree_view_model_store_owner:2131034206 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:view_tree_saved_state_registry_owner:2131034205 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:view_tree_on_back_pressed_dispatcher_owner:2131034204 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:pooling_container_listener_holder_tag:2131034181 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:tag_accessibility_actions:2131034186 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:accessibility_action_clickable_span:2131034112 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:tag_accessibility_clickable_spans:2131034187 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:alpha:2130771969 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking attr:lStar:2130771989 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking string:call_notification_screening_text:2131361802 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking string:call_notification_ongoing_text:2131361801 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking string:call_notification_incoming_text:2131361800 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking id:report_drawn:2131034182 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking id:icon:2131034166 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking dimen:notification_right_icon_size:2130903055 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking dimen:notification_small_icon_background_padding:2130903057 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
@@ -21,27 +35,15 @@ Marking id:notification_main_column:2131034179 reachable: referenced from /works
 Marking dimen:notification_top_pad:2130903060 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking dimen:notification_top_pad_large_text:2130903061 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
 Marking id:notification_main_column_container:2131034180 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:tag_window_insets_animation_callback:2131034198 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:is_pooling_container_tag:2131034170 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:view_tree_lifecycle_owner:2131034203 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:view_tree_on_back_pressed_dispatcher_owner:2131034204 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:view_tree_saved_state_registry_owner:2131034205 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:view_tree_view_model_store_owner:2131034206 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking drawable:abc_vector_test:2130968618 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:pooling_container_listener_holder_tag:2131034181 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:alpha:2130771969 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking attr:lStar:2130771989 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:tag_accessibility_actions:2131034186 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:accessibility_action_clickable_span:2131034112 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:tag_accessibility_clickable_spans:2131034187 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-Marking id:report_drawn:2131034182 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+Marking drawable:ic_skip_next:2130968638 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes2.dex
 Marking drawable:ic_search:2130968635 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes2.dex
 Marking drawable:ic_queue:2130968633 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes2.dex
-Marking drawable:ic_favorite_outline:2130968629 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes2.dex
+Marking drawable:ic_close:2130968627 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes2.dex
+Marking string:search:2131361854 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes2.dex
 Marking drawable:ic_play:2130968632 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes2.dex
-Marking drawable:ic_settings:2130968636 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes2.dex
+Marking drawable:ic_favorite_outline:2130968629 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes2.dex
 Marking string:queue:2131361849 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes2.dex
-Marking string:settings:2131361856 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes2.dex
+Marking string:add_to_favorites:2131361792 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes2.dex
 Marking drawable:ic_favorite_filled:2130968628 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes2.dex
 Marking string:no_tracks:2131361845 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes2.dex
 Marking string:pause:2131361847 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes2.dex
@@ -49,16 +51,14 @@ Marking string:play:2131361848 reachable: referenced from /workspaces/Wearsic/ap
 Marking string:skip_previous:2131361859 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes2.dex
 Marking drawable:ic_skip_previous:2130968639 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes2.dex
 Marking string:skip_next:2131361858 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes2.dex
-Marking drawable:ic_skip_next:2130968638 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes2.dex
 Marking string:shuffle:2131361857 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes2.dex
 Marking drawable:ic_shuffle:2130968637 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes2.dex
 Marking string:repeat:2131361853 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes2.dex
 Marking drawable:ic_repeat:2130968634 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes2.dex
 Marking string:remove_from_favorites:2131361852 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes2.dex
-Marking string:add_to_favorites:2131361792 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes2.dex
-Marking drawable:ic_close:2130968627 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes2.dex
-Marking string:search:2131361854 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes2.dex
 Marking string:favorites:2131361835 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes2.dex
+Marking string:settings:2131361856 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes2.dex
+Marking drawable:ic_settings:2130968636 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes2.dex
 Marking drawable:ic_call_decline:2130968625 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes2.dex
 Marking string:call_notification_hang_up_action:2131361799 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes2.dex
 Marking color:call_notification_decline_color:2130837507 reachable: referenced from /workspaces/Wearsic/app/build/intermediates/dex/release/minifyReleaseWithR8/classes2.dex
@@ -151,16 +151,16 @@ truncated
 AutoMirrored.Outlined.Send
 k
 l
-m
 cookieJar
+m
 n
 p
 Red
 q
 r
 s
-java.lang.Module
 t
+java.lang.Module
 u
 v
 x
@@ -282,8 +282,8 @@ MediaCodecVideoRenderer
 pacificrim
 Lighten
 kotlin.FloatArray
-All
 ExifVersion
+All
 androidx.compose.animation.core.Anima...
 file.channel
 Downtempo
@@ -378,6 +378,7 @@ CPH1609
 io.ktor.client.engine.okhttp.OkHttpEn...
 vSerializer
 BUFFERING
+$this$BoxWithConstraints
 mcv5a
 cut
 CollectionInfo
@@ -561,6 +562,7 @@ Gospel
 $this$webSocket
 AudioAttributesCompat:
 TCM
+youtube_cookie
 udp
 Cea608Decoder
 preconnect
@@ -675,8 +677,8 @@ CASE_INSENSITIVE_ORDER
 Industrial
 compositionLocalMap
 bitField0_
-android.verificationIcon
 isCtrlPressed
+android.verificationIcon
 readAvailable$suspendImpl
 indicationNodeFactory
 androidx.wear.compose.material.Swipea...
@@ -714,6 +716,7 @@ io.ktor.client.plugins.observer.Respo...
 androidx.compose.ui.platform.AndroidP...
 androidx.activity.result.contract.ext...
 android.support.v4.media.session.acti...
+trackCount
 stale
 ERROR_CODE_DECODING_FORMAT_UNSUPPORTED
 lock
@@ -830,8 +833,8 @@ id:pixel_5
 id:pixel_6
 Clear
 id:pixel_7
-waitForCompositionAfterTargetStateChange
 CustomRendered
+waitForCompositionAfterTargetStateChange
 AviExtractor
 TYER
 Outlined.Create
@@ -862,9 +865,9 @@ collectionItemInfo
 bytes
 ALBUM
 https://aomedia.org/emsg/ID3
+LightSource
 properties
 0.
-LightSource
 Vertical
 00
 dur
@@ -929,8 +932,8 @@ namesAndValues
 TransformingLazyColumnState.kt
 SEEK
 TYE
-onServerUrlChange
 expression
+onServerUrlChange
 kotlin.UInt
 metricsBuilder
 androidx.compose.ui.graphics.layer.La...
@@ -1097,8 +1100,8 @@ GPSDestLongitudeRef
 BEFORE
 channelSize
 androidx.wear.compose.material3.TimeP...
-Delete
 exception
+Delete
 TickerChannels.kt
 Server
 year
@@ -1163,8 +1166,8 @@ BO
 C1
 BQ
 BR
-BS
 com.google.common.base.Strings
+BS
 BT
 .OpenSSLSocketImpl
 androidx.compose.runtime.Recomposer$r...
@@ -1223,8 +1226,8 @@ io.ktor.client.call.SavedCallKt
 maskBuffer
 rotaryHandler
 androidx.compose.ui.text.font.AsyncFo...
-EC
 extra_server_url
+EC
 _resumed$volatile
 EE
 EG
@@ -1324,6 +1327,7 @@ OnBackground
 videoEnabled
 ACTION_CONTEXT_CLICK
 HU
+Albums
 TLS_ECDH_RSA_WITH_NULL_SHA
 dexopt/baseline.prof
 io.ktor.client.plugins.HttpTimeout$Pl...
@@ -1356,8 +1360,8 @@ JE
 androidx.compose.foundation.lazy.Lazy...
 PROPPATCH
 androidx.compose.runtime.Recomposer$r...
-If
 navigatorProvider
+If
 android.media.browse.CONTENT_STYLE_GR...
 viewModelStore
 JM
@@ -1411,8 +1415,8 @@ LS
 LT
 cens
 text/vtt
-screen
 LU
+screen
 paneTitle
 LV
 LY
@@ -1494,8 +1498,10 @@ OR
 Tue
 :Directory
 cubics
+Playback
 entryAnnotations
 androidx.compose.foundation.pager.Laz...
+transport
 Lsq2
 getContentCaptureSessionCompat
 discriminator
@@ -1793,6 +1799,7 @@ protocol
 dodgerblue
 proxyAuthenticator
 animateTo
+/playlist
 toggleable
 awaitDown
 AlternRock
@@ -1918,8 +1925,8 @@ dl
 language
 ERROR_SESSION_SETUP_REQUIRED
 Difference
-parameterName
 f1
+parameterName
 f2
 TLS_DHE_DSS_WITH_AES_128_GCM_SHA256
 androidx.compose.foundation.gestures....
@@ -2155,6 +2162,7 @@ AFTER
 sizeAndRate.vCaps
 createAsync
 _closed
+com.wearsic.app.data.model.PlaylistWi...
 grouper
 audio/mp3
 Reject
@@ -2271,8 +2279,8 @@ changes
 NANOSECONDS
 consumerIndex$volatile
 androidx.compose.foundation.gestures....
-_affectedNode
 searchResults
+_affectedNode
 ViewParentCompat
 LocalContext
 serialName
@@ -2395,9 +2403,9 @@ image/jpeg
 kotlin.collections.Map.Entry
 gif
 cachedResponseText
+GPSSatellites
 SessionMutex.kt
 ExoPlayer:SimpleDecoder
-GPSSatellites
 scale
 writeFully$suspendImpl
 GPSDestLatitude
@@ -2435,6 +2443,7 @@ hev1
 valueCase_
 android.media.metadata.ALBUM_ART_URI
 android.widget.ViewGroup
+com.wearsic.app.data.model.Suggestion...
 .mp3
 .mp4
 shouldRetry
@@ -2648,6 +2657,7 @@ dropVideoBuffer
 SensitivityType
 RequestFocus
 Deprecated.kt
+com.wearsic.app.data.model.Album
 SegmentTick
 NO_VALUE
 boundsTransform
@@ -2689,6 +2699,7 @@ Reading.kt
 ScrollIndicator.kt
 androidx.compose.foundation.gestures....
 CompanionObject
+events
 %8s
 FontFamily.Monospace
 readAvailable$ktor_io
@@ -2771,8 +2782,8 @@ video
 EmojiSupportMatch.None
 tint
 Stylus
-SEALED
 https://
+SEALED
 coil.RealImageLoader$executeMain$resu...
 kotlin.LongArray
 ContentNegotiation
@@ -2921,8 +2932,8 @@ lightskyblue
 LocalDensity
 ACTION_SHOW_TOOLTIP
 okhttp.MockWebServer
-ERROR_CODE_PARENTAL_CONTROL_RESTRICTED
 yValues
+ERROR_CODE_PARENTAL_CONTROL_RESTRICTED
 alternative
 jClass
 value_
@@ -3168,6 +3179,7 @@ err_cleartext_not_permitted
 socket
 AsQuadratics
 ACTION_PASTE
+maximumValue
 SwipeToDismissInProgress
 SINT32_LIST
 Origin
@@ -3250,8 +3262,8 @@ Filled.ShoppingCart
 16.0
 Suggestions
 android.view.DisplayInfo
-saveableStateHolder
 Outlined.DateRange
+saveableStateHolder
 Latin
 android.media.mediaparser.matroska.di...
 GainControl
@@ -3380,8 +3392,8 @@ Softlight
 io.ktor.internal.disable.sfg
 io.ktor.client.HttpClient$4
 io.ktor.client.HttpClient$2
-Content
 ThumbnailImage
+Content
 Software
 pushObserver
 HttpSend
@@ -3663,8 +3675,8 @@ ETSDefinition
 Manifest
 MutatorMutex.kt
 ByteChannelSequential.kt
-android.intent.action.DEVICE_STORAGE_LOW
 application
+android.intent.action.DEVICE_STORAGE_LOW
 paddingValues
 encrypted
 kotlinx.coroutines.flow.FlowKt__Limit...
@@ -3747,8 +3759,8 @@ creditCardSecurityCode
 PreviewImageStart
 finalException
 steelblue
-cea608
 GPSDestLongitude
+cea608
 byteString
 $this$readAvailableLittleEndian
 androidx.compose.foundation.gestures....
@@ -3759,8 +3771,8 @@ Lines
 id3Output
 distance
 IFD
-java.lang.module.ModuleDescriptor
 description
+java.lang.module.ModuleDescriptor
 encodedValues
 kotlinx.coroutines.channels.ChannelsK...
 Justify
@@ -3825,6 +3837,7 @@ Absolute
 DELETE_FROM_LINE_START
 okhttp3.
 androidx.compose.foundation.gestures....
+setAlbumsMode
 Minute
 OnPrimary
 InfiniteAnimationPolicy.kt
@@ -4013,6 +4026,7 @@ DefaultLoadControl
 output
 publicSuffixExceptionListBytes
 java.lang.Character
+/related/
 AutoMirrored.TwoTone.Send
 androidx.wear.compose.materialcore.Sw...
 kotlinx.coroutines.flow.FlowKt__Trans...
@@ -4033,8 +4047,8 @@ AFTN
 DatePicker.kt
 TypefaceCompat.createFromFontInfoWith...
 audio/raw
-cornsilk
 extras
+cornsilk
 AFTA
 AFTB
 kotlinx.coroutines.channels.ChannelsK...
@@ -4186,8 +4200,8 @@ Outlined.List
 TLS_AES_128_GCM_SHA256
 kotlinx.coroutines.flow.internal.Comb...
 sink
-java.util.Collection
 query
+java.util.Collection
 waterfallPadding
 mediaType
 kotlinx.coroutines.flow.FlowKt__Error...
@@ -4211,9 +4225,9 @@ ERROR_CODE_NOT_SUPPORTED
 TimeText.kt
 androidx.wear.compose.material.Reveal...
 Filled.Menu
+removeObserver
 kid
 PREV_PARAGRAPH
-removeObserver
 TLS_ECDH_ECDSA_WITH_AES_256_CBC_SHA384
 kotlinx.coroutines.flow.internal.Comb...
 machuca
@@ -4223,6 +4237,7 @@ ChannelLittleEndian.kt
 trackGroupArrays
 Lifecycles.kt
 com.google.android.projection.gearhead
+com.wearsic.app.data.model.SearchResp...
 io.ktor.util.NonceKt$nonceGeneratorJob$1
 textInputSession
 androidx.media.MediaBrowserCompat.Ext...
@@ -4390,9 +4405,9 @@ EmojiSupportMatch.All
 kty
 androidx.compose.foundation.gestures....
 androidx.datastore.core.FileReadScope
+AspectFrame
 size
 custom_
-AspectFrame
 left
 Strategy.HighQuality
 object
@@ -4401,8 +4416,8 @@ _originalNext
 readLongSlow
 blueviolet
 io.ktor.utils.io.internal.SequentialC...
-key_action_priority
 androidx.compose.foundation.Magnifier...
+key_action_priority
 Mouse.onExtendDrag
 NumberPassword
 jpeg
@@ -4473,6 +4488,7 @@ ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE
 palegoldenrod
 rgba
 androidx.wear.compose.foundation.rota...
+com.wearsic.app.data.model.Playlist
 androidx.compose.runtime.Recomposer$a...
 Outlined.Email
 EGL_EXT_protected_content
@@ -4507,6 +4523,7 @@ androidx.media.utils.extras.KEY_CUSTO...
 androidx.media.MediaMetadatCompat.MET...
 omx.sec.
 Outlined.Person
+$this$SwipeToDismissBox
 Warning
 .aac
 io.ktor.client.utils.ByteChannelUtils...
@@ -4524,6 +4541,7 @@ Filled.Search
 android.media.metadata.DISPLAY_SUBTITLE
 HEADER0
 .ac4
+com.wearsic.app.data.model.HealthResp...
 Drag
 .ac3
 androidx.media3.decoder.flac.LibflacA...
@@ -4633,8 +4651,8 @@ Select.kt
 builder
 OnPrimaryContainer
 writeCache
-TwoTone.ShoppingCart
 WhitePoint
+TwoTone.ShoppingCart
 io.ktor.utils.io.core.internal.UTF8Kt
 ExoPlayer:MediaCodecAsyncAdapter:
 Outlined.Delete
@@ -4866,8 +4884,8 @@ androidx.datastore.core.DataStoreImpl...
 linethrough
 editable.tracks.samples.location
 :scheme
-Crossfade
 StripOffsets
+Crossfade
 androidx.compose.animation.core.Anima...
 darkmagenta
 .SSLParametersImpl
@@ -4957,14 +4975,15 @@ android.support.v4.media.session.acti...
 DEFAULT
 CornerExtraLarge
 Rounded.Phone
+com.wearsic.app.data.model.Track
 .bak
 updateDisplayListIfDirty
 androidx.media3.decoder.ffmpeg.Experi...
 convert
 InsertTextAtCursor
 io.ktor.client.plugins.HttpCookies
-_removedRef$volatile
 navigation
+_removedRef$volatile
 supplier
 ERROR_PERMISSION_DENIED
 kotlinx.coroutines.flow.FlowKt__Trans...
@@ -5138,6 +5157,7 @@ supports
 getBoolean
 FocusRelatedWarning
 middle
+saveYoutubeCookie
 INEXACT
 pluginConfig
 executeUnsafe
@@ -5157,8 +5177,8 @@ originalRequest
 androidx.compose.foundation.pager.Pag...
 androidx.profileinstaller.action.INST...
 video/ogg
-KEY_COMPONENT_ACTIVITY_LAUNCHED_KEYS
 captioning
+KEY_COMPONENT_ACTIVITY_LAUNCHED_KEYS
 Polygon
 kindCase_
 ResourcesCompat
@@ -5170,6 +5190,7 @@ android.resource
 profileInstalled
 androidx.wear.compose.material3.Picke...
 alloc
+/search/albums
 allow
 ranges
 InputText
@@ -5267,8 +5288,8 @@ Electroclash
 A_EAC3
 entityTag
 kotlin.ULong
-updateSemanticsNodesCopyAndPanes
 TransferFunction
+updateSemanticsNodesCopyAndPanes
 GContainerItem
 kotlin.
 EnterExitTransition
@@ -5408,8 +5429,8 @@ Audio
 androidx.wear.compose.material3.Swipe...
 RST_STREAM
 Startup
-CacheDataSink
 GPSAltitude
+CacheDataSink
 HoverInteraction.kt
 urlString
 androidx.media3.decoder.opus.LibopusA...
@@ -5747,14 +5768,15 @@ kotlinx.coroutines.bufferedChannel.ex...
 data_media_item_id
 p212
 androidx.compose.foundation.gestures....
+addToQueue
 suspendConversion0
 woff2
 disposableHandle
 defaultDns
 masking
 marinelteatt
-MMMM
 extra_thumbnail_url
+MMMM
 triStateToggleable
 this.extractorOutput
 SELECT_UP
@@ -5838,8 +5860,8 @@ lightgrey
 messageType
 GPSSpeedRef
 delayMillis
-androidx.lifecycle.LifecycleDispatche...
 PerformImeAction
+androidx.lifecycle.LifecycleDispatche...
 DOUBLE_LIST_PACKED
 defaultLifecycleObserver
 io.ktor.websocket.outgoingChannelCapa...
@@ -6158,8 +6180,8 @@ io.ktor.client.HttpClient
 powderblue
 readDataAndUpdateCache
 HIDDEN
-NOP
 prettyPrintIndent
+NOP
 android.media.browse.CONTENT_STYLE_SI...
 Conflict
 createConfiguration
@@ -6252,6 +6274,7 @@ AudioAttributesCompat
 processResultSelectSend
 org.eclipse.jetty.alpn.ALPN$ServerPro...
 LocalConfiguration
+uptimeSeconds
 SPDY
 DefaultDrmSessionMgr
 Flow.kt
@@ -6430,8 +6453,8 @@ ImageWidth
 HTTP/1.0
 BT2020
 HTTP/1.1
-per
 fullPackage
+per
 spdy/3.1
 SensorLeftBorder
 GPSDestLatitudeRef
@@ -6466,6 +6489,7 @@ ExifIFDPointer
 java.lang.String
 data_media_session_token
 kind_
+Tracks
 androidx.compose.foundation.AbstractC...
 consumeEachRemaining
 content_id
@@ -6638,8 +6662,8 @@ lastIndexOf
 UTF_16BE
 BOOL
 media3.session
-MetadataRenderer
 ApertureValue
+MetadataRenderer
 COMPLETING_RETRY
 lightslategrey
 shadow
@@ -6668,8 +6692,8 @@ allHeadersExtractor
 AutoMirrored.Filled.ArrowForward
 customActions
 androidx.media3.session.MediaSessionS...
-Terror
 OUT
+Terror
 .exo
 Country
 unicodeDomain
@@ -6784,12 +6808,12 @@ GPSDestBearing
 SelectionContainer.kt
 X3_HK
 deepLinkRequest
-android.support.v4.media.session.acti...
 kotlin.reflect.jvm.internal.Reflectio...
+android.support.v4.media.session.acti...
 COLLAPSED
-setTime
 sender_person
 SystemDefined
+setTime
 androidx.compose.foundation.BasicTool...
 DEFAULT_TEST_TAG
 skyblue
@@ -6819,6 +6843,7 @@ A7000plus
 kotlinx.coroutines.flow.FlowKt__ZipKt...
 DynamicHeightElement
 NumeralExtraLarge
+wearsic_playback
 Outlined.Star
 failedToCaptureStackFrame
 androidx.wear.compose.material3.DateP...
@@ -7027,6 +7052,7 @@ Soundtrack
 androidx.media3.exoplayer.downloadSer...
 Expand
 Id3Reader
+Retry
 SSL_DH_anon_WITH_3DES_EDE_CBC_SHA
 TYPE_SINT32
 TLS_ECDH_RSA_WITH_AES_256_CBC_SHA384
@@ -7048,8 +7074,8 @@ WebSocketWriter.kt
 AboveBaseline
 kotlinx.coroutines.flow.FlowKt__CountKt
 ModifierFactoryReturnType
-requestDisallowInterceptTouchEvent
 GPSDestDistance
+requestDisallowInterceptTouchEvent
 TLS_DH_anon_WITH_AES_128_GCM_SHA256
 /proc/self/fd
 operation
@@ -7124,8 +7150,8 @@ extendedPostalCode
 ContentType
 setUseSessionTickets
 $this$storeDoubleArray
-ByteString
 prefix
+ByteString
 Check
 AndroidDragAndDropSource.android.kt
 expectedSize
@@ -7230,8 +7256,8 @@ array
 BasicTooltip.kt
 SelectableGroup
 outputStream
-track
 v1.0.0
+track
 Perceptual
 AUTO_DETECT
 conicEvaluation
@@ -7280,16 +7306,16 @@ MonthDayYear
 android.media.metadata.ADVERTISEMENT
 Compose:recompose
 Filled.Email
-ObservableContent
 androidx.lifecycle.viewmodel.internal...
+ObservableContent
 SwitchIntDef
 indices
 isml
 RootDragAndDropNode
 readBytes
 Initial
-org/slf4j/impl/StaticLoggerBinder
 register
+org/slf4j/impl/StaticLoggerBinder
 acc
 Semaphore.kt
 androidx.wear.compose.material.Picker...
@@ -7407,6 +7433,7 @@ overrideDescendants
 H150
 H153
 androidx.compose.animation.core.Seeka...
+com.wearsic.app.data.repository.Youtu...
 Text
 H156
 sslSocket
@@ -7504,8 +7531,8 @@ cachePicture
 OMX.bcm.vdec.hevc.tunnel
 kotlin.collections.HashMap
 _COROUTINE.
-readFullySuspend
 TaskStackBuilder
+readFullySuspend
 peekInt
 android.media.mediaparser.Mp3Parser
 HH:mm
@@ -7531,8 +7558,8 @@ backgroundColor
 indianred
 mintcream
 rtp
-call
 beige
+call
 android.media.IS_EXPLICIT
 androidx.core.app.NotificationCompat$...
 OMX.google.aac.decoder
@@ -7547,8 +7574,8 @@ kotlinx.coroutines.flow.FlowKt__Trans...
 rue
 _readOp
 .og
-android.template
 CreditCardExpirationYear
+android.template
 rum
 kotlin.Double
 Outlined.AddCircle
@@ -7719,6 +7746,7 @@ SensorBottomBorder
 Flash
 Techno
 http://schemas.android.com/apk/res/an...
+album
 filePath
 EncodersJvm.kt
 ERROR_CODE_REMOTE_ERROR
@@ -7807,8 +7835,8 @@ mp4a.
 UnprotectedReceiver
 AES
 Sharp.Lock
-android$support$v4$app$INotificationS...
 emulator
+android$support$v4$app$INotificationS...
 SELECT_END
 GIONEE_SWW1631
 RectangleShape
@@ -8139,8 +8167,8 @@ rootClass
 ignoredTypes
 ERROR_SESSION_PREMIUM_ACCOUNT_REQUIRED
 oauth_callback
-BasicMarquee.kt
 elements
+BasicMarquee.kt
 DebugPipelineContext.kt
 URI_MASKABLE
 ON_CREATE

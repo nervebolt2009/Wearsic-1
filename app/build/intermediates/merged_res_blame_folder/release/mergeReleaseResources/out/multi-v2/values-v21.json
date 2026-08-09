@@ -4,7 +4,7 @@
             "outputFile": "com.wearsic.app-mergeReleaseResources-60:/values-v21/values-v21.xml",
             "map": [
                 {
-                    "source": "/home/vscode/.gradle/caches/8.11.1/transforms/59519d69838f2ea90e2124f79615380c/transformed/core-1.15.0/res/values-v21/values-v21.xml",
+                    "source": "/home/vscode/.gradle/caches/8.11.1/transforms/780fffc1c8dc21dc26594fe0c9b6438e/transformed/core-1.15.0/res/values-v21/values-v21.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,13",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4",
@@ -23,7 +23,7 @@
                     }
                 },
                 {
-                    "source": "/home/vscode/.gradle/caches/8.11.1/transforms/5ed3ee09c97e662d0b34fd4fff4b0e16/transformed/media3-session-1.5.1/res/values-v21/values-v21.xml",
+                    "source": "/home/vscode/.gradle/caches/8.11.1/transforms/267c049a7e344e55befd9b7ab64cf6b9/transformed/media3-session-1.5.1/res/values-v21/values-v21.xml",
                     "from": {
                         "startLines": "2,5,8,11",
                         "startColumns": "4,4,4,4",

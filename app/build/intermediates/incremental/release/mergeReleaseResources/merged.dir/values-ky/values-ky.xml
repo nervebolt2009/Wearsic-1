@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <plurals formatted="false" msgid="7688673698789346225" name="wear_m3c_time_picker_hours_content_description">
+      <item quantity="other">%d саат</item>
+      <item quantity="one">%d саат</item>
+    </plurals>
+    <plurals formatted="false" msgid="8268405448590438607" name="wear_m3c_time_picker_minutes_content_description">
+      <item quantity="other">%d мүнөт</item>
+      <item quantity="one">%d мүнөт</item>
+    </plurals>
+    <plurals formatted="false" msgid="1073969431850983434" name="wear_m3c_time_picker_seconds_content_description">
+      <item quantity="other">%d секунд</item>
+      <item quantity="one">%d секунд</item>
+    </plurals>
+    <string msgid="389117264260014992" name="autofill">"Автотолтуруу функиясы"</string>
+    <string msgid="881409763997275156" name="call_notification_answer_action">"Жооп берүү"</string>
+    <string msgid="8793775615905189152" name="call_notification_answer_video_action">"Видео"</string>
+    <string msgid="3229508546291798546" name="call_notification_decline_action">"Четке кагуу"</string>
+    <string msgid="2659457946726154263" name="call_notification_hang_up_action">"Чалууну бүтүрүү"</string>
+    <string msgid="6107532579223922871" name="call_notification_incoming_text">"Чалып жатат"</string>
+    <string msgid="8623827134497363134" name="call_notification_ongoing_text">"Учурдагы чалуу"</string>
+    <string msgid="59049573811482460" name="call_notification_screening_text">"Кирүүчү чалууну иргөө"</string>
+    <string msgid="406453423630273620" name="close_drawer">"Чабыттоо менюсун жабуу"</string>
+    <string msgid="7573152094250666567" name="close_sheet">"Баракты жабуу"</string>
+    <string msgid="8038256446254964252" name="default_error_message">"Киргизилген маалымат жараксыз"</string>
+    <string name="default_notification_channel_name">Ойноп жатат</string>
+    <string msgid="6312721426453364202" name="default_popup_window_title">"Калкыма терезе"</string>
+    <string msgid="1890207353314751437" name="dropdown_menu">"Түрүлмө меню"</string>
+    <string name="error_message_authentication_expired">Бул колдонмону пайдалануу үчүн аккаунтуңузга кириңиз</string>
+    <string name="error_message_bad_value">Киргизүү маалыматы туура эмес</string>
+    <string name="error_message_concurrent_stream_limit">Өтө көп түзмөк угулууда</string>
+    <string name="error_message_content_already_playing">Ал контент ойнотулууда</string>
+    <string name="error_message_disconnected">Мультимедиа колдонмосунан ажыратылды</string>
+    <string name="error_message_end_of_playlist">Кезекте эч нерсе жок</string>
+    <string name="error_message_fallback">Бир жерден ката кетти. Бир аздан кийин кайталап көрүңүз.</string>
+    <string name="error_message_info_cancelled">Аягына чыккан жок. Кайра аракет кылыңыз.</string>
+    <string name="error_message_invalid_state">Аны азыр аткаруу мүмкүн эмес</string>
+    <string name="error_message_io">Киргизүү/чыгаруу катасы</string>
+    <string name="error_message_not_available_in_region">Ал контент сиз жашаган аймакта жеткиликсиз</string>
+    <string name="error_message_not_supported">Бул колдонмо аны аткара албайт</string>
+    <string name="error_message_parental_control_restricted">Ал контент бөгөттөлгөн</string>
+    <string name="error_message_permission_denied">Кирүү мүмкүнчүлүгү четке кагылды</string>
+    <string name="error_message_premium_account_required">Артыкчылыктуу кирүү мүмкүнчүлүгү талап кылынат</string>
+    <string name="error_message_setup_required">Тууралоо талап кылынат</string>
+    <string name="error_message_skip_limit_reached">Эми тректерди өткөрүп жиберүүгө болбойт</string>
+    <string name="exo_download_completed">Жүктөп алуу аяктады</string>
+    <string name="exo_download_description">Жүктөп алуу</string>
+    <string name="exo_download_downloading">Жүктөлүп алынууда</string>
+    <string name="exo_download_failed">Жүктөлүп алынбай калды</string>
+    <string name="exo_download_notification_channel_name">Жүктөлүп алынгандар</string>
+    <string name="exo_download_paused">Жүктөп алуу тындырылды</string>
+    <string name="exo_download_paused_for_network">Тармакка туташуу күтүлүүдө</string>
+    <string name="exo_download_paused_for_wifi">WiFi\'га туташуу күтүлүүдө</string>
+    <string name="exo_download_removing">Жүктөлүп алынгандар өчүрүлүүдө</string>
+    <string msgid="6827826412747255547" name="in_progress">"Аткарылууда"</string>
+    <string msgid="7933458017204019916" name="indeterminate">"Жарым-жартылай текшерилди"</string>
+    <string name="media3_controls_pause_description">Тындыруу</string>
+    <string name="media3_controls_play_description">Ойнотуу</string>
+    <string name="media3_controls_seek_back_description">Артка түрдүрүү</string>
+    <string name="media3_controls_seek_forward_description">Алдыга түрдүрүү</string>
+    <string name="media3_controls_seek_to_next_description">Кийинки нерсеге өтүү</string>
+    <string name="media3_controls_seek_to_previous_description">Мурунку нерсеге өтүү</string>
+    <string msgid="542007171693138492" name="navigation_menu">"Чабыттоо менюсу"</string>
+    <string msgid="6610465462668679431" name="not_selected">"Тандалган жок"</string>
+    <string msgid="5941395253238309765" name="range_end">"Диапазондун аягы"</string>
+    <string msgid="7097486360902471446" name="range_start">"Диапазондун башы"</string>
+    <string msgid="6043586758067023" name="selected">"Тандалды"</string>
+    <string msgid="2792228137354697160" name="snackbar_pane_title">"Эскертүү"</string>
+    <string msgid="4139871816613051306" name="state_empty">"Бош"</string>
+    <string msgid="5834637030682409883" name="state_off">"Өчүк"</string>
+    <string msgid="1490883874751719580" name="state_on">"Күйүк"</string>
+    <string msgid="6277540029070332960" name="status_bar_notification_info_overflow">"999+"</string>
+    <string msgid="2561197295334830845" name="switch_role">"Которгуч"</string>
+    <string msgid="1672349317127674378" name="tab">"Өтмөк"</string>
+    <string msgid="5946805113151406391" name="template_percent">"<ns1:g id="PERCENTAGE">%1$d</ns1:g> пайыз."</string>
+    <string msgid="3765533235322692011" name="tooltip_description">"калкып чыгуучу кеңеш"</string>
+    <string msgid="3124740595719787496" name="tooltip_label">"калкып чыгуучу кеңешти көрсөтүү"</string>
+    <string msgid="7776845597891182382" name="wear_m3c_alert_dialog_content_description_confirm_button">"Ырастоо"</string>
+    <string msgid="3572467833850785688" name="wear_m3c_alert_dialog_content_description_dismiss_button">"Жабуу"</string>
+    <string msgid="8932770593644830235" name="wear_m3c_date_picker_day">"Күн"</string>
+    <string msgid="1824308273028674826" name="wear_m3c_date_picker_heading">"Күндү коюу үчүн сыдырыңыз"</string>
+    <string msgid="5962969526377479136" name="wear_m3c_date_picker_month">"Ай"</string>
+    <string msgid="4697690064312147449" name="wear_m3c_date_picker_year">"Жыл"</string>
+    <string msgid="3200727397161392122" name="wear_m3c_open_on_phone">"Телефонуңузду текшериңиз"</string>
+    <string msgid="5953380527505012363" name="wear_m3c_open_on_phone_icon_content_description">"Телефонуңузду текшериңиз сүрөтчөсү"</string>
+    <string msgid="167976024035966099" name="wear_m3c_picker_click_to_adjust_hint">"Маанини тууралаңыз"</string>
+    <string msgid="7994498880084699884" name="wear_m3c_picker_click_to_select_hint">"Маанини тандаңыз"</string>
+    <string msgid="8440144719909288057" name="wear_m3c_picker_confirm_button_content_description">"Ырастоо"</string>
+    <string msgid="3346011303652897029" name="wear_m3c_picker_next_button_content_description">"Кийинки"</string>
+    <string msgid="8242572466064289486" name="wear_m3c_slider_decrease_content_description">"Төмөндөтүү"</string>
+    <string msgid="3329631766954416834" name="wear_m3c_slider_increase_content_description">"Жогорулатуу"</string>
+    <string msgid="1741225633698384262" name="wear_m3c_time_picker_heading">"Убакытты коюу үчүн сыдырыңыз"</string>
+    <string msgid="5670838450714030035" name="wear_m3c_time_picker_hour">"Саат"</string>
+    <string msgid="2847700380677127030" name="wear_m3c_time_picker_minute">"Мүнөт"</string>
+    <string msgid="5567285614451063120" name="wear_m3c_time_picker_period">"Чекит"</string>
+    <string msgid="5551916170669814925" name="wear_m3c_time_picker_second">"Секунд"</string>
+</resources>

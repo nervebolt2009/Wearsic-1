@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -51,6 +52,7 @@ private fun formatTime(ms: Long): String {
 fun NowPlayingScreen(
     currentTrack: Track?,
     isPlaying: Boolean,
+    playbackError: String? = null,
     progress: Float,
     shuffleEnabled: Boolean,
     repeatEnabled: Boolean,
@@ -64,6 +66,23 @@ fun NowPlayingScreen(
     modifier: Modifier = Modifier
 ) {
     ScreenScaffold(modifier = modifier) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            // Full-screen blurred album art as the backdrop.
+            if (currentTrack != null) {
+                AsyncImage(
+                    model = currentTrack.thumbnailUrl,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .blur(26.dp)
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color(0xFF0C0D10).copy(alpha = if (currentTrack != null) 0.66f else 1f))
+            )
         val listState = rememberScalingLazyListState()
         val rotaryBehavior = RotaryScrollableDefaults.behavior(listState)
         ScalingLazyColumn(
@@ -111,6 +130,19 @@ fun NowPlayingScreen(
                     }
 
                     Spacer(modifier = Modifier.height(8.dp))
+                    if (!playbackError.isNullOrBlank()) {
+                        Text(
+                            text = playbackError,
+                            style = MaterialTheme.typography.labelSmall,
+                            color = Color(0xFFFFB4AB),
+                            textAlign = TextAlign.Center,
+                            maxLines = 3,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 6.dp)
+                        )
+                    }
                     Text(
                         text = currentTrack?.title ?: stringResource(R.string.no_tracks),
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
@@ -212,6 +244,7 @@ fun NowPlayingScreen(
                 }
             }
         }
+        }
     }
 }
 
@@ -249,6 +282,7 @@ fun NowPlayingScreenPreview() {
             thumbnailUrl = "https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg"
         ),
         isPlaying = true,
+        playbackError = null,
         progress = 0.45f,
         shuffleEnabled = false,
         repeatEnabled = true,

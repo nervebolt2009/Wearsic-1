@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.wearsic.app.AlbumDetailScreenTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-08-09T07:57:39" hostname="codespaces-3c9c6d" time="8.041">
+  <properties/>
+  <testcase name="displaysRetryOnError" classname="com.wearsic.app.AlbumDetailScreenTest" time="7.722"/>
+  <testcase name="displaysLoadedTracksAndRoutesSelection" classname="com.wearsic.app.AlbumDetailScreenTest" time="0.155"/>
+  <testcase name="displaysLoadingState" classname="com.wearsic.app.AlbumDetailScreenTest" time="0.164"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

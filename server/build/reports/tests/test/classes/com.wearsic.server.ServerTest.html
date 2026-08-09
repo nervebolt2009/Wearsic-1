@@ -23,7 +23,7 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">3</div>
+<div class="counter">5</div>
 <p>tests</p>
 </div>
 </td>
@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">1.057s</div>
+<div class="counter">0.924s</div>
 <p>duration</p>
 </div>
 </td>
@@ -66,9 +66,6 @@
 <li>
 <a href="#tab1">Standard output</a>
 </li>
-<li>
-<a href="#tab2">Standard error</a>
-</li>
 </ul>
 <div id="tab0" class="tab">
 <h2>Tests</h2>
@@ -81,18 +78,28 @@
 </tr>
 </thead>
 <tr>
+<td class="success">albumsSearchRejectsShortQueries()</td>
+<td class="success">0.031s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
 <td class="success">favoritesAndPlaylistsPersist()</td>
-<td class="success">0.999s</td>
+<td class="success">0.773s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">healthIsPublicAndReportsOk()</td>
-<td class="success">0.024s</td>
+<td class="success">0.029s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">shortSearchIsRejectedBeforeExtraction()</td>
-<td class="success">0.034s</td>
+<td class="success">0.028s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">youtubeCookieCanBeStoredAndCleared()</td>
+<td class="success">0.063s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -100,25 +107,26 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>16:45:45.566 [DefaultDispatcher-worker-1 @call-context#2] INFO ktor.test -- No ktor.deployment.watch patterns specified, automatic reload is not active.
-16:45:45.731 [DefaultDispatcher-worker-1 @call-context#2] INFO ktor.test -- Application started in 0.175 seconds.
-16:45:45.735 [DefaultDispatcher-worker-3 @coroutine#4] INFO ktor.test -- Responding at http://localhost:80
-16:45:45.735 [DefaultDispatcher-worker-3 @coroutine#4] INFO ktor.test -- Responding at https://localhost:443
-16:45:46.027 [DefaultDispatcher-worker-5 @call-context#24] INFO ktor.test -- No ktor.deployment.watch patterns specified, automatic reload is not active.
-16:45:46.037 [DefaultDispatcher-worker-5 @call-context#24] INFO ktor.test -- Application started in 0.01 seconds.
-16:45:46.038 [DefaultDispatcher-worker-4 @coroutine#26] INFO ktor.test -- Responding at http://localhost:80
-16:45:46.038 [DefaultDispatcher-worker-4 @coroutine#26] INFO ktor.test -- Responding at https://localhost:443
-16:45:46.060 [DefaultDispatcher-worker-4 @call-context#35] INFO ktor.test -- No ktor.deployment.watch patterns specified, automatic reload is not active.
-16:45:46.067 [DefaultDispatcher-worker-4 @call-context#35] INFO ktor.test -- Application started in 0.008 seconds.
-16:45:46.068 [DefaultDispatcher-worker-1 @coroutine#37] INFO ktor.test -- Responding at http://localhost:80
-16:45:46.068 [DefaultDispatcher-worker-1 @coroutine#37] INFO ktor.test -- Responding at https://localhost:443
-</pre>
-</span>
-</div>
-<div id="tab2" class="tab">
-<h2>Standard error</h2>
-<span class="code">
-<pre>SLF4J(I): Connected with provider of type [ch.qos.logback.classic.spi.LogbackServiceProvider]
+<pre>08:09:54.257 [DefaultDispatcher-worker-1 @call-context#2] INFO ktor.test -- No ktor.deployment.watch patterns specified, automatic reload is not active.
+08:09:54.423 [DefaultDispatcher-worker-1 @call-context#2] INFO ktor.test -- Application started in 0.177 seconds.
+08:09:54.426 [DefaultDispatcher-worker-3 @coroutine#4] INFO ktor.test -- Responding at http://localhost:80
+08:09:54.426 [DefaultDispatcher-worker-3 @coroutine#4] INFO ktor.test -- Responding at https://localhost:443
+08:09:54.640 [DefaultDispatcher-worker-3 @call-context#24] INFO ktor.test -- No ktor.deployment.watch patterns specified, automatic reload is not active.
+08:09:54.649 [DefaultDispatcher-worker-3 @call-context#24] INFO ktor.test -- Application started in 0.01 seconds.
+08:09:54.650 [DefaultDispatcher-worker-6 @coroutine#26] INFO ktor.test -- Responding at http://localhost:80
+08:09:54.650 [DefaultDispatcher-worker-6 @coroutine#26] INFO ktor.test -- Responding at https://localhost:443
+08:09:54.670 [DefaultDispatcher-worker-3 @call-context#35] INFO ktor.test -- No ktor.deployment.watch patterns specified, automatic reload is not active.
+08:09:54.684 [DefaultDispatcher-worker-3 @call-context#35] INFO ktor.test -- Application started in 0.015 seconds.
+08:09:54.686 [DefaultDispatcher-worker-2 @coroutine#37] INFO ktor.test -- Responding at http://localhost:80
+08:09:54.686 [DefaultDispatcher-worker-2 @coroutine#37] INFO ktor.test -- Responding at https://localhost:443
+08:09:54.705 [DefaultDispatcher-worker-3 @call-context#46] INFO ktor.test -- No ktor.deployment.watch patterns specified, automatic reload is not active.
+08:09:54.723 [DefaultDispatcher-worker-3 @call-context#46] INFO ktor.test -- Application started in 0.02 seconds.
+08:09:54.727 [DefaultDispatcher-worker-4 @coroutine#48] INFO ktor.test -- Responding at http://localhost:80
+08:09:54.727 [DefaultDispatcher-worker-4 @coroutine#48] INFO ktor.test -- Responding at https://localhost:443
+08:09:54.769 [DefaultDispatcher-worker-5 @call-context#63] INFO ktor.test -- No ktor.deployment.watch patterns specified, automatic reload is not active.
+08:09:54.781 [DefaultDispatcher-worker-5 @call-context#63] INFO ktor.test -- Application started in 0.013 seconds.
+08:09:54.782 [DefaultDispatcher-worker-4 @coroutine#65] INFO ktor.test -- Responding at http://localhost:80
+08:09:54.782 [DefaultDispatcher-worker-4 @coroutine#65] INFO ktor.test -- Responding at https://localhost:443
 </pre>
 </span>
 </div>
@@ -130,7 +138,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 8.11.1</a> at Aug 8, 2026, 4:45:46 PM</p>
+<a href="http://www.gradle.org">Gradle 8.11.1</a> at Aug 9, 2026, 8:09:54 AM</p>
 </div>
 </div>
 </body>

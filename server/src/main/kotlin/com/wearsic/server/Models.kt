@@ -33,6 +33,16 @@ data class PlaylistDto(
 )
 
 @Serializable
+data class AlbumDto(
+    val id: String,
+    val name: String,
+    val uploader: String,
+    val trackCount: Int,
+    val thumbnailUrl: String = "",
+    val url: String
+)
+
+@Serializable
 data class PlaylistWithTracksDto(
     val id: String,
     val name: String,
@@ -44,3 +54,9 @@ data class CreatePlaylistRequest(val name: String)
 
 @Serializable
 data class ErrorResponse(val error: String)
+
+@Serializable
+data class YoutubeCookieRequest(val cookie: String)
+
+@Serializable
+data class YoutubeCookieStatus(val configured: Boolean)

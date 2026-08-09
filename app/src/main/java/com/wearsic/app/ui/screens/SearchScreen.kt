@@ -27,6 +27,7 @@ import androidx.wear.compose.foundation.rotary.RotaryScrollableDefaults
 import androidx.wear.compose.material3.*
 import coil.compose.AsyncImage
 import com.wearsic.app.R
+import com.wearsic.app.data.model.Album
 import com.wearsic.app.data.model.Track
 
 /**
@@ -41,7 +42,12 @@ fun SearchScreen(
     isLoading: Boolean,
     onTrackClick: (Track) -> Unit,
     onAddToFavorites: (Track) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onAddToQueue: (Track) -> Unit = {},
+    albums: List<Album> = emptyList(),
+    albumsMode: Boolean = false,
+    onAlbumsModeChange: (Boolean) -> Unit = {},
+    onAlbumClick: (Album) -> Unit = {}
 ) {
     ScreenScaffold(
         modifier = modifier
@@ -114,6 +120,26 @@ fun SearchScreen(
                 }
             }
             
+            item {
+                Row(
+                    modifier = Modifier.fillMaxWidth(0.9f),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    SearchModeButton(
+                        label = "Tracks",
+                        selected = !albumsMode,
+                        onClick = { onAlbumsModeChange(false) },
+                        modifier = Modifier.weight(1f)
+                    )
+                    SearchModeButton(
+                        label = "Albums",
+                        selected = albumsMode,
+                        onClick = { onAlbumsModeChange(true) },
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+            }
+
             // Loading Indicator
             if (isLoading) {
                 item {
@@ -132,7 +158,7 @@ fun SearchScreen(
             }
             
             // Suggestions List
-            if (suggestions.isNotEmpty() && searchQuery.isNotEmpty()) {
+            if (!albumsMode && suggestions.isNotEmpty() && searchQuery.isNotEmpty()) {
                 item {
                     Text(
                         text = "Suggestions",
@@ -155,8 +181,27 @@ fun SearchScreen(
                 }
             }
             
+            // Album Results
+            if (albumsMode && albums.isNotEmpty()) {
+                item {
+                    Text(
+                        text = "Albums / Playlists (${albums.size})",
+                        style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Medium),
+                        color = Color.White.copy(alpha = 0.7f),
+                        modifier = Modifier.fillMaxWidth(0.9f).padding(top = 16.dp, bottom = 8.dp)
+                    )
+                }
+                items(albums.size) { index ->
+                    AlbumResultItem(
+                        album = albums[index],
+                        onClick = { onAlbumClick(albums[index]) },
+                        modifier = Modifier.fillMaxWidth(0.9f)
+                    )
+                }
+            }
+
             // Search Results
-            if (searchResults.isNotEmpty()) {
+            if (!albumsMode && searchResults.isNotEmpty()) {
                 item {
                     Text(
                         text = "Results (${searchResults.size})",
@@ -175,13 +220,16 @@ fun SearchScreen(
                         track = searchResults[index],
                         onClick = { onTrackClick(searchResults[index]) },
                         onAddToFavorites = { onAddToFavorites(searchResults[index]) },
+                        onAddToQueue = { onAddToQueue(searchResults[index]) },
                         modifier = Modifier.fillMaxWidth(0.9f)
                     )
                 }
             }
             
             // No Results
-            if (!isLoading && searchQuery.isNotEmpty() && searchResults.isEmpty() && suggestions.isEmpty()) {
+            if (!isLoading && searchQuery.isNotEmpty() &&
+                (if (albumsMode) albums.isEmpty() else searchResults.isEmpty()) && suggestions.isEmpty()
+            ) {
                 item {
                     Column(
                         modifier = Modifier
@@ -208,6 +256,57 @@ fun SearchScreen(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun SearchModeButton(
+    label: String,
+    selected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    TextButton(
+        onClick = onClick,
+        modifier = modifier.background(
+            if (selected) Color(0xFFB7F397).copy(alpha = 0.2f) else Color.White.copy(alpha = 0.07f),
+            RoundedCornerShape(18.dp)
+        )
+    ) {
+        Text(label, color = if (selected) Color(0xFFB7F397) else Color.White.copy(alpha = 0.65f))
+    }
+}
+
+@Composable
+private fun AlbumResultItem(
+    album: Album,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .padding(vertical = 3.dp)
+            .background(Color.White.copy(alpha = 0.08f), RoundedCornerShape(20.dp))
+            .clickable(onClick = onClick)
+            .padding(horizontal = 12.dp, vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier.size(42.dp).clip(RoundedCornerShape(12.dp)).background(Color.White.copy(alpha = 0.1f))
+        ) {
+            AsyncImage(
+                model = album.thumbnailUrl,
+                contentDescription = album.name,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(12.dp))
+            )
+        }
+        Spacer(modifier = Modifier.width(10.dp))
+        Column(modifier = Modifier.weight(1f)) {
+            Text(album.name, style = MaterialTheme.typography.bodyMedium.copy(fontSize = 13.sp), color = Color.White, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Text("${album.uploader} • ${album.trackCount} tracks", style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp), color = Color.White.copy(alpha = 0.6f), maxLines = 1, overflow = TextOverflow.Ellipsis)
+        }
+        Icon(painter = painterResource(R.drawable.ic_skip_next), contentDescription = "Open album", tint = Color.White.copy(alpha = 0.6f), modifier = Modifier.size(20.dp))
     }
 }
 
@@ -253,16 +352,19 @@ private fun SuggestionItem(
 }
 
 /**
- * Search result item with track info and actions
+ * Search result item with track info and actions.
+ * Two-line card so the title keeps full width and the action buttons
+ * never starve it on round 44mm watches (174dp viewport).
  */
 @Composable
 private fun SearchResultItem(
     track: Track,
     onClick: () -> Unit,
     onAddToFavorites: () -> Unit,
+    onAddToQueue: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
-    Row(
+    Column(
         modifier = modifier
             .padding(vertical = 3.dp)
             .background(
@@ -270,77 +372,82 @@ private fun SearchResultItem(
                 shape = RoundedCornerShape(20.dp)
             )
             .clickable(onClick = onClick)
-            .padding(horizontal = 12.dp, vertical = 10.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .padding(horizontal = 12.dp, vertical = 10.dp)
     ) {
-        // Track thumbnail
-        Box(
-            modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape)
-                .background(Color.White.copy(alpha = 0.1f)),
-            contentAlignment = Alignment.Center
+        // Line 1: thumbnail + title/artist (full available width)
+        Row(
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            AsyncImage(
-                model = track.thumbnailUrl,
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
+            Box(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .size(38.dp)
                     .clip(CircleShape)
-            )
+                    .background(Color.White.copy(alpha = 0.1f)),
+                contentAlignment = Alignment.Center
+            ) {
+                AsyncImage(
+                    model = track.thumbnailUrl,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(CircleShape)
+                )
+            }
+
+            Spacer(modifier = Modifier.width(10.dp))
+
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = track.title,
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontSize = 13.sp
+                    ),
+                    color = Color.White,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+
+                Text(
+                    text = track.uploader,
+                    style = MaterialTheme.typography.labelSmall.copy(
+                        fontSize = 11.sp
+                    ),
+                    color = Color.White.copy(alpha = 0.6f),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
         }
-        
-        Spacer(modifier = Modifier.width(10.dp))
-        
-        // Track info
-        Column(
-            modifier = Modifier.weight(1f)
+
+        // Line 2: action buttons, right aligned
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.End
         ) {
-            Text(
-                text = track.title,
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    fontSize = 13.sp
-                ),
-                color = Color.White,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-            
-            Text(
-                text = track.uploader,
-                style = MaterialTheme.typography.labelSmall.copy(
-                    fontSize = 11.sp
-                ),
-                color = Color.White.copy(alpha = 0.6f),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-        }
-        
-        // Duration
-        Text(
-            text = track.formatDuration(),
-            style = MaterialTheme.typography.labelSmall.copy(
-                fontSize = 11.sp
-            ),
-            color = Color.White.copy(alpha = 0.5f),
-            modifier = Modifier.padding(start = 8.dp)
-        )
-        
-        // Add to favorites button
-        IconButton(
-            onClick = onAddToFavorites,
-            modifier = Modifier
-                .size(44.dp)
-                .padding(start = 2.dp)
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_favorite_outline),
-                contentDescription = stringResource(R.string.add_to_favorites),
-                tint = Color(0xFFE91E63).copy(alpha = 0.7f),
-                modifier = Modifier.size(18.dp)
-            )
+            IconButton(
+                onClick = onAddToFavorites,
+                modifier = Modifier.size(38.dp)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_favorite_outline),
+                    contentDescription = stringResource(R.string.add_to_favorites),
+                    tint = Color(0xFFE91E63).copy(alpha = 0.8f),
+                    modifier = Modifier.size(18.dp)
+                )
+            }
+
+            IconButton(
+                onClick = onAddToQueue,
+                modifier = Modifier.size(38.dp)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_queue),
+                    contentDescription = "Add to queue",
+                    tint = Color(0xFFB7F397).copy(alpha = 0.9f),
+                    modifier = Modifier.size(18.dp)
+                )
+            }
         }
     }
 }

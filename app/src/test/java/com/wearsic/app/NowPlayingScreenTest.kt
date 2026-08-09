@@ -37,6 +37,7 @@ class NowPlayingScreenTest {
                 NowPlayingScreen(
                     currentTrack = testTrack,
                     isPlaying = true,
+                    playbackError = null,
                     progress = 0.5f,
                     shuffleEnabled = false,
                     repeatEnabled = false,
@@ -65,6 +66,7 @@ class NowPlayingScreenTest {
                 NowPlayingScreen(
                     currentTrack = null,
                     isPlaying = false,
+                    playbackError = null,
                     progress = 0f,
                     shuffleEnabled = false,
                     repeatEnabled = false,
@@ -84,6 +86,31 @@ class NowPlayingScreenTest {
     }
     
     @Test
+    fun testPlaybackErrorIsVisible() {
+        composeTestRule.setContent {
+            WearsicTheme {
+                NowPlayingScreen(
+                    currentTrack = testTrack,
+                    isPlaying = false,
+                    playbackError = "Audio playback failed: server returned 503",
+                    progress = 0f,
+                    shuffleEnabled = false,
+                    repeatEnabled = false,
+                    onPlayPause = {},
+                    onNext = {},
+                    onPrevious = {},
+                    onShuffleToggle = {},
+                    onRepeatToggle = {},
+                    onFavoriteToggle = {},
+                    isFavorite = false
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithText("Audio playback failed: server returned 503").assertIsDisplayed()
+    }
+
+    @Test
     fun testPlayPauseButtonClickable() {
         var playPauseClicked = false
         
@@ -92,6 +119,7 @@ class NowPlayingScreenTest {
                 NowPlayingScreen(
                     currentTrack = testTrack,
                     isPlaying = false,
+                    playbackError = null,
                     progress = 0f,
                     shuffleEnabled = false,
                     repeatEnabled = false,
@@ -122,6 +150,7 @@ class NowPlayingScreenTest {
                 NowPlayingScreen(
                     currentTrack = testTrack,
                     isPlaying = false,
+                    playbackError = null,
                     progress = 0f,
                     shuffleEnabled = false,
                     repeatEnabled = false,
@@ -149,6 +178,7 @@ class NowPlayingScreenTest {
                 NowPlayingScreen(
                     currentTrack = testTrack,
                     isPlaying = false,
+                    playbackError = null,
                     progress = 0f,
                     shuffleEnabled = false,
                     repeatEnabled = false,
@@ -176,6 +206,7 @@ class NowPlayingScreenTest {
                 NowPlayingScreen(
                     currentTrack = testTrack,
                     isPlaying = false,
+                    playbackError = null,
                     progress = 0f,
                     shuffleEnabled = false,
                     repeatEnabled = false,

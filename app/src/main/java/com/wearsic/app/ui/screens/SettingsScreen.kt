@@ -11,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -36,10 +37,13 @@ fun SettingsScreen(
     isLoading: Boolean,
     modifier: Modifier = Modifier,
     apiKey: String = "",
-    onApiKeyChange: (String) -> Unit = {}
+    onApiKeyChange: (String) -> Unit = {},
+    youtubeCookie: String = "",
+    onYoutubeCookieChange: (String) -> Unit = {}
 ) {
     var editingUrl by remember(serverUrl) { mutableStateOf(serverUrl) }
     var showApiKey by remember(apiKey) { mutableStateOf(apiKey.isNotBlank()) }
+    var showYoutubeCookie by remember(youtubeCookie) { mutableStateOf(youtubeCookie.isNotBlank()) }
     ScreenScaffold(
         modifier = modifier
     ) {
@@ -126,7 +130,10 @@ fun SettingsScreen(
                     modifier = Modifier
                         .fillMaxWidth(0.9f)
                         .padding(top = 8.dp),
-                    enabled = serverUrl.isNotEmpty() && !isLoading,
+                    // Use the field value here, not the asynchronously persisted
+                    // DataStore value. This keeps the button usable immediately
+                    // after the user finishes editing a URL.
+                    enabled = editingUrl.isNotBlank() && !isLoading,
                     colors = ButtonDefaults.buttonColors(
                         containerColor = when {
                             isConnected -> Color(0xFF1DB954).copy(alpha = 0.3f)
@@ -239,6 +246,75 @@ fun SettingsScreen(
                                 }
                                 innerTextField()
                             }
+                        )
+                    }
+                }
+            }
+
+            // YouTube session cookie lets the server pass YouTube bot checks.
+            item {
+                Column(
+                    modifier = Modifier.fillMaxWidth(0.9f),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "YouTube Cookie (fixes playback)",
+                        style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Medium),
+                        color = Color.White.copy(alpha = 0.7f),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 4.dp)
+                    )
+                    TextButton(
+                        onClick = { showYoutubeCookie = !showYoutubeCookie },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(
+                            text = when {
+                                showYoutubeCookie -> "Hide YouTube cookie"
+                                youtubeCookie.isNotBlank() -> "YouTube cookie saved — tap to edit"
+                                else -> "Add YouTube cookie (fixes playback)"
+                            },
+                            style = MaterialTheme.typography.labelSmall,
+                            color = if (youtubeCookie.isNotBlank() && !showYoutubeCookie) {
+                                Color(0xFFB7F397)
+                            } else {
+                                Color.White.copy(alpha = 0.58f)
+                            }
+                        )
+                    }
+                    if (showYoutubeCookie) {
+                        BasicTextField(
+                            value = youtubeCookie,
+                            onValueChange = onYoutubeCookieChange,
+                            singleLine = true,
+                            textStyle = MaterialTheme.typography.bodyMedium.copy(
+                                color = Color.White,
+                                fontSize = 11.sp
+                            ),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(Color.White.copy(alpha = 0.08f), RoundedCornerShape(14.dp))
+                                .padding(horizontal = 14.dp, vertical = 10.dp)
+                                .testTag("youtube-cookie-field"),
+                            decorationBox = { innerTextField ->
+                                if (youtubeCookie.isEmpty()) {
+                                    Text(
+                                        text = "Paste cookie from YouTube",
+                                        style = MaterialTheme.typography.bodyMedium.copy(fontSize = 11.sp),
+                                        color = Color.White.copy(alpha = 0.5f)
+                                    )
+                                }
+                                innerTextField()
+                            }
+                        )
+                        Text(
+                            text = "Only needed when streams fail with a bot check. Paste the full cookie line from your logged-in browser.",
+                            style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
+                            color = Color.White.copy(alpha = 0.45f),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 5.dp)
                         )
                     }
                 }

@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.plugin.serialization")
     id("org.jetbrains.kotlin.plugin.compose")
     alias(libs.plugins.roborazzi)
 }
@@ -86,6 +87,7 @@ dependencies {
     implementation("io.ktor:ktor-client-okhttp:2.3.12")
     implementation("io.ktor:ktor-client-content-negotiation:2.3.12")
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.12")
+    testImplementation("io.ktor:ktor-client-mock:2.3.12")
     
     // DataStore Preferences
     implementation("androidx.datastore:datastore-preferences:1.1.1")

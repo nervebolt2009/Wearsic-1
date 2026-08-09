@@ -5,10 +5,14 @@ import android.content.Intent
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.wearsic.app.data.model.Album
 import com.wearsic.app.data.model.Track
 import com.wearsic.app.data.preferences.SettingsManager
 import com.wearsic.app.data.repository.MusicRepository
 import com.wearsic.app.service.MediaPlaybackService
+import com.wearsic.app.service.PlaybackEvents
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.coroutineScope
@@ -66,9 +70,26 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     
     private val _searchResults = MutableStateFlow<List<Track>>(emptyList())
     val searchResults: StateFlow<List<Track>> = _searchResults.asStateFlow()
+
+    private val _albumSearchResults = MutableStateFlow<List<Album>>(emptyList())
+    val albumSearchResults: StateFlow<List<Album>> = _albumSearchResults.asStateFlow()
+
+    private val _albumsMode = MutableStateFlow(false)
+    val albumsMode: StateFlow<Boolean> = _albumsMode.asStateFlow()
+
+    private val _selectedAlbum = MutableStateFlow<Album?>(null)
+    val selectedAlbum: StateFlow<Album?> = _selectedAlbum.asStateFlow()
+    private val _albumTracks = MutableStateFlow<List<Track>>(emptyList())
+    val albumTracks: StateFlow<List<Track>> = _albumTracks.asStateFlow()
+    private val _isLoadingAlbum = MutableStateFlow(false)
+    val isLoadingAlbum: StateFlow<Boolean> = _isLoadingAlbum.asStateFlow()
+    private val _albumError = MutableStateFlow<String?>(null)
+    val albumError: StateFlow<String?> = _albumError.asStateFlow()
+    private var albumLoadJob: Job? = null
     
     private val _isSearching = MutableStateFlow(false)
     val isSearching: StateFlow<Boolean> = _isSearching.asStateFlow()
+    private var searchGeneration = 0L
     
     // Loading states
     private val _isLoading = MutableStateFlow(false)
@@ -78,30 +99,41 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> = _error.asStateFlow()
     
+    // Guards related-stream autoplay so a track is only auto-filled once per
+    // manual play session instead of looping forever.
+    private var autoPlayedVideoId: String? = null
+
     // Connection state
     private val _isConnected = MutableStateFlow(false)
     val isConnected: StateFlow<Boolean> = _isConnected.asStateFlow()
 
     private val _isTestingConnection = MutableStateFlow(false)
     val isTestingConnection: StateFlow<Boolean> = _isTestingConnection.asStateFlow()
+    private var connectionTestJob: Job? = null
+    private var connectionTestGeneration = 0L
     
     // Server URL
     val serverUrl: StateFlow<String> = settingsManager.serverUrl
         .stateIn(viewModelScope, SharingStarted.Eagerly, "")
     val apiKey: StateFlow<String> = settingsManager.apiKey
         .stateIn(viewModelScope, SharingStarted.Eagerly, "")
+    val youtubeCookie: StateFlow<String> = settingsManager.youtubeCookie
+        .stateIn(viewModelScope, SharingStarted.Eagerly, "")
     
     init {
         // Configure the repository before any server-backed request is started.
         viewModelScope.launch {
-            settingsManager.serverUrl.collect { url ->
+            settingsManager.serverUrl.collectLatest { url ->
+                repository.setServerUrl(url)
                 if (url.isNotBlank()) {
-                    repository.setServerUrl(url)
                     testConnection()
                     loadFavorites()
                     loadPlaylists()
                 } else {
+                    connectionTestJob?.cancel()
+                    connectionTestGeneration++
                     _isConnected.value = false
+                    _isTestingConnection.value = false
                     _favorites.value = emptyList()
                     _playlists.value = emptyList()
                 }
@@ -110,6 +142,41 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         
         viewModelScope.launch {
             settingsManager.apiKey.collect { key -> repository.setApiKey(key) }
+        }
+
+        // Push the YouTube cookie to the server whenever it or the server URL
+        // changes. Debounced so typing in the Settings field does not hammer the
+        // server, and harmless (silent) when the backend does not support it yet.
+        viewModelScope.launch {
+            @OptIn(FlowPreview::class)
+            combine(
+                settingsManager.youtubeCookie.distinctUntilChanged(),
+                serverUrl
+            ) { cookie, url -> cookie to url }
+                .debounce(800)
+                .collectLatest { (cookie, url) ->
+                    if (url.isNotBlank()) {
+                        repository.setYoutubeCookie(cookie)
+                    }
+                }
+        }
+
+        viewModelScope.launch {
+            PlaybackEvents.error.filterNotNull().collect { message ->
+                _isPlaying.value = false
+                _error.value = message
+            }
+        }
+
+        // Live playback state reported by the foreground service.
+        viewModelScope.launch {
+            PlaybackEvents.progress.collect { _progress.value = it }
+        }
+        viewModelScope.launch {
+            PlaybackEvents.isPlaying.collect { _isPlaying.value = it }
+        }
+        viewModelScope.launch {
+            PlaybackEvents.trackEnded.collect { onTrackEnded() }
         }
 
         // One debounced pipeline prevents stale responses from replacing newer searches.
@@ -127,6 +194,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     } else {
                         _suggestions.value = emptyList()
                         _searchResults.value = emptyList()
+                        _albumSearchResults.value = emptyList()
                         _isSearching.value = false
                     }
                 }
@@ -137,14 +205,24 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      * Test connection to server
      */
     fun testConnection() {
-        if (_isTestingConnection.value) return
-        viewModelScope.launch {
+        connectionTestJob?.cancel()
+        val generation = ++connectionTestGeneration
+        connectionTestJob = viewModelScope.launch {
             _isTestingConnection.value = true
-            val result = repository.testConnection()
-            _isTestingConnection.value = false
-            _isConnected.value = result.isSuccess
-            if (result.isFailure) {
-                _error.value = result.exceptionOrNull()?.message
+            try {
+                val result = repository.testConnection()
+                if (generation == connectionTestGeneration) {
+                    _isConnected.value = result.isSuccess
+                    if (result.isFailure) {
+                        _error.value = result.exceptionOrNull()?.message
+                    }
+                }
+            } catch (_: CancellationException) {
+                // A newer URL/test superseded this request.
+            } finally {
+                if (generation == connectionTestGeneration) {
+                    _isTestingConnection.value = false
+                }
             }
         }
     }
@@ -153,6 +231,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      * Save server URL
      */
     fun saveServerUrl(url: String) {
+        // Update the repository immediately so a connection test triggered by
+        // the same editing session never uses the previous URL.
+        repository.setServerUrl(url)
+        if (url.isBlank()) {
+            connectionTestJob?.cancel()
+            _isConnected.value = false
+        }
         viewModelScope.launch {
             settingsManager.saveServerUrl(url)
         }
@@ -163,6 +248,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             settingsManager.saveApiKey(key)
         }
     }
+
+    fun saveYoutubeCookie(cookie: String) {
+        viewModelScope.launch {
+            settingsManager.saveYoutubeCookie(cookie)
+        }
+    }
     
     /**
      * Update search query
@@ -171,6 +262,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         _searchQuery.value = query
         if (query.length < 2) {
             _searchResults.value = emptyList()
+            _albumSearchResults.value = emptyList()
             _isSearching.value = false
         }
     }
@@ -190,9 +282,22 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     /**
      * Search for tracks
      */
+    fun setAlbumsMode(enabled: Boolean) {
+        if (_albumsMode.value == enabled) return
+        _albumsMode.value = enabled
+        _suggestions.value = emptyList()
+        if (!enabled) _albumSearchResults.value = emptyList()
+        if (enabled) _searchResults.value = emptyList()
+        val query = _searchQuery.value
+        if (query.length >= 2) {
+            viewModelScope.launch { performSearch(query) }
+        }
+    }
+
     fun search(query: String) {
         if (query.isBlank()) {
             _searchResults.value = emptyList()
+            _albumSearchResults.value = emptyList()
             return
         }
         
@@ -202,13 +307,47 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private suspend fun performSearch(query: String) {
+        val requestedAlbumsMode = _albumsMode.value
+        val generation = ++searchGeneration
         _isSearching.value = true
-        val result = repository.search(query)
-        _isSearching.value = false
-        result.onSuccess { response ->
-            _searchResults.value = response.results
-        }.onFailure { e ->
-            _error.value = e.message
+        try {
+            if (requestedAlbumsMode) {
+                val result = repository.searchAlbums(query)
+                result.onSuccess { albums ->
+                    if (generation == searchGeneration && _albumsMode.value == requestedAlbumsMode) {
+                        _isConnected.value = true
+                        _albumSearchResults.value = albums
+                        _searchResults.value = emptyList()
+                    }
+                }.onFailure { e ->
+                    if (generation == searchGeneration && _albumsMode.value == requestedAlbumsMode) {
+                        _isConnected.value = false
+                        _albumSearchResults.value = emptyList()
+                        _error.value = e.message
+                    }
+                }
+            } else {
+                val result = repository.search(query)
+                result.onSuccess { response ->
+                    if (generation == searchGeneration && _albumsMode.value == requestedAlbumsMode) {
+                        // A successful search is also a successful reachability signal.
+                        _isConnected.value = true
+                        _searchResults.value = response.results
+                        _albumSearchResults.value = emptyList()
+                    }
+                }.onFailure { e ->
+                    if (generation == searchGeneration && _albumsMode.value == requestedAlbumsMode) {
+                        _isConnected.value = false
+                        _error.value = e.message
+                    }
+                }
+            }
+        } finally {
+            // Also runs when collectLatest cancels this search for a newer query,
+            // so the loading indicator can never remain stuck.
+            if (generation == searchGeneration) {
+                _isSearching.value = false
+            }
         }
     }
     
@@ -216,11 +355,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      * Play a track
      */
     fun playTrack(track: Track) {
+        PlaybackEvents.clearError()
         if (serverUrl.value.isBlank()) {
             _error.value = "Configure your server URL in Settings first."
             _isPlaying.value = false
             return
         }
+        autoPlayedVideoId = null
         _currentTrack.value = track
         _isPlaying.value = true
         _progress.value = 0f
@@ -234,11 +375,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
     
     /**
-     * Play a list of tracks starting from index
+     * Play a list of tracks starting from index. Used for albums, search results
+     * and playlists so the whole list lands in the queue (Spotify-style), with
+     * the tapped track first.
      */
     fun playTracks(tracks: List<Track>, startIndex: Int = 0) {
+        PlaybackEvents.clearError()
+        autoPlayedVideoId = null
         _queue.value = tracks
-        _currentIndex.value = startIndex
+        _currentIndex.value = startIndex.coerceIn(0, (tracks.size - 1).coerceAtLeast(0))
         _currentTrack.value = tracks.getOrNull(startIndex)
         _isPlaying.value = tracks.getOrNull(startIndex) != null
         _progress.value = 0f
@@ -316,18 +461,27 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
     
     /**
-     * Toggle favorite for current track
+     * Toggle favorite for current track. Reverts the local heart state if the
+     * server call fails, so the button always reflects what is actually saved.
      */
     fun toggleFavorite() {
         val track = _currentTrack.value ?: return
-        
+        val wasFavorite = _favorites.value.any { it.videoId == track.videoId }
+
         viewModelScope.launch {
-            if (_favorites.value.any { it.videoId == track.videoId }) {
+            val result = if (wasFavorite) {
                 repository.removeFromFavorites(track.videoId)
-                _favorites.value = _favorites.value.filter { it.videoId != track.videoId }
             } else {
                 repository.addToFavorites(track)
-                _favorites.value = _favorites.value + track
+            }
+            if (result.isSuccess) {
+                if (wasFavorite) {
+                    _favorites.value = _favorites.value.filter { it.videoId != track.videoId }
+                } else if (_favorites.value.none { it.videoId == track.videoId }) {
+                    _favorites.value = _favorites.value + track
+                }
+            } else {
+                _error.value = result.exceptionOrNull()?.message ?: "Could not update favorites"
             }
         }
     }
@@ -395,6 +549,28 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     /**
      * Start the selected playlist from its first track.
      */
+    fun loadAlbum(album: Album) {
+        albumLoadJob?.cancel()
+        _selectedAlbum.value = album
+        _albumTracks.value = emptyList()
+        _albumError.value = null
+        albumLoadJob = viewModelScope.launch {
+            _isLoadingAlbum.value = true
+            repository.getExternalPlaylist(album.url)
+                .onSuccess { loaded ->
+                    if (_selectedAlbum.value?.url == album.url) _albumTracks.value = loaded.tracks
+                }
+                .onFailure { error ->
+                    if (_selectedAlbum.value?.url == album.url) _albumError.value = error.message
+                }
+            if (_selectedAlbum.value?.url == album.url) _isLoadingAlbum.value = false
+        }
+    }
+
+    fun playExternalAlbumTrack(track: Track) {
+        playTrack(track)
+    }
+
     fun playPlaylist(playlist: com.wearsic.app.data.model.Playlist) {
         viewModelScope.launch {
             repository.getPlaylist(playlist.id).onSuccess { loaded ->
@@ -447,6 +623,42 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         _isPlaying.value = false
         _progress.value = 0f
     }
+
+    /**
+     * Called when the foreground player reaches the end of a track. Advances to
+     * the next queued track, restarts on repeat, or auto-fills the queue from
+     * related tracks so music never stops.
+     */
+    private fun onTrackEnded() {
+        val queue = _queue.value
+        val index = _currentIndex.value
+        when {
+            index in 0 until queue.size - 1 -> skipToNext()
+            _repeatEnabled.value && queue.isNotEmpty() -> {
+                _currentIndex.value = 0
+                _currentTrack.value = queue[0]
+                _progress.value = 0f
+                _isPlaying.value = true
+                startPlaybackService(MediaPlaybackService.ACTION_PLAY, _currentTrack.value)
+            }
+            else -> autoplayRelated()
+        }
+    }
+
+    private fun autoplayRelated() {
+        val track = _currentTrack.value ?: return
+        if (autoPlayedVideoId == track.videoId) return
+        viewModelScope.launch {
+            repository.getRelatedTracks(track.videoId).onSuccess { response ->
+                if (response.results.isNotEmpty() && autoPlayedVideoId != track.videoId) {
+                    autoPlayedVideoId = track.videoId
+                    playTracks(response.results, 0)
+                }
+            }.onFailure {
+                // No related stream available; stop quietly.
+            }
+        }
+    }
     
     /**
      * Update progress
@@ -474,10 +686,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
         try {
-            if (action == MediaPlaybackService.ACTION_TOGGLE_PLAYBACK) {
-                getApplication<Application>().startService(intent)
-            } else {
+            if (action == MediaPlaybackService.ACTION_PLAY) {
+                // Playback is initiated by a visible user tap. Start as a foreground
+                // service so Android cannot kill it while the stream is buffering.
                 ContextCompat.startForegroundService(getApplication(), intent)
+            } else {
+                getApplication<Application>().startService(intent)
             }
         } catch (error: RuntimeException) {
             _isPlaying.value = false
@@ -490,9 +704,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      */
     fun clearError() {
         _error.value = null
+        PlaybackEvents.clearError()
     }
     
     override fun onCleared() {
+        connectionTestJob?.cancel()
+        albumLoadJob?.cancel()
         super.onCleared()
         repository.close()
     }

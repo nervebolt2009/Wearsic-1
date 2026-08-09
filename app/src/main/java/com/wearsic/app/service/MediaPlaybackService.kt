@@ -1,8 +1,14 @@
 package com.wearsic.app.service
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
+import android.content.pm.ServiceInfo
+import android.os.Build
 import androidx.annotation.OptIn
+import androidx.core.app.NotificationCompat
+import androidx.core.app.ServiceCompat
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
@@ -15,14 +21,26 @@ import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
 import com.wearsic.app.MainActivity
+import com.wearsic.app.R
 import com.wearsic.app.data.model.Track
 import com.wearsic.app.data.repository.MusicRepository
 import android.util.Log
+import androidx.media3.common.Player
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 
 class MediaPlaybackService : MediaSessionService() {
     private var mediaSession: MediaSession? = null
     private var httpDataSourceFactory: DefaultHttpDataSource.Factory? = null
     private val repository = MusicRepository()
+    private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+    private var progressPollJob: Job? = null
 
     companion object {
         const val ACTION_PLAY = "com.wearsic.app.action.PLAY"
@@ -35,11 +53,14 @@ class MediaPlaybackService : MediaSessionService() {
         const val EXTRA_DURATION_MS = "extra_duration_ms"
         const val EXTRA_THUMBNAIL_URL = "extra_thumbnail_url"
         private const val TAG = "WearsicPlayback"
+        private const val NOTIFICATION_CHANNEL_ID = "wearsic_playback"
+        private const val NOTIFICATION_ID = 1001
     }
 
     @OptIn(UnstableApi::class)
     override fun onCreate() {
         super.onCreate()
+        createNotificationChannel()
         val httpDataSource = DefaultHttpDataSource.Factory()
             .setAllowCrossProtocolRedirects(true)
             .setConnectTimeoutMs(15_000)
@@ -61,6 +82,37 @@ class MediaPlaybackService : MediaSessionService() {
         player.addListener(object : androidx.media3.common.Player.Listener {
             override fun onPlayerError(error: androidx.media3.common.PlaybackException) {
                 Log.e(TAG, "Playback failed", error)
+                val detail = error.cause?.message?.takeIf { it.isNotBlank() }
+                    ?: error.message?.takeIf { it.isNotBlank() }
+                    ?: error.errorCodeName
+                PlaybackEvents.reportError("Audio playback failed: $detail")
+                PlaybackEvents.reportPlaying(false)
+                stopProgressPolling()
+                player.stop()
+            }
+
+            override fun onIsPlayingChanged(playing: Boolean) {
+                PlaybackEvents.reportPlaying(playing)
+                if (playing) startProgressPolling(player) else stopProgressPolling()
+            }
+
+            override fun onPlaybackStateChanged(state: Int) {
+                if (state == Player.STATE_ENDED) {
+                    PlaybackEvents.reportTrackEnded()
+                    PlaybackEvents.reportPlaying(false)
+                    stopProgressPolling()
+                } else if (state == Player.STATE_READY) {
+                    PlaybackEvents.reportProgress(player.currentPosition.coerceAtLeast(0L), player.duration.coerceAtLeast(0L))
+                }
+            }
+
+            override fun onEvents(player: Player, events: Player.Events) {
+                if (events.contains(Player.EVENT_POSITION_DISCONTINUITY) ||
+                    events.contains(Player.EVENT_MEDIA_ITEM_TRANSITION) ||
+                    events.contains(Player.EVENT_PLAYBACK_STATE_CHANGED)
+                ) {
+                    PlaybackEvents.reportProgress(player.currentPosition.coerceAtLeast(0L), player.duration.coerceAtLeast(0L))
+                }
             }
         })
 
@@ -80,6 +132,25 @@ class MediaPlaybackService : MediaSessionService() {
 
     @OptIn(UnstableApi::class)
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        // Promote immediately, before resolving the signed stream URL. Android 14/Wear
+        // enforces a short deadline after startForegroundService() and network extraction
+        // can legitimately take several seconds.
+        try {
+            ServiceCompat.startForeground(
+                this,
+                NOTIFICATION_ID,
+                playbackNotification(intent?.getStringExtra(EXTRA_TITLE)),
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK
+                } else {
+                    0
+                }
+            )
+        } catch (error: RuntimeException) {
+            Log.e(TAG, "Could not promote playback service", error)
+            stopSelf()
+            return START_NOT_STICKY
+        }
         intent?.getStringExtra(EXTRA_SERVER_URL)?.let(repository::setServerUrl)
         intent?.getStringExtra(EXTRA_API_KEY)?.let {
             repository.setApiKey(it)
@@ -120,7 +191,7 @@ class MediaPlaybackService : MediaSessionService() {
             .build()
         player.setMediaItem(mediaItem)
         player.prepare()
-        player.play()
+        player.playWhenReady = true
     }
 
     fun addToQueue(track: Track) {
@@ -131,7 +202,7 @@ class MediaPlaybackService : MediaSessionService() {
         val player = mediaSession?.player ?: return
         player.setMediaItems(tracks.map(::mediaItemFor), startIndex, C.TIME_UNSET)
         player.prepare()
-        player.play()
+        player.playWhenReady = true
     }
 
     fun setServerUrl(url: String) {
@@ -157,7 +228,59 @@ class MediaPlaybackService : MediaSessionService() {
         if (player == null || !player.playWhenReady || player.mediaItemCount == 0) stopSelf()
     }
 
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                NOTIFICATION_CHANNEL_ID,
+                "Playback",
+                NotificationManager.IMPORTANCE_LOW
+            ).apply {
+                description = "Wearsic audio playback"
+            }
+            getSystemService(NotificationManager::class.java).createNotificationChannel(channel)
+        }
+    }
+
+    private fun playbackNotification(title: String?): android.app.Notification =
+        NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_play)
+            .setContentTitle(title?.takeIf { it.isNotBlank() } ?: "Wearsic")
+            .setContentText("Preparing audio…")
+            .setOngoing(true)
+            .setCategory(NotificationCompat.CATEGORY_TRANSPORT)
+            .setContentIntent(
+                PendingIntent.getActivity(
+                    this,
+                    1,
+                    Intent(this, MainActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+                    },
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                )
+            )
+            .build()
+
+    private fun startProgressPolling(player: ExoPlayer) {
+        progressPollJob?.cancel()
+        progressPollJob = serviceScope.launch {
+            while (isActive) {
+                PlaybackEvents.reportProgress(
+                    player.currentPosition.coerceAtLeast(0L),
+                    player.duration.coerceAtLeast(0L)
+                )
+                delay(500)
+            }
+        }
+    }
+
+    private fun stopProgressPolling() {
+        progressPollJob?.cancel()
+        progressPollJob = null
+    }
+
     override fun onDestroy() {
+        stopProgressPolling()
+        serviceScope.cancel()
         mediaSession?.run {
             player.release()
             release()

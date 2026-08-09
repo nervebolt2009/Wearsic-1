@@ -2781,7 +2781,6 @@ androidx.core.app.NotificationCompat$Builder:
     public androidx.core.app.NotificationCompat$Builder setAutoCancel(boolean)
     public androidx.core.app.NotificationCompat$Builder setBadgeIconType(int)
     public androidx.core.app.NotificationCompat$Builder setBubbleMetadata(androidx.core.app.NotificationCompat$BubbleMetadata)
-    public androidx.core.app.NotificationCompat$Builder setCategory(java.lang.String)
     public androidx.core.app.NotificationCompat$Builder setChannelId(java.lang.String)
     public androidx.core.app.NotificationCompat$Builder setChronometerCountDown(boolean)
     public androidx.core.app.NotificationCompat$Builder setColor(int)
@@ -3275,10 +3274,19 @@ androidx.core.app.RemoteInput:
     public static int getResultsSource(android.content.Intent)
     public static void setResultsSource(android.content.Intent,int)
 androidx.core.app.ServiceCompat$Api24Impl
-androidx.core.app.ServiceCompat$Api29Impl
-androidx.core.app.ServiceCompat$Api34Impl
+androidx.core.app.ServiceCompat$Api29Impl:
+    private void <init>()
+androidx.core.app.ServiceCompat$Api34Impl:
+    private void <init>()
 androidx.core.app.ServiceCompat$StopForegroundFlags
-androidx.core.app.ServiceCompat
+androidx.core.app.ServiceCompat:
+    private static final int FOREGROUND_SERVICE_TYPE_ALLOWED_SINCE_Q
+    private static final int FOREGROUND_SERVICE_TYPE_ALLOWED_SINCE_U
+    public static final int START_STICKY
+    public static final int STOP_FOREGROUND_DETACH
+    public static final int STOP_FOREGROUND_REMOVE
+    private void <init>()
+    public static void stopForeground(android.app.Service,int)
 androidx.core.app.ShareCompat$IntentBuilder
 androidx.core.app.ShareCompat$IntentReader
 androidx.core.app.ShareCompat
@@ -10702,29 +10710,33 @@ com.wearsic.app.data.preferences.SettingsManager$special$$inlined$map$1$2$1:
     java.lang.Object L$0
 com.wearsic.app.data.preferences.SettingsManager$special$$inlined$map$2$2$1:
     java.lang.Object L$0
+com.wearsic.app.data.preferences.SettingsManager$special$$inlined$map$3$2$1:
+    java.lang.Object L$0
 com.wearsic.app.data.preferences.SettingsManager:
     public final java.lang.Object clearAll(kotlin.coroutines.Continuation)
 com.wearsic.app.data.repository.MusicRepository$addTrackToPlaylist$1
 com.wearsic.app.data.repository.MusicRepository$createPlaylist$1
 com.wearsic.app.data.repository.MusicRepository$getApiOrRoot$2
 com.wearsic.app.data.repository.MusicRepository$getChannelUploads$1
-com.wearsic.app.data.repository.MusicRepository$getExternalPlaylist$1
-com.wearsic.app.data.repository.MusicRepository$getRelatedTracks$1
 com.wearsic.app.data.repository.MusicRepository$removeTrackFromPlaylist$1
 com.wearsic.app.data.repository.MusicRepository:
     public final java.lang.Object addTrackToPlaylist-0E7RQCE(java.lang.String,com.wearsic.app.data.model.Track,kotlin.coroutines.Continuation)
-    private static final kotlin.Unit addTrackToPlaylist_0E7RQCE$lambda$22(com.wearsic.app.data.model.Track,io.ktor.client.request.HttpRequestBuilder)
+    private static final kotlin.Unit addTrackToPlaylist_0E7RQCE$lambda$27(com.wearsic.app.data.model.Track,io.ktor.client.request.HttpRequestBuilder)
     public final java.lang.Object createPlaylist-gIAlu-s(java.lang.String,kotlin.coroutines.Continuation)
     public final java.lang.String getApiKey()
     private final synthetic java.lang.Object getApiOrRoot(java.lang.String,kotlin.jvm.functions.Function1,kotlin.coroutines.Continuation)
     static synthetic java.lang.Object getApiOrRoot$default(com.wearsic.app.data.repository.MusicRepository,java.lang.String,kotlin.jvm.functions.Function1,kotlin.coroutines.Continuation,int,java.lang.Object)
     public final java.lang.Object getChannelUploads-0E7RQCE(java.lang.String,int,kotlin.coroutines.Continuation)
     public static synthetic java.lang.Object getChannelUploads-0E7RQCE$default(com.wearsic.app.data.repository.MusicRepository,java.lang.String,int,kotlin.coroutines.Continuation,int,java.lang.Object)
-    public final java.lang.Object getExternalPlaylist-gIAlu-s(java.lang.String,kotlin.coroutines.Continuation)
-    public final java.lang.Object getRelatedTracks-gIAlu-s(java.lang.String,kotlin.coroutines.Continuation)
     static synthetic java.lang.Object postApiOrRoot$default(com.wearsic.app.data.repository.MusicRepository,java.lang.String,kotlin.jvm.functions.Function1,kotlin.coroutines.Continuation,int,java.lang.Object)
     private static final kotlin.Unit postApiOrRoot$lambda$4(io.ktor.client.request.HttpRequestBuilder)
     public final java.lang.Object removeTrackFromPlaylist-0E7RQCE(java.lang.String,java.lang.String,kotlin.coroutines.Continuation)
+com.wearsic.app.data.repository.YoutubeCookieRequest:
+    public static final int $stable
+    public final java.lang.String component1()
+    public final com.wearsic.app.data.repository.YoutubeCookieRequest copy(java.lang.String)
+    public static synthetic com.wearsic.app.data.repository.YoutubeCookieRequest copy$default(com.wearsic.app.data.repository.YoutubeCookieRequest,java.lang.String,int,java.lang.Object)
+    public final java.lang.String getCookie()
 com.wearsic.app.service.MediaPlaybackService:
     public static final java.lang.String ACTION_PLAY
     public static final java.lang.String ACTION_TOGGLE_PLAYBACK
@@ -10735,6 +10747,8 @@ com.wearsic.app.service.MediaPlaybackService:
     public static final java.lang.String EXTRA_TITLE
     public static final java.lang.String EXTRA_UPLOADER
     public static final java.lang.String EXTRA_VIDEO_ID
+    private static final java.lang.String NOTIFICATION_CHANNEL_ID
+    private static final int NOTIFICATION_ID
     private static final java.lang.String TAG
     public final void addToQueue(com.wearsic.app.data.model.Track)
     private final androidx.media3.common.MediaItem mediaItemFor(com.wearsic.app.data.model.Track)
@@ -10746,6 +10760,8 @@ com.wearsic.app.ui.navigation.NavigationManager:
     public final com.wearsic.app.ui.navigation.Screen getCurrentScreen()
     public final java.util.List getNavigationHistory()
     public final boolean navigateBack()
+com.wearsic.app.ui.navigation.Screen$AlbumDetail:
+    public static final int $stable
 com.wearsic.app.ui.navigation.Screen$Favorites:
     public static final int $stable
 com.wearsic.app.ui.navigation.Screen$NowPlaying:
@@ -10759,6 +10775,7 @@ com.wearsic.app.ui.navigation.Screen$Settings:
 com.wearsic.app.ui.navigation.Screen:
     public static final int $stable
     public final java.lang.String getRoute()
+com.wearsic.app.ui.screens.AlbumDetailScreenKt$AlbumDetailScreen$2$invoke$lambda$3$lambda$2$$inlined$items$default$1
 com.wearsic.app.ui.screens.FavoritesPlaylistsScreenKt:
     public static final void FavoritesPlaylistsScreenPreview(androidx.compose.runtime.Composer,int)
     private static final kotlin.Unit FavoritesPlaylistsScreenPreview$lambda$13$lambda$12(com.wearsic.app.data.model.Track)
@@ -10777,25 +10794,24 @@ com.wearsic.app.ui.screens.NowPlayingScreenKt:
 com.wearsic.app.ui.screens.QueueScreenKt:
     public static final void QueueScreenPreview(androidx.compose.runtime.Composer,int)
     private static final kotlin.Unit QueueScreenPreview$lambda$11$lambda$10(int)
-    private static final kotlin.Unit QueueScreenPreview$lambda$13$lambda$12(int)
-    private static final kotlin.Unit QueueScreenPreview$lambda$15$lambda$14()
-    private static final kotlin.Unit QueueScreenPreview$lambda$16(int,androidx.compose.runtime.Composer,int)
+    private static final kotlin.Unit QueueScreenPreview$lambda$13$lambda$12()
+    private static final kotlin.Unit QueueScreenPreview$lambda$14(int,androidx.compose.runtime.Composer,int)
+    private static final kotlin.Unit QueueScreenPreview$lambda$9$lambda$8(int)
 com.wearsic.app.ui.screens.SearchScreenKt:
     public static final void SearchScreenPreview(androidx.compose.runtime.Composer,int)
-    private static final kotlin.Unit SearchScreenPreview$lambda$10$lambda$9(com.wearsic.app.data.model.Track)
-    private static final kotlin.Unit SearchScreenPreview$lambda$12$lambda$11(com.wearsic.app.data.model.Track)
-    private static final kotlin.Unit SearchScreenPreview$lambda$13(int,androidx.compose.runtime.Composer,int)
-    private static final kotlin.Unit SearchScreenPreview$lambda$8$lambda$7(java.lang.String)
+    private static final kotlin.Unit SearchScreenPreview$lambda$23$lambda$22(java.lang.String)
+    private static final kotlin.Unit SearchScreenPreview$lambda$25$lambda$24(com.wearsic.app.data.model.Track)
+    private static final kotlin.Unit SearchScreenPreview$lambda$27$lambda$26(com.wearsic.app.data.model.Track)
+    private static final kotlin.Unit SearchScreenPreview$lambda$28(int,androidx.compose.runtime.Composer,int)
 com.wearsic.app.ui.screens.SettingsScreenKt:
     public static final void SettingsScreenPreview(androidx.compose.runtime.Composer,int)
-    private static final kotlin.Unit SettingsScreenPreview$lambda$10$lambda$9(java.lang.String)
-    private static final kotlin.Unit SettingsScreenPreview$lambda$12$lambda$11()
-    private static final kotlin.Unit SettingsScreenPreview$lambda$13(int,androidx.compose.runtime.Composer,int)
+    private static final kotlin.Unit SettingsScreenPreview$lambda$15$lambda$14(java.lang.String)
+    private static final kotlin.Unit SettingsScreenPreview$lambda$17$lambda$16()
+    private static final kotlin.Unit SettingsScreenPreview$lambda$18(int,androidx.compose.runtime.Composer,int)
 com.wearsic.app.ui.viewmodel.MainViewModel$search$1
 com.wearsic.app.ui.viewmodel.MainViewModel:
-    public final void addToQueue(com.wearsic.app.data.model.Track)
     public final void clearError()
-    public final kotlinx.coroutines.flow.StateFlow getError()
+    public final void playExternalAlbumTrack(com.wearsic.app.data.model.Track)
     public final void search(java.lang.String)
     public final void updateProgress(float)
 kotlin.ArrayIntrinsicsKt
@@ -14848,7 +14864,6 @@ kotlin.ranges.RangesKt___RangesKt:
     public static final java.lang.Comparable coerceAtLeast(java.lang.Comparable,java.lang.Comparable)
     public static final short coerceAtLeast(short,short)
     public static final byte coerceAtMost(byte,byte)
-    public static final java.lang.Comparable coerceAtMost(java.lang.Comparable,java.lang.Comparable)
     public static final short coerceAtMost(short,short)
     public static final byte coerceIn(byte,byte,byte)
     public static final long coerceIn(long,kotlin.ranges.ClosedRange)
@@ -19726,7 +19741,6 @@ androidx.core.app.NotificationCompat$Builder:
     public int mBadgeIcon
     public android.widget.RemoteViews mBigContentView
     public androidx.core.app.NotificationCompat$BubbleMetadata mBubbleMetadata
-    public java.lang.String mCategory
     public boolean mChronometerCountDown
     public int mColor
     public boolean mColorized
@@ -19758,6 +19772,7 @@ androidx.core.app.NotificationCompat$Builder:
     public static android.widget.RemoteViews getHeadsUpContentView()
     public static int getPriority()
     public final long getWhenIfShowing()
+    public static androidx.core.app.NotificationCompat$Builder setCategory()
     public static androidx.core.app.NotificationCompat$Builder setForegroundServiceBehavior()
     public static androidx.core.app.NotificationCompat$Builder setProgress()
 androidx.core.app.NotificationCompat$CallStyle$Api21Impl:
@@ -19867,6 +19882,9 @@ androidx.core.app.RemoteInput:
     public abstract java.lang.CharSequence getLabel()
     public abstract java.lang.String getResultKey()
     public abstract boolean isDataOnly()
+androidx.core.app.ServiceCompat$Api29Impl
+androidx.core.app.ServiceCompat$Api34Impl
+androidx.core.app.ServiceCompat
 androidx.core.app.TaskStackBuilder
 androidx.core.content.ContextCompat$Api21Impl
 androidx.core.content.ContextCompat$Api23Impl
@@ -22547,52 +22565,54 @@ com.wearsic.app.ComposableSingletons$MainActivityKt:
     public static kotlin.jvm.functions.Function2 getLambda-2$app_release()
 com.wearsic.app.MainActivity:
     static void <clinit>()
-com.wearsic.app.MainActivityKt$$InternalSyntheticLambda$1$8e71ce615dc27246a1bb9acadd7af1f9548df81d8e588ee2d14f786877124c4b$10:
+com.wearsic.app.MainActivityKt$$InternalSyntheticLambda$1$8e71ce615dc27246a1bb9acadd7af1f9548df81d8e588ee2d14f786877124c4b$13:
     public final synthetic int f$2
-com.wearsic.app.MainActivityKt$WearsicApp$1$1$11$1:
+com.wearsic.app.MainActivityKt$WearsicApp$1$1$10$1:
     public final void invoke$7()
-com.wearsic.app.MainActivityKt$WearsicApp$1$1$14$1:
-    public final void invoke(int)
 com.wearsic.app.MainActivityKt$WearsicApp$1$1$15$1:
-    public final void invoke()
-com.wearsic.app.MainActivityKt$WearsicApp$1$1$16$1:
-    public final void invoke(java.lang.String)
-com.wearsic.app.MainActivityKt$WearsicApp$1$1$17$1:
-    public final void invoke()
+    public final void invoke$7()
 com.wearsic.app.MainActivityKt$WearsicApp$1$1$18$1:
+    public final void invoke(int)
+com.wearsic.app.MainActivityKt$WearsicApp$1$1$19$1:
+    public final void invoke()
+com.wearsic.app.MainActivityKt$WearsicApp$1$1$20$1:
+    public final void invoke(java.lang.String)
+com.wearsic.app.MainActivityKt$WearsicApp$1$1$21$1:
+    public final void invoke()
+com.wearsic.app.MainActivityKt$WearsicApp$1$1$22$1:
+    public final void invoke(java.lang.String)
+com.wearsic.app.MainActivityKt$WearsicApp$1$1$23$1:
     public final void invoke(java.lang.String)
 com.wearsic.app.MainActivityKt$WearsicApp$1$1$7$1:
     public final void invoke(java.lang.String)
+com.wearsic.app.MainActivityKt$WearsicApp$1$1$8$1:
+    public final void invoke(boolean)
 com.wearsic.app.MainActivityKt$WearsicApp$1$1$9$1:
     public final void invoke$7()
 com.wearsic.app.MainActivityKt$WearsicApp$1$2$1:
     public static void invoke$8()
+com.wearsic.app.MainActivityKt:
+    public static final com.wearsic.app.ui.navigation.Screen WearsicApp$lambda$1(androidx.compose.runtime.MutableState)
+    public static final com.wearsic.app.data.model.Track WearsicApp$lambda$2(androidx.compose.runtime.State)
 com.wearsic.app.R$drawable
 com.wearsic.app.R$string
-com.wearsic.app.data.model.HealthResponse:
-    static void <clinit>()
-com.wearsic.app.data.model.Playlist:
-    static void <clinit>()
-com.wearsic.app.data.model.PlaylistWithTracks:
-    static void <clinit>()
-com.wearsic.app.data.model.SearchResponse:
-    static void <clinit>()
-com.wearsic.app.data.model.SuggestionResponse:
-    static void <clinit>()
-com.wearsic.app.data.model.Track:
-    static void <clinit>()
 com.wearsic.app.data.preferences.SettingsManager$saveApiKey$2:
     public int label
     public final java.lang.Object invoke$1()
 com.wearsic.app.data.preferences.SettingsManager$saveServerUrl$2:
     public int label
     public final java.lang.Object invoke$1()
+com.wearsic.app.data.preferences.SettingsManager$saveYoutubeCookie$2:
+    public int label
+    public final java.lang.Object invoke$1()
 com.wearsic.app.data.preferences.SettingsManager:
     public static final int $stable
     public static kotlinx.coroutines.flow.Flow getApiKey()
     public static kotlinx.coroutines.flow.Flow getServerUrl()
+    public static kotlinx.coroutines.flow.Flow getYoutubeCookie()
     public static java.lang.Object saveApiKey()
     public static java.lang.Object saveServerUrl()
+    public static java.lang.Object saveYoutubeCookie()
 com.wearsic.app.data.repository.MusicRepository:
     public static final int $stable
     static void <clinit>()
@@ -22602,21 +22622,73 @@ com.wearsic.app.data.repository.MusicRepository:
     public static long parseDuration()
     public final void setApiKey(java.lang.String)
     public static com.wearsic.app.data.model.Track toTrack()
+com.wearsic.app.data.repository.YoutubeCookieRequest$$serializer:
+    public static final int $stable
+    public static com.wearsic.app.data.repository.YoutubeCookieRequest deserialize()
+    public static void serialize()
+com.wearsic.app.service.MediaPlaybackService$startProgressPolling$1:
+    public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
 com.wearsic.app.service.MediaPlaybackService:
     public static final int $stable
+    public static void createNotificationChannel()
+    public static void startProgressPolling()
     public static com.wearsic.app.data.model.Track toTrack()
-com.wearsic.app.ui.components.BottomNavigationKt$$InternalSyntheticLambda$2$9489757f46e2fddbef1eb2ffa07c090a64ddaf2f25bdcc14600e28af754c02d4$5:
+com.wearsic.app.service.PlaybackEvents:
+    public static final int $stable
+    public static final com.wearsic.app.service.PlaybackEvents INSTANCE
+    public static void clearError()
+    public static kotlinx.coroutines.flow.StateFlow getError()
+    public static kotlinx.coroutines.flow.StateFlow getProgress()
+    public static kotlinx.coroutines.flow.SharedFlow getTrackEnded()
+    public static kotlinx.coroutines.flow.StateFlow isPlaying()
+    public static void reportError()
+    public static void reportPlaying(boolean)
+    public static void reportTrackEnded()
+com.wearsic.app.ui.components.BottomNavigationKt$$InternalSyntheticLambda$2$9489757f46e2fddbef1eb2ffa07c090a64ddaf2f25bdcc14600e28af754c02d4$0:
     public final synthetic int f$4
-com.wearsic.app.ui.components.BottomNavigationKt$$InternalSyntheticLambda$3$ba2550da5891b0a8f43ef87f416719e5ea7abf1f25b9d97f8760157ba0e547e5$0:
+com.wearsic.app.ui.components.BottomNavigationKt$$InternalSyntheticLambda$4$ba2550da5891b0a8f43ef87f416719e5ea7abf1f25b9d97f8760157ba0e547e5$0:
     public final synthetic int f$7
+com.wearsic.app.ui.components.BottomNavigationKt$BottomNavigation$1:
+    public final void invoke(androidx.compose.foundation.layout.BoxWithConstraintsScope,androidx.compose.runtime.Composer,int)
 com.wearsic.app.ui.navigation.NavigationManager:
     public static final int $stable
     public final java.util.List navigationHistory
     static void <clinit>()
-    public static androidx.compose.runtime.State getCurrentScreen()
+    public final androidx.compose.runtime.MutableState getCurrentScreen()
 com.wearsic.app.ui.navigation.Screen:
     public final java.lang.String route
     static void <clinit>()
+com.wearsic.app.ui.screens.AlbumDetailScreenKt$$InternalSyntheticLambda$2$d720bd79e605f5642a8de736d42b925cf6110145a78b9ef6fb3a20042851c116$0
+com.wearsic.app.ui.screens.AlbumDetailScreenKt$$InternalSyntheticLambda$2$d720bd79e605f5642a8de736d42b925cf6110145a78b9ef6fb3a20042851c116$1:
+    public final synthetic int f$8
+com.wearsic.app.ui.screens.AlbumDetailScreenKt$$InternalSyntheticLambda$4$3a9bbd25d4e9adbd3186d6621120c28f2195a85503387f44becb49a7d1e8a3ff$0:
+    public final synthetic int f$4
+com.wearsic.app.ui.screens.AlbumDetailScreenKt$AlbumDetailScreen$2$1$1$1:
+    public final void invoke(androidx.wear.compose.foundation.lazy.ScalingLazyListItemScope,androidx.compose.runtime.Composer,int)
+com.wearsic.app.ui.screens.AlbumDetailScreenKt$AlbumDetailScreen$2$1$1$2:
+    public final void invoke(androidx.wear.compose.foundation.lazy.ScalingLazyListItemScope,androidx.compose.runtime.Composer,int)
+com.wearsic.app.ui.screens.AlbumDetailScreenKt$AlbumDetailScreen$2$1$1$3:
+    public final void invoke(androidx.wear.compose.foundation.lazy.ScalingLazyListItemScope,androidx.compose.runtime.Composer,int)
+com.wearsic.app.ui.screens.AlbumDetailScreenKt$AlbumDetailScreen$2$1$1$4$1$1:
+    public final void invoke()
+com.wearsic.app.ui.screens.AlbumDetailScreenKt$AlbumDetailScreen$2$invoke$lambda$3$lambda$2$$inlined$items$default$2:
+    public final void invoke(androidx.wear.compose.foundation.lazy.ScalingLazyListItemScope,int,androidx.compose.runtime.Composer,int)
+com.wearsic.app.ui.screens.AlbumDetailScreenKt$AlbumDetailScreen$2:
+    public final void invoke(androidx.compose.foundation.layout.BoxScope,androidx.compose.foundation.layout.PaddingValues,androidx.compose.runtime.Composer,int)
+com.wearsic.app.ui.screens.AlbumDetailScreenKt:
+    public static synthetic kotlin.Unit $r8$lambda$8Wy4kzXfLhkDwR5Btyjyp4ZacY0()
+    public static final kotlin.Unit AlbumDetailScreen$lambda$1$lambda$0()
+com.wearsic.app.ui.screens.ComposableSingletons$AlbumDetailScreenKt$lambda-1$1:
+    public final void invoke(androidx.wear.compose.foundation.lazy.ScalingLazyListItemScope,androidx.compose.runtime.Composer,int)
+com.wearsic.app.ui.screens.ComposableSingletons$AlbumDetailScreenKt$lambda-2$1:
+    public final void invoke(androidx.compose.foundation.layout.BoxScope,androidx.compose.runtime.Composer,int)
+com.wearsic.app.ui.screens.ComposableSingletons$AlbumDetailScreenKt$lambda-3$1:
+    public final void invoke(androidx.wear.compose.foundation.lazy.ScalingLazyListItemScope,androidx.compose.runtime.Composer,int)
+com.wearsic.app.ui.screens.ComposableSingletons$AlbumDetailScreenKt:
+    public static final com.wearsic.app.ui.screens.ComposableSingletons$AlbumDetailScreenKt INSTANCE
+    public static kotlin.jvm.functions.Function3 getLambda-1$app_release()
+    public static kotlin.jvm.functions.Function3 getLambda-2$app_release()
+    public static kotlin.jvm.functions.Function3 getLambda-3$app_release()
 com.wearsic.app.ui.screens.ComposableSingletons$FavoritesPlaylistsScreenKt$lambda-1$1:
     public final void invoke(androidx.wear.compose.foundation.lazy.ScalingLazyListItemScope,androidx.compose.runtime.Composer,int)
 com.wearsic.app.ui.screens.ComposableSingletons$FavoritesPlaylistsScreenKt$lambda-2$1:
@@ -22663,6 +22735,8 @@ com.wearsic.app.ui.screens.ComposableSingletons$SearchScreenKt$lambda-5$1:
     public final void invoke(androidx.wear.compose.foundation.lazy.ScalingLazyListItemScope,androidx.compose.runtime.Composer,int)
 com.wearsic.app.ui.screens.ComposableSingletons$SearchScreenKt$lambda-6$1:
     public final void invoke(androidx.compose.foundation.layout.BoxScope,androidx.compose.runtime.Composer,int)
+com.wearsic.app.ui.screens.ComposableSingletons$SearchScreenKt$lambda-7$1:
+    public final void invoke(androidx.compose.foundation.layout.BoxScope,androidx.compose.runtime.Composer,int)
 com.wearsic.app.ui.screens.ComposableSingletons$SearchScreenKt:
     public static final com.wearsic.app.ui.screens.ComposableSingletons$SearchScreenKt INSTANCE
     public static kotlin.jvm.functions.Function3 getLambda-1$app_release()
@@ -22671,6 +22745,7 @@ com.wearsic.app.ui.screens.ComposableSingletons$SearchScreenKt:
     public static kotlin.jvm.functions.Function3 getLambda-4$app_release()
     public static kotlin.jvm.functions.Function3 getLambda-5$app_release()
     public static kotlin.jvm.functions.Function3 getLambda-6$app_release()
+    public static kotlin.jvm.functions.Function3 getLambda-7$app_release()
 com.wearsic.app.ui.screens.ComposableSingletons$SettingsScreenKt$lambda-1$1:
     public final void invoke(androidx.wear.compose.foundation.lazy.ScalingLazyListItemScope,androidx.compose.runtime.Composer,int)
 com.wearsic.app.ui.screens.ComposableSingletons$SettingsScreenKt$lambda-2$1:
@@ -22699,11 +22774,11 @@ com.wearsic.app.ui.screens.FavoritesPlaylistsScreenKt$FavoritesPlaylistsScreen$1
     public final void invoke(androidx.wear.compose.foundation.lazy.ScalingLazyListItemScope,int,androidx.compose.runtime.Composer,int)
 com.wearsic.app.ui.screens.FavoritesPlaylistsScreenKt$FavoritesPlaylistsScreen$1:
     public final void invoke(androidx.compose.foundation.layout.BoxScope,androidx.compose.foundation.layout.PaddingValues,androidx.compose.runtime.Composer,int)
-com.wearsic.app.ui.screens.NowPlayingScreenKt$$InternalSyntheticLambda$2$66cc6a41b764455f6032c320bfe190f4cc8d279481c99a5b65ffa676fd29c3d9$0:
-    public final synthetic int f$15
-com.wearsic.app.ui.screens.NowPlayingScreenKt$NowPlayingScreen$1$1$1$1$1$4$1:
+com.wearsic.app.ui.screens.NowPlayingScreenKt$$InternalSyntheticLambda$2$90bc211492c33dc46fdd6ed5bbc9a8aa6d90889f6652a96b41e025200a3d05ec$0:
+    public final synthetic int f$16
+com.wearsic.app.ui.screens.NowPlayingScreenKt$NowPlayingScreen$1$1$1$1$1$1$4$1:
     public final void invoke(androidx.compose.foundation.layout.BoxScope,androidx.compose.runtime.Composer,int)
-com.wearsic.app.ui.screens.NowPlayingScreenKt$NowPlayingScreen$1$1$1$1:
+com.wearsic.app.ui.screens.NowPlayingScreenKt$NowPlayingScreen$1$1$1$1$1:
     public final void invoke(androidx.wear.compose.foundation.lazy.ScalingLazyListItemScope,androidx.compose.runtime.Composer,int)
 com.wearsic.app.ui.screens.NowPlayingScreenKt$NowPlayingScreen$1:
     public final void invoke(androidx.compose.foundation.layout.BoxScope,androidx.compose.foundation.layout.PaddingValues,androidx.compose.runtime.Composer,int)
@@ -22713,8 +22788,10 @@ com.wearsic.app.ui.screens.QueueScreenKt$$InternalSyntheticLambda$2$c836b5c2ace5
     public final synthetic int f$8
 com.wearsic.app.ui.screens.QueueScreenKt$$InternalSyntheticLambda$4$a67404dbcc0aa8e017fce1016983f8eaa966d6e38e499cbc9ca9d80368e6afca$0:
     public final synthetic int f$3
-com.wearsic.app.ui.screens.QueueScreenKt$$InternalSyntheticLambda$5$716e6dbb8988c9fe568bc6c38711df945de79d221107e9f6f4be5efb1fc66fa1$0:
+com.wearsic.app.ui.screens.QueueScreenKt$$InternalSyntheticLambda$5$716e6dbb8988c9fe568bc6c38711df945de79d221107e9f6f4be5efb1fc66fa1$1:
     public final synthetic int f$7
+com.wearsic.app.ui.screens.QueueScreenKt$QueueItem$2:
+    public final void invoke(androidx.compose.foundation.layout.BoxScope,boolean,androidx.compose.runtime.Composer,int)
 com.wearsic.app.ui.screens.QueueScreenKt$QueueScreen$1$1$1$1:
     public final void invoke(androidx.wear.compose.foundation.lazy.ScalingLazyListItemScope,androidx.compose.runtime.Composer,int)
 com.wearsic.app.ui.screens.QueueScreenKt$QueueScreen$1$1$1$2:
@@ -22725,64 +22802,121 @@ com.wearsic.app.ui.screens.QueueScreenKt$QueueScreen$1$1$1$4:
     public final void invoke(androidx.wear.compose.foundation.lazy.ScalingLazyListItemScope,androidx.compose.runtime.Composer,int)
 com.wearsic.app.ui.screens.QueueScreenKt$QueueScreen$1:
     public final void invoke(androidx.compose.foundation.layout.BoxScope,androidx.compose.foundation.layout.PaddingValues,androidx.compose.runtime.Composer,int)
-com.wearsic.app.ui.screens.SearchScreenKt$$InternalSyntheticLambda$2$7be36887f403743c3b4afde7974129605adc3459d08eb7524534bd13fc467a88$0:
-    public final synthetic int f$9
-com.wearsic.app.ui.screens.SearchScreenKt$$InternalSyntheticLambda$5$335c8c83c3c3bcfc516b5ef7aa4dc8510ca8e599143906418c0844dacf79c5c0$0:
+com.wearsic.app.ui.screens.SearchScreenKt$$InternalSyntheticLambda$2$6cbcdd2dcee0355b6b131940a4b17551fbd262800d29657652b53c60545bc6a8$0
+com.wearsic.app.ui.screens.SearchScreenKt$$InternalSyntheticLambda$2$6cbcdd2dcee0355b6b131940a4b17551fbd262800d29657652b53c60545bc6a8$1
+com.wearsic.app.ui.screens.SearchScreenKt$$InternalSyntheticLambda$2$6cbcdd2dcee0355b6b131940a4b17551fbd262800d29657652b53c60545bc6a8$2
+com.wearsic.app.ui.screens.SearchScreenKt$$InternalSyntheticLambda$2$6cbcdd2dcee0355b6b131940a4b17551fbd262800d29657652b53c60545bc6a8$3:
+    public final synthetic int f$15
+com.wearsic.app.ui.screens.SearchScreenKt$$InternalSyntheticLambda$5$0172df47d1402851f40d774606e56674a1fb9f86cbb10148bdb92162047918f3$0
+com.wearsic.app.ui.screens.SearchScreenKt$$InternalSyntheticLambda$5$0172df47d1402851f40d774606e56674a1fb9f86cbb10148bdb92162047918f3$1:
+    public final synthetic int f$6
+com.wearsic.app.ui.screens.SearchScreenKt$$InternalSyntheticLambda$5$5dc2cb509c9741bb5020cb8238e3032d705bf8ee4b34104097b9d2c3d7282be7$0:
+    public final synthetic int f$4
+com.wearsic.app.ui.screens.SearchScreenKt$$InternalSyntheticLambda$5$68c3ba8b6d2098022cedc16df7874c541dccc862749e4c14514da66c05aeb3d9$0:
     public final synthetic int f$5
 com.wearsic.app.ui.screens.SearchScreenKt$$InternalSyntheticLambda$5$f5aeb7e0bbb40f620b976bfbf97f41052d9d57e90bc02c0a2cc51ee82d2330a9$0:
     public final synthetic int f$4
-com.wearsic.app.ui.screens.SearchScreenKt$SearchScreen$1$1$1$1$1$1:
-    public final void invoke(kotlin.jvm.functions.Function2,androidx.compose.runtime.Composer,int)
-com.wearsic.app.ui.screens.SearchScreenKt$SearchScreen$1$1$1$1:
-    public final void invoke(androidx.wear.compose.foundation.lazy.ScalingLazyListItemScope,androidx.compose.runtime.Composer,int)
-com.wearsic.app.ui.screens.SearchScreenKt$SearchScreen$1$1$1$2:
-    public final void invoke(androidx.wear.compose.foundation.lazy.ScalingLazyListItemScope,int,androidx.compose.runtime.Composer,int)
-com.wearsic.app.ui.screens.SearchScreenKt$SearchScreen$1$1$1$3:
-    public final void invoke(androidx.wear.compose.foundation.lazy.ScalingLazyListItemScope,androidx.compose.runtime.Composer,int)
-com.wearsic.app.ui.screens.SearchScreenKt$SearchScreen$1$1$1$4:
-    public final void invoke(androidx.wear.compose.foundation.lazy.ScalingLazyListItemScope,int,androidx.compose.runtime.Composer,int)
-com.wearsic.app.ui.screens.SearchScreenKt$SearchScreen$1:
-    public final void invoke(androidx.compose.foundation.layout.BoxScope,androidx.compose.foundation.layout.PaddingValues,androidx.compose.runtime.Composer,int)
-com.wearsic.app.ui.screens.SettingsScreenKt$$InternalSyntheticLambda$2$6e9e08b816ad5fc01a9061f85d4727f1402728628bfdd7c4804092b46849bde5$0
-com.wearsic.app.ui.screens.SettingsScreenKt$$InternalSyntheticLambda$2$6e9e08b816ad5fc01a9061f85d4727f1402728628bfdd7c4804092b46849bde5$1:
-    public final synthetic int f$9
-com.wearsic.app.ui.screens.SettingsScreenKt$SettingsScreen$2$1$1$1$1$2:
-    public final void invoke(kotlin.jvm.functions.Function2,androidx.compose.runtime.Composer,int)
-com.wearsic.app.ui.screens.SettingsScreenKt$SettingsScreen$2$1$1$1:
-    public final void invoke(androidx.wear.compose.foundation.lazy.ScalingLazyListItemScope,androidx.compose.runtime.Composer,int)
-com.wearsic.app.ui.screens.SettingsScreenKt$SettingsScreen$2$1$1$2$1:
-    public final void invoke(androidx.compose.foundation.layout.RowScope,androidx.compose.runtime.Composer,int)
-com.wearsic.app.ui.screens.SettingsScreenKt$SettingsScreen$2$1$1$2:
-    public final void invoke(androidx.wear.compose.foundation.lazy.ScalingLazyListItemScope,androidx.compose.runtime.Composer,int)
-com.wearsic.app.ui.screens.SettingsScreenKt$SettingsScreen$2$1$1$3:
-    public final void invoke(androidx.wear.compose.foundation.lazy.ScalingLazyListItemScope,androidx.compose.runtime.Composer,int)
-com.wearsic.app.ui.screens.SettingsScreenKt$SettingsScreen$2$1$1$4$1$2:
+com.wearsic.app.ui.screens.SearchScreenKt$SearchModeButton$1:
     public final void invoke(androidx.compose.foundation.layout.BoxScope,androidx.compose.runtime.Composer,int)
-com.wearsic.app.ui.screens.SettingsScreenKt$SettingsScreen$2$1$1$4$1$3:
+com.wearsic.app.ui.screens.SearchScreenKt$SearchScreen$4$1$1$1$1$1:
     public final void invoke(kotlin.jvm.functions.Function2,androidx.compose.runtime.Composer,int)
-com.wearsic.app.ui.screens.SettingsScreenKt$SettingsScreen$2$1$1$4:
+com.wearsic.app.ui.screens.SearchScreenKt$SearchScreen$4$1$1$1:
     public final void invoke(androidx.wear.compose.foundation.lazy.ScalingLazyListItemScope,androidx.compose.runtime.Composer,int)
-com.wearsic.app.ui.screens.SettingsScreenKt$SettingsScreen$2:
+com.wearsic.app.ui.screens.SearchScreenKt$SearchScreen$4$1$1$2:
+    public final void invoke(androidx.wear.compose.foundation.lazy.ScalingLazyListItemScope,androidx.compose.runtime.Composer,int)
+com.wearsic.app.ui.screens.SearchScreenKt$SearchScreen$4$1$1$3:
+    public final void invoke(androidx.wear.compose.foundation.lazy.ScalingLazyListItemScope,int,androidx.compose.runtime.Composer,int)
+com.wearsic.app.ui.screens.SearchScreenKt$SearchScreen$4$1$1$4:
+    public final void invoke(androidx.wear.compose.foundation.lazy.ScalingLazyListItemScope,androidx.compose.runtime.Composer,int)
+com.wearsic.app.ui.screens.SearchScreenKt$SearchScreen$4$1$1$5:
+    public final void invoke(androidx.wear.compose.foundation.lazy.ScalingLazyListItemScope,int,androidx.compose.runtime.Composer,int)
+com.wearsic.app.ui.screens.SearchScreenKt$SearchScreen$4$1$1$6:
+    public final void invoke(androidx.wear.compose.foundation.lazy.ScalingLazyListItemScope,androidx.compose.runtime.Composer,int)
+com.wearsic.app.ui.screens.SearchScreenKt$SearchScreen$4$1$1$7:
+    public final void invoke(androidx.wear.compose.foundation.lazy.ScalingLazyListItemScope,int,androidx.compose.runtime.Composer,int)
+com.wearsic.app.ui.screens.SearchScreenKt$SearchScreen$4:
+    public final void invoke(androidx.compose.foundation.layout.BoxScope,androidx.compose.foundation.layout.PaddingValues,androidx.compose.runtime.Composer,int)
+com.wearsic.app.ui.screens.SearchScreenKt:
+    public static synthetic kotlin.Unit $r8$lambda$-up01k_SrMJPBKCaXqseaT3fsa0()
+    public static synthetic kotlin.Unit $r8$lambda$PZf85UW3NXMFbCHj7CIXqQ3dMRg()
+    public static final kotlin.Unit SearchResultItem$lambda$15$lambda$14()
+    public static final kotlin.Unit SearchScreen$lambda$3$lambda$2()
+com.wearsic.app.ui.screens.SettingsScreenKt$$InternalSyntheticLambda$2$728c0199d3a1ab5e6ef667d593797216d13f120d333711add34c0da5ef667607$0
+com.wearsic.app.ui.screens.SettingsScreenKt$$InternalSyntheticLambda$2$728c0199d3a1ab5e6ef667d593797216d13f120d333711add34c0da5ef667607$1
+com.wearsic.app.ui.screens.SettingsScreenKt$$InternalSyntheticLambda$2$728c0199d3a1ab5e6ef667d593797216d13f120d333711add34c0da5ef667607$2:
+    public final synthetic int f$11
+com.wearsic.app.ui.screens.SettingsScreenKt$SettingsScreen$3$1$1$1$1$2:
+    public final void invoke(kotlin.jvm.functions.Function2,androidx.compose.runtime.Composer,int)
+com.wearsic.app.ui.screens.SettingsScreenKt$SettingsScreen$3$1$1$1:
+    public final void invoke(androidx.wear.compose.foundation.lazy.ScalingLazyListItemScope,androidx.compose.runtime.Composer,int)
+com.wearsic.app.ui.screens.SettingsScreenKt$SettingsScreen$3$1$1$2$1:
+    public final void invoke(androidx.compose.foundation.layout.RowScope,androidx.compose.runtime.Composer,int)
+com.wearsic.app.ui.screens.SettingsScreenKt$SettingsScreen$3$1$1$2:
+    public final void invoke(androidx.wear.compose.foundation.lazy.ScalingLazyListItemScope,androidx.compose.runtime.Composer,int)
+com.wearsic.app.ui.screens.SettingsScreenKt$SettingsScreen$3$1$1$3:
+    public final void invoke(androidx.wear.compose.foundation.lazy.ScalingLazyListItemScope,androidx.compose.runtime.Composer,int)
+com.wearsic.app.ui.screens.SettingsScreenKt$SettingsScreen$3$1$1$4$1$2:
+    public final void invoke(androidx.compose.foundation.layout.BoxScope,androidx.compose.runtime.Composer,int)
+com.wearsic.app.ui.screens.SettingsScreenKt$SettingsScreen$3$1$1$4$1$3:
+    public final void invoke(kotlin.jvm.functions.Function2,androidx.compose.runtime.Composer,int)
+com.wearsic.app.ui.screens.SettingsScreenKt$SettingsScreen$3$1$1$4:
+    public final void invoke(androidx.wear.compose.foundation.lazy.ScalingLazyListItemScope,androidx.compose.runtime.Composer,int)
+com.wearsic.app.ui.screens.SettingsScreenKt$SettingsScreen$3$1$1$5$1$2:
+    public final void invoke(androidx.compose.foundation.layout.BoxScope,androidx.compose.runtime.Composer,int)
+com.wearsic.app.ui.screens.SettingsScreenKt$SettingsScreen$3$1$1$5$1$3:
+    public final void invoke(kotlin.jvm.functions.Function2,androidx.compose.runtime.Composer,int)
+com.wearsic.app.ui.screens.SettingsScreenKt$SettingsScreen$3$1$1$5:
+    public final void invoke(androidx.wear.compose.foundation.lazy.ScalingLazyListItemScope,androidx.compose.runtime.Composer,int)
+com.wearsic.app.ui.screens.SettingsScreenKt$SettingsScreen$3:
     public final void invoke(androidx.compose.foundation.layout.BoxScope,androidx.compose.foundation.layout.PaddingValues,androidx.compose.runtime.Composer,int)
 com.wearsic.app.ui.screens.SettingsScreenKt:
-    public static final boolean access$SettingsScreen$lambda$6(androidx.compose.runtime.MutableState)
+    public static final boolean access$SettingsScreen$lambda$11(androidx.compose.runtime.MutableState)
+    public static final boolean access$SettingsScreen$lambda$8(androidx.compose.runtime.MutableState)
 com.wearsic.app.ui.viewmodel.MainViewModel$1$1:
-    public final java.lang.Object emit(java.lang.String,kotlin.coroutines.Continuation)
+    public int label
+    public final java.lang.Object invoke$2()
 com.wearsic.app.ui.viewmodel.MainViewModel$1:
     public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
 com.wearsic.app.ui.viewmodel.MainViewModel$2$1:
     public final java.lang.Object emit(java.lang.String,kotlin.coroutines.Continuation)
 com.wearsic.app.ui.viewmodel.MainViewModel$2:
     public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
-com.wearsic.app.ui.viewmodel.MainViewModel$3$1$1$1:
-    public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
-com.wearsic.app.ui.viewmodel.MainViewModel$3$1$1:
-    public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
 com.wearsic.app.ui.viewmodel.MainViewModel$3$1:
-    public static java.lang.Object invoke$2()
+    public int label
+    public static java.lang.Object invoke$3()
+com.wearsic.app.ui.viewmodel.MainViewModel$3$2:
+    public final java.lang.Object invoke(kotlin.Pair,kotlin.coroutines.Continuation)
 com.wearsic.app.ui.viewmodel.MainViewModel$3:
     public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
+com.wearsic.app.ui.viewmodel.MainViewModel$4$1:
+    public final java.lang.Object emit(java.lang.String,kotlin.coroutines.Continuation)
+com.wearsic.app.ui.viewmodel.MainViewModel$4:
+    public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
+com.wearsic.app.ui.viewmodel.MainViewModel$5$1:
+    public final java.lang.Object emit(float,kotlin.coroutines.Continuation)
+com.wearsic.app.ui.viewmodel.MainViewModel$5:
+    public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
+com.wearsic.app.ui.viewmodel.MainViewModel$6$1:
+    public final java.lang.Object emit(boolean,kotlin.coroutines.Continuation)
+com.wearsic.app.ui.viewmodel.MainViewModel$6:
+    public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
+com.wearsic.app.ui.viewmodel.MainViewModel$7$1:
+    public final java.lang.Object emit(kotlin.Unit,kotlin.coroutines.Continuation)
+com.wearsic.app.ui.viewmodel.MainViewModel$7:
+    public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
+com.wearsic.app.ui.viewmodel.MainViewModel$8$1$1$1:
+    public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
+com.wearsic.app.ui.viewmodel.MainViewModel$8$1$1:
+    public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
+com.wearsic.app.ui.viewmodel.MainViewModel$8$1:
+    public final java.lang.Object invoke$2()
+com.wearsic.app.ui.viewmodel.MainViewModel$8:
+    public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
 com.wearsic.app.ui.viewmodel.MainViewModel$addToFavorites$1:
+    public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
+com.wearsic.app.ui.viewmodel.MainViewModel$autoplayRelated$1:
+    public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
+com.wearsic.app.ui.viewmodel.MainViewModel$loadAlbum$1:
     public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
 com.wearsic.app.ui.viewmodel.MainViewModel$loadFavorites$1:
     public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
@@ -22796,6 +22930,10 @@ com.wearsic.app.ui.viewmodel.MainViewModel$saveApiKey$1:
     public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
 com.wearsic.app.ui.viewmodel.MainViewModel$saveServerUrl$1:
     public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
+com.wearsic.app.ui.viewmodel.MainViewModel$saveYoutubeCookie$1:
+    public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
+com.wearsic.app.ui.viewmodel.MainViewModel$setAlbumsMode$1:
+    public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
 com.wearsic.app.ui.viewmodel.MainViewModel$testConnection$1:
     public final java.lang.Object invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation)
 com.wearsic.app.ui.viewmodel.MainViewModel$toggleFavorite$1:
@@ -22804,37 +22942,49 @@ com.wearsic.app.ui.viewmodel.MainViewModel:
     public static final int $stable
     static void <clinit>()
     public static void addToFavorites()
+    public static void addToQueue()
+    public static void autoplayRelated()
     public static void clearQueue()
-    public static kotlinx.coroutines.flow.StateFlow getApiKey()
-    public static kotlinx.coroutines.flow.StateFlow getCurrentIndex()
-    public static kotlinx.coroutines.flow.StateFlow getCurrentTrack()
-    public static kotlinx.coroutines.flow.StateFlow getFavorites()
-    public static kotlinx.coroutines.flow.StateFlow getPlaylists()
-    public static kotlinx.coroutines.flow.StateFlow getProgress()
-    public static kotlinx.coroutines.flow.StateFlow getQueue()
-    public static kotlinx.coroutines.flow.StateFlow getRepeatEnabled()
-    public static kotlinx.coroutines.flow.StateFlow getSearchQuery()
-    public static kotlinx.coroutines.flow.StateFlow getSearchResults()
-    public static kotlinx.coroutines.flow.StateFlow getServerUrl()
-    public static kotlinx.coroutines.flow.StateFlow getShuffleEnabled()
-    public static kotlinx.coroutines.flow.StateFlow getSuggestions()
-    public static kotlinx.coroutines.flow.StateFlow isConnected()
-    public static boolean isCurrentTrackFavorite()
-    public static kotlinx.coroutines.flow.StateFlow isLoading()
-    public static kotlinx.coroutines.flow.StateFlow isPlaying()
-    public static kotlinx.coroutines.flow.StateFlow isSearching()
-    public static kotlinx.coroutines.flow.StateFlow isTestingConnection()
+    public final kotlinx.coroutines.flow.StateFlow getAlbumError()
+    public final kotlinx.coroutines.flow.StateFlow getAlbumSearchResults()
+    public final kotlinx.coroutines.flow.StateFlow getAlbumTracks()
+    public final kotlinx.coroutines.flow.StateFlow getAlbumsMode()
+    public final kotlinx.coroutines.flow.StateFlow getApiKey()
+    public final kotlinx.coroutines.flow.StateFlow getCurrentIndex()
+    public final kotlinx.coroutines.flow.StateFlow getCurrentTrack()
+    public final kotlinx.coroutines.flow.StateFlow getError()
+    public final kotlinx.coroutines.flow.StateFlow getFavorites()
+    public final kotlinx.coroutines.flow.StateFlow getPlaylists()
+    public final kotlinx.coroutines.flow.StateFlow getProgress()
+    public final kotlinx.coroutines.flow.StateFlow getQueue()
+    public final kotlinx.coroutines.flow.StateFlow getRepeatEnabled()
+    public final kotlinx.coroutines.flow.StateFlow getSearchQuery()
+    public final kotlinx.coroutines.flow.StateFlow getSearchResults()
+    public final kotlinx.coroutines.flow.StateFlow getSelectedAlbum()
+    public final kotlinx.coroutines.flow.StateFlow getServerUrl()
+    public final kotlinx.coroutines.flow.StateFlow getShuffleEnabled()
+    public final kotlinx.coroutines.flow.StateFlow getSuggestions()
+    public final kotlinx.coroutines.flow.StateFlow getYoutubeCookie()
+    public final kotlinx.coroutines.flow.StateFlow isConnected()
+    public final boolean isCurrentTrackFavorite()
+    public final kotlinx.coroutines.flow.StateFlow isLoading()
+    public final kotlinx.coroutines.flow.StateFlow isLoadingAlbum()
+    public final kotlinx.coroutines.flow.StateFlow isPlaying()
+    public final kotlinx.coroutines.flow.StateFlow isSearching()
+    public final kotlinx.coroutines.flow.StateFlow isTestingConnection()
     public static void loadFavorites()
     public static void loadPlaylists()
     public static java.lang.Object loadSuggestions()
+    public static void onTrackEnded()
     public static java.lang.Object performSearch()
     public static void playPlaylist()
-    public static void playTracks()
+    public static void playTrack()
     public static void removeFromFavorites()
     public static void removeFromQueue()
     public static void saveApiKey()
     public static void saveServerUrl()
-    public static void skipToNext()
+    public static void saveYoutubeCookie()
+    public static void setAlbumsMode()
     public static void skipToPrevious()
     public static void toggleFavorite()
     public static void togglePlayPause()

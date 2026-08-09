@@ -33,12 +33,12 @@
             priority="0"/>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="65"
+            line="66"
             column="20"
-            startOffset="1455"
-            endLine="65"
+            startOffset="1507"
+            endLine="66"
             endColumn="51"
-            endOffset="1486"/>
+            endOffset="1538"/>
     </incident>
 
     <incident
@@ -53,12 +53,12 @@
             priority="0"/>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="66"
+            line="67"
             column="20"
-            startOffset="1507"
-            endLine="66"
+            startOffset="1559"
+            endLine="67"
             endColumn="68"
-            endOffset="1555"/>
+            endOffset="1607"/>
     </incident>
 
     <incident
@@ -73,12 +73,12 @@
             priority="0"/>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="67"
+            line="68"
             column="20"
-            startOffset="1576"
-            endLine="67"
+            startOffset="1628"
+            endLine="68"
             endColumn="62"
-            endOffset="1618"/>
+            endOffset="1670"/>
     </incident>
 
     <incident
@@ -93,12 +93,12 @@
             priority="0"/>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="70"
+            line="71"
             column="20"
-            startOffset="1659"
-            endLine="70"
+            startOffset="1711"
+            endLine="71"
             endColumn="71"
-            endOffset="1710"/>
+            endOffset="1762"/>
     </incident>
 
     <incident
@@ -113,12 +113,12 @@
             priority="0"/>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="76"
+            line="77"
             column="20"
-            startOffset="1965"
-            endLine="76"
+            startOffset="2017"
+            endLine="77"
             endColumn="67"
-            endOffset="2012"/>
+            endOffset="2064"/>
     </incident>
 
     <incident
@@ -133,12 +133,12 @@
             priority="0"/>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="77"
+            line="78"
             column="20"
-            startOffset="2033"
-            endLine="77"
+            startOffset="2085"
+            endLine="78"
             endColumn="68"
-            endOffset="2081"/>
+            endOffset="2133"/>
     </incident>
 
     <incident
@@ -153,12 +153,12 @@
             priority="0"/>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="78"
+            line="79"
             column="20"
-            startOffset="2102"
-            endLine="78"
+            startOffset="2154"
+            endLine="79"
             endColumn="68"
-            endOffset="2150"/>
+            endOffset="2202"/>
     </incident>
 
     <incident
@@ -173,12 +173,12 @@
             priority="0"/>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="81"
+            line="82"
             column="20"
-            startOffset="2203"
-            endLine="81"
+            startOffset="2255"
+            endLine="82"
             endColumn="60"
-            endOffset="2243"/>
+            endOffset="2295"/>
     </incident>
 
     <incident
@@ -193,12 +193,12 @@
             priority="0"/>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="82"
+            line="83"
             column="20"
-            startOffset="2264"
-            endLine="82"
+            startOffset="2316"
+            endLine="83"
             endColumn="58"
-            endOffset="2302"/>
+            endOffset="2354"/>
     </incident>
 
     <incident
@@ -213,12 +213,12 @@
             priority="0"/>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="91"
+            line="93"
             column="20"
-            startOffset="2683"
-            endLine="91"
+            startOffset="2793"
+            endLine="93"
             endColumn="68"
-            endOffset="2731"/>
+            endOffset="2841"/>
     </incident>
 
     <incident
@@ -233,12 +233,12 @@
             priority="0"/>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="94"
+            line="96"
             column="20"
-            startOffset="2778"
-            endLine="94"
+            startOffset="2888"
+            endLine="96"
             endColumn="51"
-            endOffset="2809"/>
+            endOffset="2919"/>
     </incident>
 
     <incident
@@ -253,12 +253,12 @@
             priority="0"/>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="97"
+            line="99"
             column="20"
-            startOffset="2863"
-            endLine="97"
+            startOffset="2973"
+            endLine="99"
             endColumn="76"
-            endOffset="2919"/>
+            endOffset="3029"/>
     </incident>
 
     <incident
@@ -273,12 +273,12 @@
             priority="0"/>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="102"
+            line="104"
             column="24"
-            startOffset="3083"
-            endLine="102"
+            startOffset="3193"
+            endLine="104"
             endColumn="50"
-            endOffset="3109"/>
+            endOffset="3219"/>
     </incident>
 
     <incident
@@ -293,12 +293,12 @@
             priority="0"/>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="103"
+            line="105"
             column="24"
-            startOffset="3134"
-            endLine="103"
+            startOffset="3244"
+            endLine="105"
             endColumn="52"
-            endOffset="3162"/>
+            endOffset="3272"/>
     </incident>
 
     <incident
@@ -313,12 +313,12 @@
             priority="0"/>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="104"
+            line="106"
             column="24"
-            startOffset="3187"
-            endLine="104"
+            startOffset="3297"
+            endLine="106"
             endColumn="55"
-            endOffset="3218"/>
+            endOffset="3328"/>
     </incident>
 
     <incident
@@ -333,12 +333,12 @@
             priority="0"/>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="105"
+            line="107"
             column="24"
-            startOffset="3243"
-            endLine="105"
+            startOffset="3353"
+            endLine="107"
             endColumn="75"
-            endOffset="3294"/>
+            endOffset="3404"/>
     </incident>
 
     <incident
@@ -682,6 +682,48 @@
     </incident>
 
     <incident
+        id="ModifierParameter"
+        severity="warning"
+        message="Modifier parameter should be the first optional parameter">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/wearsic/app/ui/screens/AlbumDetailScreen.kt"
+            line="35"
+            column="5"
+            startOffset="1370"
+            endLine="35"
+            endColumn="13"
+            endOffset="1378"/>
+    </incident>
+
+    <incident
+        id="ModifierParameter"
+        severity="warning"
+        message="Modifier parameter should be the first optional parameter">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/wearsic/app/ui/screens/NowPlayingScreen.kt"
+            line="66"
+            column="5"
+            startOffset="2513"
+            endLine="66"
+            endColumn="13"
+            endOffset="2521"/>
+    </incident>
+
+    <incident
+        id="ModifierParameter"
+        severity="warning"
+        message="Modifier parameter should be the first optional parameter">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/wearsic/app/ui/screens/SearchScreen.kt"
+            line="365"
+            column="5"
+            startOffset="14226"
+            endLine="365"
+            endColumn="13"
+            endOffset="14234"/>
+    </incident>
+
+    <incident
         id="ExportedService"
         severity="warning"
         message="Exported service does not require permission">
@@ -701,12 +743,42 @@
         </fix-alternatives>
         <location
             file="${:app*debug*MAIN*sourceProvider*0*manifest*0}"
-            line="44"
+            line="43"
             column="10"
-            startOffset="1741"
-            endLine="44"
+            startOffset="1664"
+            endLine="43"
             endColumn="17"
-            endOffset="1748"/>
+            endOffset="1671"/>
+    </incident>
+
+    <incident
+        id="ObsoleteSdkInt"
+        severity="warning"
+        message="Unnecessary; SDK_INT is always >= 30">
+        <fix-data conditional="true"/>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/wearsic/app/service/MediaPlaybackService.kt"
+            line="143"
+            column="21"
+            startOffset="6206"
+            endLine="143"
+            endColumn="67"
+            endOffset="6252"/>
+    </incident>
+
+    <incident
+        id="ObsoleteSdkInt"
+        severity="warning"
+        message="Unnecessary; SDK_INT is always >= 30">
+        <fix-data conditional="true"/>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/wearsic/app/service/MediaPlaybackService.kt"
+            line="232"
+            column="13"
+            startOffset="9476"
+            endLine="232"
+            endColumn="59"
+            endOffset="9522"/>
     </incident>
 
     <incident
@@ -738,15 +810,15 @@
         message="Use version catalog instead (androidx.core:core-ktx is already available as `androidx-core-ktx`, but using version 1.15.0 instead)">
         <fix-alternatives>
             <fix-composite
-                description="Replace with new library catalog declaration for androidx-core-core-ktx-v1131"
+                description="Replace with new library catalog declaration for androidx-core-ktx-v1131"
                 robot="true"
                 independent="true">
                 <fix-replace
-                    description="Replace with androidxCoreKtxVersion = &quot;1.13.1&quot;..."
+                    description="Replace with coreKtxVersion = &quot;1.13.1&quot;..."
                     robot="true"
                     independent="true"
                     oldString="_lint_insert_begin_"
-                    replacement="androidxCoreKtxVersion = &quot;1.13.1&quot;&#xA;"
+                    replacement="coreKtxVersion = &quot;1.13.1&quot;&#xA;"
                     priority="0">
                     <range
                         file="../gradle/libs.versions.toml"
@@ -754,27 +826,27 @@
                         endOffset="25"/>
                 </fix-replace>
                 <fix-replace
-                    description="Replace with androidx-core-core-ktx-v1131 = { module = &quot;androidx.core:core-ktx&quot;, version.ref = &quot;androidxCoreKtxVersion&quot; }..."
+                    description="Replace with androidx-core-ktx-v1131 = { module = &quot;androidx.core:core-ktx&quot;, version.ref = &quot;coreKtxVersion&quot; }..."
                     robot="true"
                     independent="true"
                     oldString="_lint_insert_begin_"
-                    replacement="androidx-core-core-ktx-v1131 = { module = &quot;androidx.core:core-ktx&quot;, version.ref = &quot;androidxCoreKtxVersion&quot; }&#xA;"
+                    replacement="androidx-core-ktx-v1131 = { module = &quot;androidx.core:core-ktx&quot;, version.ref = &quot;coreKtxVersion&quot; }&#xA;"
                     priority="0">
                     <range
                         file="../gradle/libs.versions.toml"
-                        startOffset="381"
-                        endOffset="381"/>
+                        startOffset="473"
+                        endOffset="473"/>
                 </fix-replace>
                 <fix-replace
-                    description="Replace with libs.androidx.core.core.ktx.v1131"
+                    description="Replace with libs.androidx.core.ktx.v1131"
                     robot="true"
                     independent="true"
-                    replacement="libs.androidx.core.core.ktx.v1131"
+                    replacement="libs.androidx.core.ktx.v1131"
                     priority="0">
                     <range
                         file="${:app*projectDir}/build.gradle.kts"
-                        startOffset="1455"
-                        endOffset="1486"/>
+                        startOffset="1507"
+                        endOffset="1538"/>
                 </fix-replace>
             </fix-composite>
             <fix-replace
@@ -783,73 +855,8 @@
                 priority="0">
                 <range
                     file="${:app*projectDir}/build.gradle.kts"
-                    startOffset="1455"
-                    endOffset="1486"/>
-            </fix-replace>
-        </fix-alternatives>
-        <location
-            file="${:app*projectDir}/build.gradle.kts"
-            line="65"
-            column="20"
-            startOffset="1455"
-            endLine="65"
-            endColumn="51"
-            endOffset="1486"/>
-    </incident>
-
-    <incident
-        id="UseTomlInstead"
-        severity="warning"
-        message="Use version catalog instead (androidx.lifecycle:lifecycle-runtime-ktx is already available as `androidx-lifecycle-runtime-ktx`, but using version 2.8.7 instead)">
-        <fix-alternatives>
-            <fix-composite
-                description="Replace with new library catalog declaration for androidx-lifecycle-lifecycle-runtime-ktx-v284"
-                robot="true"
-                independent="true">
-                <fix-replace
-                    description="Replace with androidxLifecycleRuntimeKtxVersion = &quot;2.8.4&quot;..."
-                    robot="true"
-                    independent="true"
-                    oldString="_lint_insert_begin_"
-                    replacement="androidxLifecycleRuntimeKtxVersion = &quot;2.8.4&quot;&#xA;"
-                    priority="0">
-                    <range
-                        file="../gradle/libs.versions.toml"
-                        startOffset="25"
-                        endOffset="25"/>
-                </fix-replace>
-                <fix-replace
-                    description="Replace with androidx-lifecycle-lifecycle-runtime-ktx-v284 = { module = &quot;androidx.lifecycle:lifecycle-runtime-ktx&quot;, version.ref = &quot;androidxLifecycleRuntimeKtxVersion&quot; }..."
-                    robot="true"
-                    independent="true"
-                    oldString="_lint_insert_begin_"
-                    replacement="androidx-lifecycle-lifecycle-runtime-ktx-v284 = { module = &quot;androidx.lifecycle:lifecycle-runtime-ktx&quot;, version.ref = &quot;androidxLifecycleRuntimeKtxVersion&quot; }&#xA;"
-                    priority="0">
-                    <range
-                        file="../gradle/libs.versions.toml"
-                        startOffset="473"
-                        endOffset="473"/>
-                </fix-replace>
-                <fix-replace
-                    description="Replace with libs.androidx.lifecycle.lifecycle.runtime.ktx.v284"
-                    robot="true"
-                    independent="true"
-                    replacement="libs.androidx.lifecycle.lifecycle.runtime.ktx.v284"
-                    priority="0">
-                    <range
-                        file="${:app*projectDir}/build.gradle.kts"
-                        startOffset="1507"
-                        endOffset="1555"/>
-                </fix-replace>
-            </fix-composite>
-            <fix-replace
-                description="Replace with existing version catalog reference `androidx-lifecycle-runtime-ktx` (version 2.8.7)"
-                replacement="libs.androidx.lifecycle.runtime.ktx"
-                priority="0">
-                <range
-                    file="${:app*projectDir}/build.gradle.kts"
                     startOffset="1507"
-                    endOffset="1555"/>
+                    endOffset="1538"/>
             </fix-replace>
         </fix-alternatives>
         <location
@@ -858,8 +865,73 @@
             column="20"
             startOffset="1507"
             endLine="66"
+            endColumn="51"
+            endOffset="1538"/>
+    </incident>
+
+    <incident
+        id="UseTomlInstead"
+        severity="warning"
+        message="Use version catalog instead (androidx.lifecycle:lifecycle-runtime-ktx is already available as `androidx-lifecycle-runtime-ktx`, but using version 2.8.7 instead)">
+        <fix-alternatives>
+            <fix-composite
+                description="Replace with new library catalog declaration for androidx-lifecycle-runtime-ktx-v284"
+                robot="true"
+                independent="true">
+                <fix-replace
+                    description="Replace with lifecycleRuntimeKtxVersion = &quot;2.8.4&quot;..."
+                    robot="true"
+                    independent="true"
+                    oldString="_lint_insert_begin_"
+                    replacement="lifecycleRuntimeKtxVersion = &quot;2.8.4&quot;&#xA;"
+                    priority="0">
+                    <range
+                        file="../gradle/libs.versions.toml"
+                        startOffset="144"
+                        endOffset="144"/>
+                </fix-replace>
+                <fix-replace
+                    description="Replace with androidx-lifecycle-runtime-ktx-v284 = { module = &quot;androidx.lifecycle:lifecycle-runtime-ktx&quot;, version.ref = &quot;lifecycleRuntimeKtxVersion&quot; }..."
+                    robot="true"
+                    independent="true"
+                    oldString="_lint_insert_begin_"
+                    replacement="androidx-lifecycle-runtime-ktx-v284 = { module = &quot;androidx.lifecycle:lifecycle-runtime-ktx&quot;, version.ref = &quot;lifecycleRuntimeKtxVersion&quot; }&#xA;"
+                    priority="0">
+                    <range
+                        file="../gradle/libs.versions.toml"
+                        startOffset="832"
+                        endOffset="832"/>
+                </fix-replace>
+                <fix-replace
+                    description="Replace with libs.androidx.lifecycle.runtime.ktx.v284"
+                    robot="true"
+                    independent="true"
+                    replacement="libs.androidx.lifecycle.runtime.ktx.v284"
+                    priority="0">
+                    <range
+                        file="${:app*projectDir}/build.gradle.kts"
+                        startOffset="1559"
+                        endOffset="1607"/>
+                </fix-replace>
+            </fix-composite>
+            <fix-replace
+                description="Replace with existing version catalog reference `androidx-lifecycle-runtime-ktx` (version 2.8.7)"
+                replacement="libs.androidx.lifecycle.runtime.ktx"
+                priority="0">
+                <range
+                    file="${:app*projectDir}/build.gradle.kts"
+                    startOffset="1559"
+                    endOffset="1607"/>
+            </fix-replace>
+        </fix-alternatives>
+        <location
+            file="${:app*projectDir}/build.gradle.kts"
+            line="67"
+            column="20"
+            startOffset="1559"
+            endLine="67"
             endColumn="68"
-            endOffset="1555"/>
+            endOffset="1607"/>
     </incident>
 
     <incident
@@ -868,27 +940,27 @@
         message="Use version catalog instead (androidx.activity:activity-compose is already available as `androidx-activity-compose`, but using version 1.9.3 instead)">
         <fix-alternatives>
             <fix-composite
-                description="Replace with new library catalog declaration for androidx-activity-activity-compose-v191"
+                description="Replace with new library catalog declaration for androidx-activity-compose-v191"
                 robot="true"
                 independent="true">
                 <fix-replace
-                    description="Replace with androidxActivityComposeVersion = &quot;1.9.1&quot;..."
+                    description="Replace with activityComposeVersion = &quot;1.9.1&quot;..."
                     robot="true"
                     independent="true"
                     oldString="_lint_insert_begin_"
-                    replacement="androidxActivityComposeVersion = &quot;1.9.1&quot;&#xA;"
+                    replacement="activityComposeVersion = &quot;1.9.1&quot;&#xA;"
                     priority="0">
                     <range
                         file="../gradle/libs.versions.toml"
-                        startOffset="25"
-                        endOffset="25"/>
+                        startOffset="11"
+                        endOffset="11"/>
                 </fix-replace>
                 <fix-replace
-                    description="Replace with androidx-activity-activity-compose-v191 = { module = &quot;androidx.activity:activity-compose&quot;, version.ref = &quot;androidxActivityComposeVersion&quot; }..."
+                    description="Replace with androidx-activity-compose-v191 = { module = &quot;androidx.activity:activity-compose&quot;, version.ref = &quot;activityComposeVersion&quot; }..."
                     robot="true"
                     independent="true"
                     oldString="_lint_insert_begin_"
-                    replacement="androidx-activity-activity-compose-v191 = { module = &quot;androidx.activity:activity-compose&quot;, version.ref = &quot;androidxActivityComposeVersion&quot; }&#xA;"
+                    replacement="androidx-activity-compose-v191 = { module = &quot;androidx.activity:activity-compose&quot;, version.ref = &quot;activityComposeVersion&quot; }&#xA;"
                     priority="0">
                     <range
                         file="../gradle/libs.versions.toml"
@@ -896,15 +968,15 @@
                         endOffset="381"/>
                 </fix-replace>
                 <fix-replace
-                    description="Replace with libs.androidx.activity.activity.compose.v191"
+                    description="Replace with libs.androidx.activity.compose.v191"
                     robot="true"
                     independent="true"
-                    replacement="libs.androidx.activity.activity.compose.v191"
+                    replacement="libs.androidx.activity.compose.v191"
                     priority="0">
                     <range
                         file="${:app*projectDir}/build.gradle.kts"
-                        startOffset="1576"
-                        endOffset="1618"/>
+                        startOffset="1628"
+                        endOffset="1670"/>
                 </fix-replace>
             </fix-composite>
             <fix-replace
@@ -913,18 +985,18 @@
                 priority="0">
                 <range
                     file="${:app*projectDir}/build.gradle.kts"
-                    startOffset="1576"
-                    endOffset="1618"/>
+                    startOffset="1628"
+                    endOffset="1670"/>
             </fix-replace>
         </fix-alternatives>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="67"
+            line="68"
             column="20"
-            startOffset="1576"
-            endLine="67"
+            startOffset="1628"
+            endLine="68"
             endColumn="62"
-            endOffset="1618"/>
+            endOffset="1670"/>
     </incident>
 
     <incident
@@ -933,15 +1005,15 @@
         message="Use version catalog instead (androidx.compose:compose-bom is already available as `androidx-compose-bom`, but using version 2024.12.01 instead)">
         <fix-alternatives>
             <fix-composite
-                description="Replace with new library catalog declaration for androidx-compose-compose-bom-v20240600-x3"
+                description="Replace with new library catalog declaration for androidx-compose-bom-v20240600"
                 robot="true"
                 independent="true">
                 <fix-replace
-                    description="Replace with androidxComposeComposeBom2 = &quot;2024.06.00&quot;..."
+                    description="Replace with composeBomVersion = &quot;2024.06.00&quot;..."
                     robot="true"
                     independent="true"
                     oldString="_lint_insert_begin_"
-                    replacement="androidxComposeComposeBom2 = &quot;2024.06.00&quot;&#xA;"
+                    replacement="composeBomVersion = &quot;2024.06.00&quot;&#xA;"
                     priority="0">
                     <range
                         file="../gradle/libs.versions.toml"
@@ -949,11 +1021,11 @@
                         endOffset="25"/>
                 </fix-replace>
                 <fix-replace
-                    description="Replace with androidx-compose-compose-bom-v20240600-x3 = { module = &quot;androidx.compose:compose-bom&quot;, version.ref = &quot;androidxComposeComposeBom2&quot; }..."
+                    description="Replace with androidx-compose-bom-v20240600 = { module = &quot;androidx.compose:compose-bom&quot;, version.ref = &quot;composeBomVersion&quot; }..."
                     robot="true"
                     independent="true"
                     oldString="_lint_insert_begin_"
-                    replacement="androidx-compose-compose-bom-v20240600-x3 = { module = &quot;androidx.compose:compose-bom&quot;, version.ref = &quot;androidxComposeComposeBom2&quot; }&#xA;"
+                    replacement="androidx-compose-bom-v20240600 = { module = &quot;androidx.compose:compose-bom&quot;, version.ref = &quot;composeBomVersion&quot; }&#xA;"
                     priority="0">
                     <range
                         file="../gradle/libs.versions.toml"
@@ -961,15 +1033,15 @@
                         endOffset="381"/>
                 </fix-replace>
                 <fix-replace
-                    description="Replace with libs.androidx.compose.compose.bom.v20240600.x3"
+                    description="Replace with libs.androidx.compose.bom.v20240600"
                     robot="true"
                     independent="true"
-                    replacement="libs.androidx.compose.compose.bom.v20240600.x3"
+                    replacement="libs.androidx.compose.bom.v20240600"
                     priority="0">
                     <range
                         file="${:app*projectDir}/build.gradle.kts"
-                        startOffset="1659"
-                        endOffset="1710"/>
+                        startOffset="1711"
+                        endOffset="1762"/>
                 </fix-replace>
             </fix-composite>
             <fix-replace
@@ -978,57 +1050,18 @@
                 priority="0">
                 <range
                     file="${:app*projectDir}/build.gradle.kts"
-                    startOffset="1659"
-                    endOffset="1710"/>
+                    startOffset="1711"
+                    endOffset="1762"/>
             </fix-replace>
         </fix-alternatives>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="70"
-            column="20"
-            startOffset="1659"
-            endLine="70"
-            endColumn="71"
-            endOffset="1710"/>
-    </incident>
-
-    <incident
-        id="UseTomlInstead"
-        severity="warning"
-        message="Use version catalog instead">
-        <fix-composite
-            description="Replace with new library catalog declaration for androidx-compose-ui-ui2"
-            robot="true">
-            <fix-replace
-                description="Replace with androidx-compose-ui-ui2 = { module = &quot;androidx.compose.ui:ui&quot; }..."
-                robot="true"
-                oldString="_lint_insert_begin_"
-                replacement="androidx-compose-ui-ui2 = { module = &quot;androidx.compose.ui:ui&quot; }&#xA;"
-                priority="0">
-                <range
-                    file="../gradle/libs.versions.toml"
-                    startOffset="381"
-                    endOffset="381"/>
-            </fix-replace>
-            <fix-replace
-                description="Replace with libs.androidx.compose.ui.ui2"
-                robot="true"
-                replacement="libs.androidx.compose.ui.ui2"
-                priority="0">
-                <range
-                    file="${:app*projectDir}/build.gradle.kts"
-                    startOffset="1731"
-                    endOffset="1755"/>
-            </fix-replace>
-        </fix-composite>
-        <location
-            file="${:app*projectDir}/build.gradle.kts"
             line="71"
             column="20"
-            startOffset="1731"
+            startOffset="1711"
             endLine="71"
-            endColumn="44"
-            endOffset="1755"/>
+            endColumn="71"
+            endOffset="1762"/>
     </incident>
 
     <incident
@@ -1036,38 +1069,38 @@
         severity="warning"
         message="Use version catalog instead">
         <fix-composite
-            description="Replace with new library catalog declaration for androidx-compose-ui-ui-graphics2"
+            description="Replace with new library catalog declaration for ui"
             robot="true">
             <fix-replace
-                description="Replace with androidx-compose-ui-ui-graphics2 = { module = &quot;androidx.compose.ui:ui-graphics&quot; }..."
+                description="Replace with ui = { module = &quot;androidx.compose.ui:ui&quot; }..."
                 robot="true"
                 oldString="_lint_insert_begin_"
-                replacement="androidx-compose-ui-ui-graphics2 = { module = &quot;androidx.compose.ui:ui-graphics&quot; }&#xA;"
+                replacement="ui = { module = &quot;androidx.compose.ui:ui&quot; }&#xA;"
                 priority="0">
                 <range
                     file="../gradle/libs.versions.toml"
-                    startOffset="381"
-                    endOffset="381"/>
+                    startOffset="1103"
+                    endOffset="1103"/>
             </fix-replace>
             <fix-replace
-                description="Replace with libs.androidx.compose.ui.ui.graphics2"
+                description="Replace with libs.ui"
                 robot="true"
-                replacement="libs.androidx.compose.ui.ui.graphics2"
+                replacement="libs.ui"
                 priority="0">
                 <range
                     file="${:app*projectDir}/build.gradle.kts"
-                    startOffset="1776"
-                    endOffset="1809"/>
+                    startOffset="1783"
+                    endOffset="1807"/>
             </fix-replace>
         </fix-composite>
         <location
             file="${:app*projectDir}/build.gradle.kts"
             line="72"
             column="20"
-            startOffset="1776"
+            startOffset="1783"
             endLine="72"
-            endColumn="53"
-            endOffset="1809"/>
+            endColumn="44"
+            endOffset="1807"/>
     </incident>
 
     <incident
@@ -1075,38 +1108,77 @@
         severity="warning"
         message="Use version catalog instead">
         <fix-composite
-            description="Replace with new library catalog declaration for androidx-compose-ui-ui-tooling-preview2"
+            description="Replace with new library catalog declaration for ui-graphics"
             robot="true">
             <fix-replace
-                description="Replace with androidx-compose-ui-ui-tooling-preview2 = { module = &quot;androidx.compose.ui:ui-tooling-preview&quot; }..."
+                description="Replace with ui-graphics = { module = &quot;androidx.compose.ui:ui-graphics&quot; }..."
                 robot="true"
                 oldString="_lint_insert_begin_"
-                replacement="androidx-compose-ui-ui-tooling-preview2 = { module = &quot;androidx.compose.ui:ui-tooling-preview&quot; }&#xA;"
+                replacement="ui-graphics = { module = &quot;androidx.compose.ui:ui-graphics&quot; }&#xA;"
                 priority="0">
                 <range
                     file="../gradle/libs.versions.toml"
-                    startOffset="381"
-                    endOffset="381"/>
+                    startOffset="1103"
+                    endOffset="1103"/>
             </fix-replace>
             <fix-replace
-                description="Replace with libs.androidx.compose.ui.ui.tooling.preview2"
+                description="Replace with libs.ui.graphics"
                 robot="true"
-                replacement="libs.androidx.compose.ui.ui.tooling.preview2"
+                replacement="libs.ui.graphics"
                 priority="0">
                 <range
                     file="${:app*projectDir}/build.gradle.kts"
-                    startOffset="1830"
-                    endOffset="1870"/>
+                    startOffset="1828"
+                    endOffset="1861"/>
             </fix-replace>
         </fix-composite>
         <location
             file="${:app*projectDir}/build.gradle.kts"
             line="73"
             column="20"
-            startOffset="1830"
+            startOffset="1828"
             endLine="73"
+            endColumn="53"
+            endOffset="1861"/>
+    </incident>
+
+    <incident
+        id="UseTomlInstead"
+        severity="warning"
+        message="Use version catalog instead">
+        <fix-composite
+            description="Replace with new library catalog declaration for ui-tooling-preview"
+            robot="true">
+            <fix-replace
+                description="Replace with ui-tooling-preview = { module = &quot;androidx.compose.ui:ui-tooling-preview&quot; }..."
+                robot="true"
+                oldString="_lint_insert_begin_"
+                replacement="ui-tooling-preview = { module = &quot;androidx.compose.ui:ui-tooling-preview&quot; }&#xA;"
+                priority="0">
+                <range
+                    file="../gradle/libs.versions.toml"
+                    startOffset="1103"
+                    endOffset="1103"/>
+            </fix-replace>
+            <fix-replace
+                description="Replace with libs.ui.tooling.preview"
+                robot="true"
+                replacement="libs.ui.tooling.preview"
+                priority="0">
+                <range
+                    file="${:app*projectDir}/build.gradle.kts"
+                    startOffset="1882"
+                    endOffset="1922"/>
+            </fix-replace>
+        </fix-composite>
+        <location
+            file="${:app*projectDir}/build.gradle.kts"
+            line="74"
+            column="20"
+            startOffset="1882"
+            endLine="74"
             endColumn="60"
-            endOffset="1870"/>
+            endOffset="1922"/>
     </incident>
 
     <incident
@@ -1121,17 +1193,17 @@
             priority="0">
             <range
                 file="${:app*projectDir}/build.gradle.kts"
-                startOffset="1965"
-                endOffset="2012"/>
+                startOffset="2017"
+                endOffset="2064"/>
         </fix-replace>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="76"
+            line="77"
             column="20"
-            startOffset="1965"
-            endLine="76"
+            startOffset="2017"
+            endLine="77"
             endColumn="67"
-            endOffset="2012"/>
+            endOffset="2064"/>
     </incident>
 
     <incident
@@ -1146,17 +1218,17 @@
             priority="0">
             <range
                 file="${:app*projectDir}/build.gradle.kts"
-                startOffset="2033"
-                endOffset="2081"/>
+                startOffset="2085"
+                endOffset="2133"/>
         </fix-replace>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="77"
+            line="78"
             column="20"
-            startOffset="2033"
-            endLine="77"
+            startOffset="2085"
+            endLine="78"
             endColumn="68"
-            endOffset="2081"/>
+            endOffset="2133"/>
     </incident>
 
     <incident
@@ -1171,17 +1243,17 @@
             priority="0">
             <range
                 file="${:app*projectDir}/build.gradle.kts"
-                startOffset="2102"
-                endOffset="2150"/>
+                startOffset="2154"
+                endOffset="2202"/>
         </fix-replace>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="78"
+            line="79"
             column="20"
-            startOffset="2102"
-            endLine="78"
+            startOffset="2154"
+            endLine="79"
             endColumn="68"
-            endOffset="2150"/>
+            endOffset="2202"/>
     </incident>
 
     <incident
@@ -1196,17 +1268,17 @@
             priority="0">
             <range
                 file="${:app*projectDir}/build.gradle.kts"
-                startOffset="2203"
-                endOffset="2243"/>
+                startOffset="2255"
+                endOffset="2295"/>
         </fix-replace>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="81"
+            line="82"
             column="20"
-            startOffset="2203"
-            endLine="81"
+            startOffset="2255"
+            endLine="82"
             endColumn="60"
-            endOffset="2243"/>
+            endOffset="2295"/>
     </incident>
 
     <incident
@@ -1221,17 +1293,17 @@
             priority="0">
             <range
                 file="${:app*projectDir}/build.gradle.kts"
-                startOffset="2264"
-                endOffset="2302"/>
+                startOffset="2316"
+                endOffset="2354"/>
         </fix-replace>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="82"
+            line="83"
             column="20"
-            startOffset="2264"
-            endLine="82"
+            startOffset="2316"
+            endLine="83"
             endColumn="58"
-            endOffset="2302"/>
+            endOffset="2354"/>
     </incident>
 
     <incident
@@ -1240,15 +1312,15 @@
         message="Use version catalog instead (io.ktor:ktor-client-core is already available as `ktor-client-core`, but using version 2.3.7 instead)">
         <fix-alternatives>
             <fix-composite
-                description="Replace with new library catalog declaration for io-ktor-ktor-client-core-v2312"
+                description="Replace with new library catalog declaration for ktor-client-core-v2312"
                 robot="true"
                 independent="true">
                 <fix-replace
-                    description="Replace with ktorKtorClientCore = &quot;2.3.12&quot;..."
+                    description="Replace with ktorClientCore = &quot;2.3.12&quot;..."
                     robot="true"
                     independent="true"
                     oldString="_lint_insert_begin_"
-                    replacement="ktorKtorClientCore = &quot;2.3.12&quot;&#xA;"
+                    replacement="ktorClientCore = &quot;2.3.12&quot;&#xA;"
                     priority="0">
                     <range
                         file="../gradle/libs.versions.toml"
@@ -1256,11 +1328,11 @@
                         endOffset="62"/>
                 </fix-replace>
                 <fix-replace
-                    description="Replace with io-ktor-ktor-client-core-v2312 = { module = &quot;io.ktor:ktor-client-core&quot;, version.ref = &quot;ktorKtorClientCore&quot; }..."
+                    description="Replace with ktor-client-core-v2312 = { module = &quot;io.ktor:ktor-client-core&quot;, version.ref = &quot;ktorClientCore&quot; }..."
                     robot="true"
                     independent="true"
                     oldString="_lint_insert_begin_"
-                    replacement="io-ktor-ktor-client-core-v2312 = { module = &quot;io.ktor:ktor-client-core&quot;, version.ref = &quot;ktorKtorClientCore&quot; }&#xA;"
+                    replacement="ktor-client-core-v2312 = { module = &quot;io.ktor:ktor-client-core&quot;, version.ref = &quot;ktorClientCore&quot; }&#xA;"
                     priority="0">
                     <range
                         file="../gradle/libs.versions.toml"
@@ -1268,15 +1340,15 @@
                         endOffset="1103"/>
                 </fix-replace>
                 <fix-replace
-                    description="Replace with libs.io.ktor.ktor.client.core.v2312"
+                    description="Replace with libs.ktor.client.core.v2312"
                     robot="true"
                     independent="true"
-                    replacement="libs.io.ktor.ktor.client.core.v2312"
+                    replacement="libs.ktor.client.core.v2312"
                     priority="0">
                     <range
                         file="${:app*projectDir}/build.gradle.kts"
-                        startOffset="2401"
-                        endOffset="2434"/>
+                        startOffset="2453"
+                        endOffset="2486"/>
                 </fix-replace>
             </fix-composite>
             <fix-replace
@@ -1285,18 +1357,18 @@
                 priority="0">
                 <range
                     file="${:app*projectDir}/build.gradle.kts"
-                    startOffset="2401"
-                    endOffset="2434"/>
+                    startOffset="2453"
+                    endOffset="2486"/>
             </fix-replace>
         </fix-alternatives>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="85"
+            line="86"
             column="20"
-            startOffset="2401"
-            endLine="85"
+            startOffset="2453"
+            endLine="86"
             endColumn="53"
-            endOffset="2434"/>
+            endOffset="2486"/>
     </incident>
 
     <incident
@@ -1305,15 +1377,15 @@
         message="Use version catalog instead (io.ktor:ktor-client-okhttp is already available as `ktor-client-okhttp`, but using version 2.3.7 instead)">
         <fix-alternatives>
             <fix-composite
-                description="Replace with new library catalog declaration for io-ktor-ktor-client-okhttp-v2312"
+                description="Replace with new library catalog declaration for ktor-client-okhttp-v2312"
                 robot="true"
                 independent="true">
                 <fix-replace
-                    description="Replace with ktorKtorClientOkhttp = &quot;2.3.12&quot;..."
+                    description="Replace with ktorClientOkhttp = &quot;2.3.12&quot;..."
                     robot="true"
                     independent="true"
                     oldString="_lint_insert_begin_"
-                    replacement="ktorKtorClientOkhttp = &quot;2.3.12&quot;&#xA;"
+                    replacement="ktorClientOkhttp = &quot;2.3.12&quot;&#xA;"
                     priority="0">
                     <range
                         file="../gradle/libs.versions.toml"
@@ -1321,11 +1393,11 @@
                         endOffset="62"/>
                 </fix-replace>
                 <fix-replace
-                    description="Replace with io-ktor-ktor-client-okhttp-v2312 = { module = &quot;io.ktor:ktor-client-okhttp&quot;, version.ref = &quot;ktorKtorClientOkhttp&quot; }..."
+                    description="Replace with ktor-client-okhttp-v2312 = { module = &quot;io.ktor:ktor-client-okhttp&quot;, version.ref = &quot;ktorClientOkhttp&quot; }..."
                     robot="true"
                     independent="true"
                     oldString="_lint_insert_begin_"
-                    replacement="io-ktor-ktor-client-okhttp-v2312 = { module = &quot;io.ktor:ktor-client-okhttp&quot;, version.ref = &quot;ktorKtorClientOkhttp&quot; }&#xA;"
+                    replacement="ktor-client-okhttp-v2312 = { module = &quot;io.ktor:ktor-client-okhttp&quot;, version.ref = &quot;ktorClientOkhttp&quot; }&#xA;"
                     priority="0">
                     <range
                         file="../gradle/libs.versions.toml"
@@ -1333,15 +1405,15 @@
                         endOffset="1103"/>
                 </fix-replace>
                 <fix-replace
-                    description="Replace with libs.io.ktor.ktor.client.okhttp.v2312"
+                    description="Replace with libs.ktor.client.okhttp.v2312"
                     robot="true"
                     independent="true"
-                    replacement="libs.io.ktor.ktor.client.okhttp.v2312"
+                    replacement="libs.ktor.client.okhttp.v2312"
                     priority="0">
                     <range
                         file="${:app*projectDir}/build.gradle.kts"
-                        startOffset="2455"
-                        endOffset="2490"/>
+                        startOffset="2507"
+                        endOffset="2542"/>
                 </fix-replace>
             </fix-composite>
             <fix-replace
@@ -1350,18 +1422,18 @@
                 priority="0">
                 <range
                     file="${:app*projectDir}/build.gradle.kts"
-                    startOffset="2455"
-                    endOffset="2490"/>
+                    startOffset="2507"
+                    endOffset="2542"/>
             </fix-replace>
         </fix-alternatives>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="86"
+            line="87"
             column="20"
-            startOffset="2455"
-            endLine="86"
+            startOffset="2507"
+            endLine="87"
             endColumn="55"
-            endOffset="2490"/>
+            endOffset="2542"/>
     </incident>
 
     <incident
@@ -1370,15 +1442,15 @@
         message="Use version catalog instead (io.ktor:ktor-client-content-negotiation is already available as `ktor-client-content-negotiation`, but using version 2.3.7 instead)">
         <fix-alternatives>
             <fix-composite
-                description="Replace with new library catalog declaration for io-ktor-ktor-client-content-negotiation-v2312"
+                description="Replace with new library catalog declaration for ktor-client-content-negotiation-v2312"
                 robot="true"
                 independent="true">
                 <fix-replace
-                    description="Replace with ktorKtorClientContentNegotiation = &quot;2.3.12&quot;..."
+                    description="Replace with ktorClientContentNegotiation = &quot;2.3.12&quot;..."
                     robot="true"
                     independent="true"
                     oldString="_lint_insert_begin_"
-                    replacement="ktorKtorClientContentNegotiation = &quot;2.3.12&quot;&#xA;"
+                    replacement="ktorClientContentNegotiation = &quot;2.3.12&quot;&#xA;"
                     priority="0">
                     <range
                         file="../gradle/libs.versions.toml"
@@ -1386,11 +1458,11 @@
                         endOffset="62"/>
                 </fix-replace>
                 <fix-replace
-                    description="Replace with io-ktor-ktor-client-content-negotiation-v2312 = { module = &quot;io.ktor:ktor-client-content-negotiation&quot;, version.ref = &quot;ktorKtorClientContentNegotiation&quot; }..."
+                    description="Replace with ktor-client-content-negotiation-v2312 = { module = &quot;io.ktor:ktor-client-content-negotiation&quot;, version.ref = &quot;ktorClientContentNegotiation&quot; }..."
                     robot="true"
                     independent="true"
                     oldString="_lint_insert_begin_"
-                    replacement="io-ktor-ktor-client-content-negotiation-v2312 = { module = &quot;io.ktor:ktor-client-content-negotiation&quot;, version.ref = &quot;ktorKtorClientContentNegotiation&quot; }&#xA;"
+                    replacement="ktor-client-content-negotiation-v2312 = { module = &quot;io.ktor:ktor-client-content-negotiation&quot;, version.ref = &quot;ktorClientContentNegotiation&quot; }&#xA;"
                     priority="0">
                     <range
                         file="../gradle/libs.versions.toml"
@@ -1398,15 +1470,15 @@
                         endOffset="1103"/>
                 </fix-replace>
                 <fix-replace
-                    description="Replace with libs.io.ktor.ktor.client.content.negotiation.v2312"
+                    description="Replace with libs.ktor.client.content.negotiation.v2312"
                     robot="true"
                     independent="true"
-                    replacement="libs.io.ktor.ktor.client.content.negotiation.v2312"
+                    replacement="libs.ktor.client.content.negotiation.v2312"
                     priority="0">
                     <range
                         file="${:app*projectDir}/build.gradle.kts"
-                        startOffset="2511"
-                        endOffset="2559"/>
+                        startOffset="2563"
+                        endOffset="2611"/>
                 </fix-replace>
             </fix-composite>
             <fix-replace
@@ -1415,18 +1487,18 @@
                 priority="0">
                 <range
                     file="${:app*projectDir}/build.gradle.kts"
-                    startOffset="2511"
-                    endOffset="2559"/>
+                    startOffset="2563"
+                    endOffset="2611"/>
             </fix-replace>
         </fix-alternatives>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="87"
+            line="88"
             column="20"
-            startOffset="2511"
-            endLine="87"
+            startOffset="2563"
+            endLine="88"
             endColumn="68"
-            endOffset="2559"/>
+            endOffset="2611"/>
     </incident>
 
     <incident
@@ -1435,15 +1507,15 @@
         message="Use version catalog instead (io.ktor:ktor-serialization-kotlinx-json is already available as `ktor-serialization-json`, but using version 2.3.7 instead)">
         <fix-alternatives>
             <fix-composite
-                description="Replace with new library catalog declaration for io-ktor-ktor-serialization-kotlinx-json-v2312"
+                description="Replace with new library catalog declaration for ktor-serialization-kotlinx-json-v2312"
                 robot="true"
                 independent="true">
                 <fix-replace
-                    description="Replace with ktorKtorSerializationKotlinxJson = &quot;2.3.12&quot;..."
+                    description="Replace with ktorSerializationKotlinxJson = &quot;2.3.12&quot;..."
                     robot="true"
                     independent="true"
                     oldString="_lint_insert_begin_"
-                    replacement="ktorKtorSerializationKotlinxJson = &quot;2.3.12&quot;&#xA;"
+                    replacement="ktorSerializationKotlinxJson = &quot;2.3.12&quot;&#xA;"
                     priority="0">
                     <range
                         file="../gradle/libs.versions.toml"
@@ -1451,11 +1523,11 @@
                         endOffset="62"/>
                 </fix-replace>
                 <fix-replace
-                    description="Replace with io-ktor-ktor-serialization-kotlinx-json-v2312 = { module = &quot;io.ktor:ktor-serialization-kotlinx-json&quot;, version.ref = &quot;ktorKtorSerializationKotlinxJson&quot; }..."
+                    description="Replace with ktor-serialization-kotlinx-json-v2312 = { module = &quot;io.ktor:ktor-serialization-kotlinx-json&quot;, version.ref = &quot;ktorSerializationKotlinxJson&quot; }..."
                     robot="true"
                     independent="true"
                     oldString="_lint_insert_begin_"
-                    replacement="io-ktor-ktor-serialization-kotlinx-json-v2312 = { module = &quot;io.ktor:ktor-serialization-kotlinx-json&quot;, version.ref = &quot;ktorKtorSerializationKotlinxJson&quot; }&#xA;"
+                    replacement="ktor-serialization-kotlinx-json-v2312 = { module = &quot;io.ktor:ktor-serialization-kotlinx-json&quot;, version.ref = &quot;ktorSerializationKotlinxJson&quot; }&#xA;"
                     priority="0">
                     <range
                         file="../gradle/libs.versions.toml"
@@ -1463,15 +1535,15 @@
                         endOffset="1103"/>
                 </fix-replace>
                 <fix-replace
-                    description="Replace with libs.io.ktor.ktor.serialization.kotlinx.json.v2312"
+                    description="Replace with libs.ktor.serialization.kotlinx.json.v2312"
                     robot="true"
                     independent="true"
-                    replacement="libs.io.ktor.ktor.serialization.kotlinx.json.v2312"
+                    replacement="libs.ktor.serialization.kotlinx.json.v2312"
                     priority="0">
                     <range
                         file="${:app*projectDir}/build.gradle.kts"
-                        startOffset="2580"
-                        endOffset="2628"/>
+                        startOffset="2632"
+                        endOffset="2680"/>
                 </fix-replace>
             </fix-composite>
             <fix-replace
@@ -1480,18 +1552,68 @@
                 priority="0">
                 <range
                     file="${:app*projectDir}/build.gradle.kts"
-                    startOffset="2580"
-                    endOffset="2628"/>
+                    startOffset="2632"
+                    endOffset="2680"/>
             </fix-replace>
         </fix-alternatives>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="88"
+            line="89"
             column="20"
-            startOffset="2580"
-            endLine="88"
+            startOffset="2632"
+            endLine="89"
             endColumn="68"
-            endOffset="2628"/>
+            endOffset="2680"/>
+    </incident>
+
+    <incident
+        id="UseTomlInstead"
+        severity="warning"
+        message="Use version catalog instead">
+        <fix-composite
+            description="Replace with new library catalog declaration for ktor-client-mock"
+            robot="true">
+            <fix-replace
+                description="Replace with ktorClientMock = &quot;2.3.12&quot;..."
+                robot="true"
+                oldString="_lint_insert_begin_"
+                replacement="ktorClientMock = &quot;2.3.12&quot;&#xA;"
+                priority="0">
+                <range
+                    file="../gradle/libs.versions.toml"
+                    startOffset="62"
+                    endOffset="62"/>
+            </fix-replace>
+            <fix-replace
+                description="Replace with ktor-client-mock = { module = &quot;io.ktor:ktor-client-mock&quot;, version.ref = &quot;ktorClientMock&quot; }..."
+                robot="true"
+                oldString="_lint_insert_begin_"
+                replacement="ktor-client-mock = { module = &quot;io.ktor:ktor-client-mock&quot;, version.ref = &quot;ktorClientMock&quot; }&#xA;"
+                priority="0">
+                <range
+                    file="../gradle/libs.versions.toml"
+                    startOffset="1103"
+                    endOffset="1103"/>
+            </fix-replace>
+            <fix-replace
+                description="Replace with libs.ktor.client.mock"
+                robot="true"
+                replacement="libs.ktor.client.mock"
+                priority="0">
+                <range
+                    file="${:app*projectDir}/build.gradle.kts"
+                    startOffset="2705"
+                    endOffset="2738"/>
+            </fix-replace>
+        </fix-composite>
+        <location
+            file="${:app*projectDir}/build.gradle.kts"
+            line="90"
+            column="24"
+            startOffset="2705"
+            endLine="90"
+            endColumn="57"
+            endOffset="2738"/>
     </incident>
 
     <incident
@@ -1506,17 +1628,17 @@
             priority="0">
             <range
                 file="${:app*projectDir}/build.gradle.kts"
-                startOffset="2683"
-                endOffset="2731"/>
+                startOffset="2793"
+                endOffset="2841"/>
         </fix-replace>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="91"
+            line="93"
             column="20"
-            startOffset="2683"
-            endLine="91"
+            startOffset="2793"
+            endLine="93"
             endColumn="68"
-            endOffset="2731"/>
+            endOffset="2841"/>
     </incident>
 
     <incident
@@ -1525,15 +1647,15 @@
         message="Use version catalog instead (io.coil-kt:coil-compose is already available as `coil-compose`, but using version 2.7.0 instead)">
         <fix-alternatives>
             <fix-composite
-                description="Replace with new library catalog declaration for io-coil-kt-coil-compose-v260"
+                description="Replace with new library catalog declaration for coil-compose-v260"
                 robot="true"
                 independent="true">
                 <fix-replace
-                    description="Replace with coilKtCoilCompose = &quot;2.6.0&quot;..."
+                    description="Replace with coilCompose = &quot;2.6.0&quot;..."
                     robot="true"
                     independent="true"
                     oldString="_lint_insert_begin_"
-                    replacement="coilKtCoilCompose = &quot;2.6.0&quot;&#xA;"
+                    replacement="coilCompose = &quot;2.6.0&quot;&#xA;"
                     priority="0">
                     <range
                         file="../gradle/libs.versions.toml"
@@ -1541,11 +1663,11 @@
                         endOffset="25"/>
                 </fix-replace>
                 <fix-replace
-                    description="Replace with io-coil-kt-coil-compose-v260 = { module = &quot;io.coil-kt:coil-compose&quot;, version.ref = &quot;coilKtCoilCompose&quot; }..."
+                    description="Replace with coil-compose-v260 = { module = &quot;io.coil-kt:coil-compose&quot;, version.ref = &quot;coilCompose&quot; }..."
                     robot="true"
                     independent="true"
                     oldString="_lint_insert_begin_"
-                    replacement="io-coil-kt-coil-compose-v260 = { module = &quot;io.coil-kt:coil-compose&quot;, version.ref = &quot;coilKtCoilCompose&quot; }&#xA;"
+                    replacement="coil-compose-v260 = { module = &quot;io.coil-kt:coil-compose&quot;, version.ref = &quot;coilCompose&quot; }&#xA;"
                     priority="0">
                     <range
                         file="../gradle/libs.versions.toml"
@@ -1553,15 +1675,15 @@
                         endOffset="1103"/>
                 </fix-replace>
                 <fix-replace
-                    description="Replace with libs.io.coil.kt.coil.compose.v260"
+                    description="Replace with libs.coil.compose.v260"
                     robot="true"
                     independent="true"
-                    replacement="libs.io.coil.kt.coil.compose.v260"
+                    replacement="libs.coil.compose.v260"
                     priority="0">
                     <range
                         file="${:app*projectDir}/build.gradle.kts"
-                        startOffset="2778"
-                        endOffset="2809"/>
+                        startOffset="2888"
+                        endOffset="2919"/>
                 </fix-replace>
             </fix-composite>
             <fix-replace
@@ -1570,67 +1692,17 @@
                 priority="0">
                 <range
                     file="${:app*projectDir}/build.gradle.kts"
-                    startOffset="2778"
-                    endOffset="2809"/>
+                    startOffset="2888"
+                    endOffset="2919"/>
             </fix-replace>
         </fix-alternatives>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="94"
+            line="96"
             column="20"
-            startOffset="2778"
-            endLine="94"
+            startOffset="2888"
+            endLine="96"
             endColumn="51"
-            endOffset="2809"/>
-    </incident>
-
-    <incident
-        id="UseTomlInstead"
-        severity="warning"
-        message="Use version catalog instead">
-        <fix-composite
-            description="Replace with new library catalog declaration for org-jetbrains-kotlinx-kotlinx-serialization-json"
-            robot="true">
-            <fix-replace
-                description="Replace with jetbrainsKotlinxSerializationJson = &quot;1.6.3&quot;..."
-                robot="true"
-                oldString="_lint_insert_begin_"
-                replacement="jetbrainsKotlinxSerializationJson = &quot;1.6.3&quot;&#xA;"
-                priority="0">
-                <range
-                    file="../gradle/libs.versions.toml"
-                    startOffset="25"
-                    endOffset="25"/>
-            </fix-replace>
-            <fix-replace
-                description="Replace with org-jetbrains-kotlinx-kotlinx-serialization-json = { module = &quot;org.jetbrains.kotlinx:kotlinx-serialization-json&quot;, version.ref = &quot;jetbrainsKotlinxSerializationJson&quot; }..."
-                robot="true"
-                oldString="_lint_insert_begin_"
-                replacement="org-jetbrains-kotlinx-kotlinx-serialization-json = { module = &quot;org.jetbrains.kotlinx:kotlinx-serialization-json&quot;, version.ref = &quot;jetbrainsKotlinxSerializationJson&quot; }&#xA;"
-                priority="0">
-                <range
-                    file="../gradle/libs.versions.toml"
-                    startOffset="1103"
-                    endOffset="1103"/>
-            </fix-replace>
-            <fix-replace
-                description="Replace with libs.org.jetbrains.kotlinx.kotlinx.serialization.json"
-                robot="true"
-                replacement="libs.org.jetbrains.kotlinx.kotlinx.serialization.json"
-                priority="0">
-                <range
-                    file="${:app*projectDir}/build.gradle.kts"
-                    startOffset="2863"
-                    endOffset="2919"/>
-            </fix-replace>
-        </fix-composite>
-        <location
-            file="${:app*projectDir}/build.gradle.kts"
-            line="97"
-            column="20"
-            startOffset="2863"
-            endLine="97"
-            endColumn="76"
             endOffset="2919"/>
     </incident>
 
@@ -1639,24 +1711,24 @@
         severity="warning"
         message="Use version catalog instead">
         <fix-composite
-            description="Replace with new library catalog declaration for junit-junit2"
+            description="Replace with new library catalog declaration for kotlinx-serialization-json"
             robot="true">
             <fix-replace
-                description="Replace with junitJunitVersion = &quot;4.13.2&quot;..."
+                description="Replace with kotlinxSerializationJson = &quot;1.6.3&quot;..."
                 robot="true"
                 oldString="_lint_insert_begin_"
-                replacement="junitJunitVersion = &quot;4.13.2&quot;&#xA;"
+                replacement="kotlinxSerializationJson = &quot;1.6.3&quot;&#xA;"
                 priority="0">
                 <range
                     file="../gradle/libs.versions.toml"
-                    startOffset="25"
-                    endOffset="25"/>
+                    startOffset="62"
+                    endOffset="62"/>
             </fix-replace>
             <fix-replace
-                description="Replace with junit-junit2 = { module = &quot;junit:junit&quot;, version.ref = &quot;junitJunitVersion&quot; }..."
+                description="Replace with kotlinx-serialization-json = { module = &quot;org.jetbrains.kotlinx:kotlinx-serialization-json&quot;, version.ref = &quot;kotlinxSerializationJson&quot; }..."
                 robot="true"
                 oldString="_lint_insert_begin_"
-                replacement="junit-junit2 = { module = &quot;junit:junit&quot;, version.ref = &quot;junitJunitVersion&quot; }&#xA;"
+                replacement="kotlinx-serialization-json = { module = &quot;org.jetbrains.kotlinx:kotlinx-serialization-json&quot;, version.ref = &quot;kotlinxSerializationJson&quot; }&#xA;"
                 priority="0">
                 <range
                     file="../gradle/libs.versions.toml"
@@ -1664,24 +1736,24 @@
                     endOffset="1103"/>
             </fix-replace>
             <fix-replace
-                description="Replace with libs.junit.junit2"
+                description="Replace with libs.kotlinx.serialization.json"
                 robot="true"
-                replacement="libs.junit.junit2"
+                replacement="libs.kotlinx.serialization.json"
                 priority="0">
                 <range
                     file="${:app*projectDir}/build.gradle.kts"
-                    startOffset="2977"
-                    endOffset="2997"/>
+                    startOffset="2973"
+                    endOffset="3029"/>
             </fix-replace>
         </fix-composite>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="100"
-            column="24"
-            startOffset="2977"
-            endLine="100"
-            endColumn="44"
-            endOffset="2997"/>
+            line="99"
+            column="20"
+            startOffset="2973"
+            endLine="99"
+            endColumn="76"
+            endOffset="3029"/>
     </incident>
 
     <incident
@@ -1689,13 +1761,63 @@
         severity="warning"
         message="Use version catalog instead">
         <fix-composite
-            description="Replace with new library catalog declaration for org-robolectric-robolectric"
+            description="Replace with new library catalog declaration for junit"
             robot="true">
             <fix-replace
-                description="Replace with robolectricRobolectric = &quot;4.14.1&quot;..."
+                description="Replace with junit = &quot;4.13.2&quot;..."
                 robot="true"
                 oldString="_lint_insert_begin_"
-                replacement="robolectricRobolectric = &quot;4.14.1&quot;&#xA;"
+                replacement="junit = &quot;4.13.2&quot;&#xA;"
+                priority="0">
+                <range
+                    file="../gradle/libs.versions.toml"
+                    startOffset="25"
+                    endOffset="25"/>
+            </fix-replace>
+            <fix-replace
+                description="Replace with junit = { module = &quot;junit:junit&quot;, version.ref = &quot;junit&quot; }..."
+                robot="true"
+                oldString="_lint_insert_begin_"
+                replacement="junit = { module = &quot;junit:junit&quot;, version.ref = &quot;junit&quot; }&#xA;"
+                priority="0">
+                <range
+                    file="../gradle/libs.versions.toml"
+                    startOffset="1103"
+                    endOffset="1103"/>
+            </fix-replace>
+            <fix-replace
+                description="Replace with libs.junit"
+                robot="true"
+                replacement="libs.junit"
+                priority="0">
+                <range
+                    file="${:app*projectDir}/build.gradle.kts"
+                    startOffset="3087"
+                    endOffset="3107"/>
+            </fix-replace>
+        </fix-composite>
+        <location
+            file="${:app*projectDir}/build.gradle.kts"
+            line="102"
+            column="24"
+            startOffset="3087"
+            endLine="102"
+            endColumn="44"
+            endOffset="3107"/>
+    </incident>
+
+    <incident
+        id="UseTomlInstead"
+        severity="warning"
+        message="Use version catalog instead">
+        <fix-composite
+            description="Replace with new library catalog declaration for robolectric"
+            robot="true">
+            <fix-replace
+                description="Replace with robolectric = &quot;4.14.1&quot;..."
+                robot="true"
+                oldString="_lint_insert_begin_"
+                replacement="robolectric = &quot;4.14.1&quot;&#xA;"
                 priority="0">
                 <range
                     file="../gradle/libs.versions.toml"
@@ -1703,10 +1825,10 @@
                     endOffset="144"/>
             </fix-replace>
             <fix-replace
-                description="Replace with org-robolectric-robolectric = { module = &quot;org.robolectric:robolectric&quot;, version.ref = &quot;robolectricRobolectric&quot; }..."
+                description="Replace with robolectric = { module = &quot;org.robolectric:robolectric&quot;, version.ref = &quot;robolectric&quot; }..."
                 robot="true"
                 oldString="_lint_insert_begin_"
-                replacement="org-robolectric-robolectric = { module = &quot;org.robolectric:robolectric&quot;, version.ref = &quot;robolectricRobolectric&quot; }&#xA;"
+                replacement="robolectric = { module = &quot;org.robolectric:robolectric&quot;, version.ref = &quot;robolectric&quot; }&#xA;"
                 priority="0">
                 <range
                     file="../gradle/libs.versions.toml"
@@ -1714,124 +1836,24 @@
                     endOffset="1103"/>
             </fix-replace>
             <fix-replace
-                description="Replace with libs.org.robolectric.robolectric"
+                description="Replace with libs.robolectric"
                 robot="true"
-                replacement="libs.org.robolectric.robolectric"
+                replacement="libs.robolectric"
                 priority="0">
                 <range
                     file="${:app*projectDir}/build.gradle.kts"
-                    startOffset="3022"
-                    endOffset="3058"/>
-            </fix-replace>
-        </fix-composite>
-        <location
-            file="${:app*projectDir}/build.gradle.kts"
-            line="101"
-            column="24"
-            startOffset="3022"
-            endLine="101"
-            endColumn="60"
-            endOffset="3058"/>
-    </incident>
-
-    <incident
-        id="UseTomlInstead"
-        severity="warning"
-        message="Use version catalog instead">
-        <fix-composite
-            description="Replace with new library catalog declaration for test-core"
-            robot="true">
-            <fix-replace
-                description="Replace with androidxCore = &quot;1.6.1&quot;..."
-                robot="true"
-                oldString="_lint_insert_begin_"
-                replacement="androidxCore = &quot;1.6.1&quot;&#xA;"
-                priority="0">
-                <range
-                    file="../gradle/libs.versions.toml"
-                    startOffset="25"
-                    endOffset="25"/>
-            </fix-replace>
-            <fix-replace
-                description="Replace with test-core = { module = &quot;androidx.test:core&quot;, version.ref = &quot;androidxCore&quot; }..."
-                robot="true"
-                oldString="_lint_insert_begin_"
-                replacement="test-core = { module = &quot;androidx.test:core&quot;, version.ref = &quot;androidxCore&quot; }&#xA;"
-                priority="0">
-                <range
-                    file="../gradle/libs.versions.toml"
-                    startOffset="1103"
-                    endOffset="1103"/>
-            </fix-replace>
-            <fix-replace
-                description="Replace with libs.test.core"
-                robot="true"
-                replacement="libs.test.core"
-                priority="0">
-                <range
-                    file="${:app*projectDir}/build.gradle.kts"
-                    startOffset="3083"
-                    endOffset="3109"/>
-            </fix-replace>
-        </fix-composite>
-        <location
-            file="${:app*projectDir}/build.gradle.kts"
-            line="102"
-            column="24"
-            startOffset="3083"
-            endLine="102"
-            endColumn="50"
-            endOffset="3109"/>
-    </incident>
-
-    <incident
-        id="UseTomlInstead"
-        severity="warning"
-        message="Use version catalog instead">
-        <fix-composite
-            description="Replace with new library catalog declaration for test-runner"
-            robot="true">
-            <fix-replace
-                description="Replace with androidxRunner = &quot;1.6.2&quot;..."
-                robot="true"
-                oldString="_lint_insert_begin_"
-                replacement="androidxRunner = &quot;1.6.2&quot;&#xA;"
-                priority="0">
-                <range
-                    file="../gradle/libs.versions.toml"
-                    startOffset="25"
-                    endOffset="25"/>
-            </fix-replace>
-            <fix-replace
-                description="Replace with test-runner = { module = &quot;androidx.test:runner&quot;, version.ref = &quot;androidxRunner&quot; }..."
-                robot="true"
-                oldString="_lint_insert_begin_"
-                replacement="test-runner = { module = &quot;androidx.test:runner&quot;, version.ref = &quot;androidxRunner&quot; }&#xA;"
-                priority="0">
-                <range
-                    file="../gradle/libs.versions.toml"
-                    startOffset="1103"
-                    endOffset="1103"/>
-            </fix-replace>
-            <fix-replace
-                description="Replace with libs.test.runner"
-                robot="true"
-                replacement="libs.test.runner"
-                priority="0">
-                <range
-                    file="${:app*projectDir}/build.gradle.kts"
-                    startOffset="3134"
-                    endOffset="3162"/>
+                    startOffset="3132"
+                    endOffset="3168"/>
             </fix-replace>
         </fix-composite>
         <location
             file="${:app*projectDir}/build.gradle.kts"
             line="103"
             column="24"
-            startOffset="3134"
+            startOffset="3132"
             endLine="103"
-            endColumn="52"
-            endOffset="3162"/>
+            endColumn="60"
+            endOffset="3168"/>
     </incident>
 
     <incident
@@ -1839,13 +1861,13 @@
         severity="warning"
         message="Use version catalog instead">
         <fix-composite
-            description="Replace with new library catalog declaration for androidx-test-ext-junit"
+            description="Replace with new library catalog declaration for androidx-core"
             robot="true">
             <fix-replace
-                description="Replace with androidxJunitVersion = &quot;1.2.1&quot;..."
+                description="Replace with core = &quot;1.6.1&quot;..."
                 robot="true"
                 oldString="_lint_insert_begin_"
-                replacement="androidxJunitVersion = &quot;1.2.1&quot;&#xA;"
+                replacement="core = &quot;1.6.1&quot;&#xA;"
                 priority="0">
                 <range
                     file="../gradle/libs.versions.toml"
@@ -1853,10 +1875,60 @@
                     endOffset="25"/>
             </fix-replace>
             <fix-replace
-                description="Replace with androidx-test-ext-junit = { module = &quot;androidx.test.ext:junit&quot;, version.ref = &quot;androidxJunitVersion&quot; }..."
+                description="Replace with androidx-core = { module = &quot;androidx.test:core&quot;, version.ref = &quot;core&quot; }..."
                 robot="true"
                 oldString="_lint_insert_begin_"
-                replacement="androidx-test-ext-junit = { module = &quot;androidx.test.ext:junit&quot;, version.ref = &quot;androidxJunitVersion&quot; }&#xA;"
+                replacement="androidx-core = { module = &quot;androidx.test:core&quot;, version.ref = &quot;core&quot; }&#xA;"
+                priority="0">
+                <range
+                    file="../gradle/libs.versions.toml"
+                    startOffset="381"
+                    endOffset="381"/>
+            </fix-replace>
+            <fix-replace
+                description="Replace with libs.androidx.core"
+                robot="true"
+                replacement="libs.androidx.core"
+                priority="0">
+                <range
+                    file="${:app*projectDir}/build.gradle.kts"
+                    startOffset="3193"
+                    endOffset="3219"/>
+            </fix-replace>
+        </fix-composite>
+        <location
+            file="${:app*projectDir}/build.gradle.kts"
+            line="104"
+            column="24"
+            startOffset="3193"
+            endLine="104"
+            endColumn="50"
+            endOffset="3219"/>
+    </incident>
+
+    <incident
+        id="UseTomlInstead"
+        severity="warning"
+        message="Use version catalog instead">
+        <fix-composite
+            description="Replace with new library catalog declaration for androidx-runner"
+            robot="true">
+            <fix-replace
+                description="Replace with runner = &quot;1.6.2&quot;..."
+                robot="true"
+                oldString="_lint_insert_begin_"
+                replacement="runner = &quot;1.6.2&quot;&#xA;"
+                priority="0">
+                <range
+                    file="../gradle/libs.versions.toml"
+                    startOffset="144"
+                    endOffset="144"/>
+            </fix-replace>
+            <fix-replace
+                description="Replace with androidx-runner = { module = &quot;androidx.test:runner&quot;, version.ref = &quot;runner&quot; }..."
+                robot="true"
+                oldString="_lint_insert_begin_"
+                replacement="androidx-runner = { module = &quot;androidx.test:runner&quot;, version.ref = &quot;runner&quot; }&#xA;"
                 priority="0">
                 <range
                     file="../gradle/libs.versions.toml"
@@ -1864,24 +1936,74 @@
                     endOffset="832"/>
             </fix-replace>
             <fix-replace
-                description="Replace with libs.androidx.test.ext.junit"
+                description="Replace with libs.androidx.runner"
                 robot="true"
-                replacement="libs.androidx.test.ext.junit"
+                replacement="libs.androidx.runner"
                 priority="0">
                 <range
                     file="${:app*projectDir}/build.gradle.kts"
-                    startOffset="3187"
-                    endOffset="3218"/>
+                    startOffset="3244"
+                    endOffset="3272"/>
             </fix-replace>
         </fix-composite>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="104"
+            line="105"
             column="24"
-            startOffset="3187"
-            endLine="104"
+            startOffset="3244"
+            endLine="105"
+            endColumn="52"
+            endOffset="3272"/>
+    </incident>
+
+    <incident
+        id="UseTomlInstead"
+        severity="warning"
+        message="Use version catalog instead">
+        <fix-composite
+            description="Replace with new library catalog declaration for androidx-junit"
+            robot="true">
+            <fix-replace
+                description="Replace with junitVersion = &quot;1.2.1&quot;..."
+                robot="true"
+                oldString="_lint_insert_begin_"
+                replacement="junitVersion = &quot;1.2.1&quot;&#xA;"
+                priority="0">
+                <range
+                    file="../gradle/libs.versions.toml"
+                    startOffset="25"
+                    endOffset="25"/>
+            </fix-replace>
+            <fix-replace
+                description="Replace with androidx-junit = { module = &quot;androidx.test.ext:junit&quot;, version.ref = &quot;junitVersion&quot; }..."
+                robot="true"
+                oldString="_lint_insert_begin_"
+                replacement="androidx-junit = { module = &quot;androidx.test.ext:junit&quot;, version.ref = &quot;junitVersion&quot; }&#xA;"
+                priority="0">
+                <range
+                    file="../gradle/libs.versions.toml"
+                    startOffset="473"
+                    endOffset="473"/>
+            </fix-replace>
+            <fix-replace
+                description="Replace with libs.androidx.junit"
+                robot="true"
+                replacement="libs.androidx.junit"
+                priority="0">
+                <range
+                    file="${:app*projectDir}/build.gradle.kts"
+                    startOffset="3297"
+                    endOffset="3328"/>
+            </fix-replace>
+        </fix-composite>
+        <location
+            file="${:app*projectDir}/build.gradle.kts"
+            line="106"
+            column="24"
+            startOffset="3297"
+            endLine="106"
             endColumn="55"
-            endOffset="3218"/>
+            endOffset="3328"/>
     </incident>
 
     <incident
@@ -1890,15 +2012,15 @@
         message="Use version catalog instead (androidx.compose:compose-bom is already available as `androidx-compose-bom`, but using version 2024.12.01 instead)">
         <fix-alternatives>
             <fix-composite
-                description="Replace with new library catalog declaration for androidx-compose-compose-bom-v20240600-x4"
+                description="Replace with new library catalog declaration for compose-bom-v20240600"
                 robot="true"
                 independent="true">
                 <fix-replace
-                    description="Replace with androidxComposeComposeBom3 = &quot;2024.06.00&quot;..."
+                    description="Replace with androidxComposeBom = &quot;2024.06.00&quot;..."
                     robot="true"
                     independent="true"
                     oldString="_lint_insert_begin_"
-                    replacement="androidxComposeComposeBom3 = &quot;2024.06.00&quot;&#xA;"
+                    replacement="androidxComposeBom = &quot;2024.06.00&quot;&#xA;"
                     priority="0">
                     <range
                         file="../gradle/libs.versions.toml"
@@ -1906,27 +2028,27 @@
                         endOffset="25"/>
                 </fix-replace>
                 <fix-replace
-                    description="Replace with androidx-compose-compose-bom-v20240600-x4 = { module = &quot;androidx.compose:compose-bom&quot;, version.ref = &quot;androidxComposeComposeBom3&quot; }..."
+                    description="Replace with compose-bom-v20240600 = { module = &quot;androidx.compose:compose-bom&quot;, version.ref = &quot;androidxComposeBom&quot; }..."
                     robot="true"
                     independent="true"
                     oldString="_lint_insert_begin_"
-                    replacement="androidx-compose-compose-bom-v20240600-x4 = { module = &quot;androidx.compose:compose-bom&quot;, version.ref = &quot;androidxComposeComposeBom3&quot; }&#xA;"
+                    replacement="compose-bom-v20240600 = { module = &quot;androidx.compose:compose-bom&quot;, version.ref = &quot;androidxComposeBom&quot; }&#xA;"
                     priority="0">
                     <range
                         file="../gradle/libs.versions.toml"
-                        startOffset="381"
-                        endOffset="381"/>
+                        startOffset="1103"
+                        endOffset="1103"/>
                 </fix-replace>
                 <fix-replace
-                    description="Replace with libs.androidx.compose.compose.bom.v20240600.x4"
+                    description="Replace with libs.compose.bom.v20240600"
                     robot="true"
                     independent="true"
-                    replacement="libs.androidx.compose.compose.bom.v20240600.x4"
+                    replacement="libs.compose.bom.v20240600"
                     priority="0">
                     <range
                         file="${:app*projectDir}/build.gradle.kts"
-                        startOffset="3243"
-                        endOffset="3294"/>
+                        startOffset="3353"
+                        endOffset="3404"/>
                 </fix-replace>
             </fix-composite>
             <fix-replace
@@ -1935,96 +2057,18 @@
                 priority="0">
                 <range
                     file="${:app*projectDir}/build.gradle.kts"
-                    startOffset="3243"
-                    endOffset="3294"/>
+                    startOffset="3353"
+                    endOffset="3404"/>
             </fix-replace>
         </fix-alternatives>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="105"
-            column="24"
-            startOffset="3243"
-            endLine="105"
-            endColumn="75"
-            endOffset="3294"/>
-    </incident>
-
-    <incident
-        id="UseTomlInstead"
-        severity="warning"
-        message="Use version catalog instead">
-        <fix-composite
-            description="Replace with new library catalog declaration for androidx-compose-ui-ui-test-junit4"
-            robot="true">
-            <fix-replace
-                description="Replace with androidx-compose-ui-ui-test-junit4 = { module = &quot;androidx.compose.ui:ui-test-junit4&quot; }..."
-                robot="true"
-                oldString="_lint_insert_begin_"
-                replacement="androidx-compose-ui-ui-test-junit4 = { module = &quot;androidx.compose.ui:ui-test-junit4&quot; }&#xA;"
-                priority="0">
-                <range
-                    file="../gradle/libs.versions.toml"
-                    startOffset="381"
-                    endOffset="381"/>
-            </fix-replace>
-            <fix-replace
-                description="Replace with libs.androidx.compose.ui.ui.test.junit4"
-                robot="true"
-                replacement="libs.androidx.compose.ui.ui.test.junit4"
-                priority="0">
-                <range
-                    file="${:app*projectDir}/build.gradle.kts"
-                    startOffset="3319"
-                    endOffset="3355"/>
-            </fix-replace>
-        </fix-composite>
-        <location
-            file="${:app*projectDir}/build.gradle.kts"
-            line="106"
-            column="24"
-            startOffset="3319"
-            endLine="106"
-            endColumn="60"
-            endOffset="3355"/>
-    </incident>
-
-    <incident
-        id="UseTomlInstead"
-        severity="warning"
-        message="Use version catalog instead">
-        <fix-composite
-            description="Replace with new library catalog declaration for androidx-compose-ui-ui-test-manifest3"
-            robot="true">
-            <fix-replace
-                description="Replace with androidx-compose-ui-ui-test-manifest3 = { module = &quot;androidx.compose.ui:ui-test-manifest&quot; }..."
-                robot="true"
-                oldString="_lint_insert_begin_"
-                replacement="androidx-compose-ui-ui-test-manifest3 = { module = &quot;androidx.compose.ui:ui-test-manifest&quot; }&#xA;"
-                priority="0">
-                <range
-                    file="../gradle/libs.versions.toml"
-                    startOffset="381"
-                    endOffset="381"/>
-            </fix-replace>
-            <fix-replace
-                description="Replace with libs.androidx.compose.ui.ui.test.manifest3"
-                robot="true"
-                replacement="libs.androidx.compose.ui.ui.test.manifest3"
-                priority="0">
-                <range
-                    file="${:app*projectDir}/build.gradle.kts"
-                    startOffset="3381"
-                    endOffset="3419"/>
-            </fix-replace>
-        </fix-composite>
-        <location
-            file="${:app*projectDir}/build.gradle.kts"
             line="107"
-            column="25"
-            startOffset="3381"
+            column="24"
+            startOffset="3353"
             endLine="107"
-            endColumn="63"
-            endOffset="3419"/>
+            endColumn="75"
+            endOffset="3404"/>
     </incident>
 
     <incident
@@ -2032,49 +2076,38 @@
         severity="warning"
         message="Use version catalog instead">
         <fix-composite
-            description="Replace with new library catalog declaration for io-github-takahirom-roborazzi-roborazzi"
+            description="Replace with new library catalog declaration for androidx-ui-test-junit4"
             robot="true">
             <fix-replace
-                description="Replace with githubRoborazziVersion = &quot;1.42.0&quot;..."
+                description="Replace with androidx-ui-test-junit4 = { module = &quot;androidx.compose.ui:ui-test-junit4&quot; }..."
                 robot="true"
                 oldString="_lint_insert_begin_"
-                replacement="githubRoborazziVersion = &quot;1.42.0&quot;&#xA;"
+                replacement="androidx-ui-test-junit4 = { module = &quot;androidx.compose.ui:ui-test-junit4&quot; }&#xA;"
                 priority="0">
                 <range
                     file="../gradle/libs.versions.toml"
-                    startOffset="25"
-                    endOffset="25"/>
+                    startOffset="972"
+                    endOffset="972"/>
             </fix-replace>
             <fix-replace
-                description="Replace with io-github-takahirom-roborazzi-roborazzi = { module = &quot;io.github.takahirom.roborazzi:roborazzi&quot;, version.ref = &quot;githubRoborazziVersion&quot; }..."
+                description="Replace with libs.androidx.ui.test.junit4"
                 robot="true"
-                oldString="_lint_insert_begin_"
-                replacement="io-github-takahirom-roborazzi-roborazzi = { module = &quot;io.github.takahirom.roborazzi:roborazzi&quot;, version.ref = &quot;githubRoborazziVersion&quot; }&#xA;"
-                priority="0">
-                <range
-                    file="../gradle/libs.versions.toml"
-                    startOffset="1103"
-                    endOffset="1103"/>
-            </fix-replace>
-            <fix-replace
-                description="Replace with libs.io.github.takahirom.roborazzi.roborazzi"
-                robot="true"
-                replacement="libs.io.github.takahirom.roborazzi.roborazzi"
+                replacement="libs.androidx.ui.test.junit4"
                 priority="0">
                 <range
                     file="${:app*projectDir}/build.gradle.kts"
-                    startOffset="3444"
-                    endOffset="3492"/>
+                    startOffset="3429"
+                    endOffset="3465"/>
             </fix-replace>
         </fix-composite>
         <location
             file="${:app*projectDir}/build.gradle.kts"
             line="108"
             column="24"
-            startOffset="3444"
+            startOffset="3429"
             endLine="108"
-            endColumn="72"
-            endOffset="3492"/>
+            endColumn="60"
+            endOffset="3465"/>
     </incident>
 
     <incident
@@ -2082,24 +2115,63 @@
         severity="warning"
         message="Use version catalog instead">
         <fix-composite
-            description="Replace with new library catalog declaration for io-github-takahirom-roborazzi-roborazzi-compose"
+            description="Replace with new library catalog declaration for androidx-ui-test-manifest"
             robot="true">
             <fix-replace
-                description="Replace with githubRoborazziCompose = &quot;1.42.0&quot;..."
+                description="Replace with androidx-ui-test-manifest = { module = &quot;androidx.compose.ui:ui-test-manifest&quot; }..."
                 robot="true"
                 oldString="_lint_insert_begin_"
-                replacement="githubRoborazziCompose = &quot;1.42.0&quot;&#xA;"
+                replacement="androidx-ui-test-manifest = { module = &quot;androidx.compose.ui:ui-test-manifest&quot; }&#xA;"
                 priority="0">
                 <range
                     file="../gradle/libs.versions.toml"
-                    startOffset="25"
-                    endOffset="25"/>
+                    startOffset="972"
+                    endOffset="972"/>
             </fix-replace>
             <fix-replace
-                description="Replace with io-github-takahirom-roborazzi-roborazzi-compose = { module = &quot;io.github.takahirom.roborazzi:roborazzi-compose&quot;, version.ref = &quot;githubRoborazziCompose&quot; }..."
+                description="Replace with libs.androidx.ui.test.manifest"
+                robot="true"
+                replacement="libs.androidx.ui.test.manifest"
+                priority="0">
+                <range
+                    file="${:app*projectDir}/build.gradle.kts"
+                    startOffset="3491"
+                    endOffset="3529"/>
+            </fix-replace>
+        </fix-composite>
+        <location
+            file="${:app*projectDir}/build.gradle.kts"
+            line="109"
+            column="25"
+            startOffset="3491"
+            endLine="109"
+            endColumn="63"
+            endOffset="3529"/>
+    </incident>
+
+    <incident
+        id="UseTomlInstead"
+        severity="warning"
+        message="Use version catalog instead">
+        <fix-composite
+            description="Replace with new library catalog declaration for roborazzi"
+            robot="true">
+            <fix-replace
+                description="Replace with roborazziVersion = &quot;1.42.0&quot;..."
                 robot="true"
                 oldString="_lint_insert_begin_"
-                replacement="io-github-takahirom-roborazzi-roborazzi-compose = { module = &quot;io.github.takahirom.roborazzi:roborazzi-compose&quot;, version.ref = &quot;githubRoborazziCompose&quot; }&#xA;"
+                replacement="roborazziVersion = &quot;1.42.0&quot;&#xA;"
+                priority="0">
+                <range
+                    file="../gradle/libs.versions.toml"
+                    startOffset="144"
+                    endOffset="144"/>
+            </fix-replace>
+            <fix-replace
+                description="Replace with roborazzi = { module = &quot;io.github.takahirom.roborazzi:roborazzi&quot;, version.ref = &quot;roborazziVersion&quot; }..."
+                robot="true"
+                oldString="_lint_insert_begin_"
+                replacement="roborazzi = { module = &quot;io.github.takahirom.roborazzi:roborazzi&quot;, version.ref = &quot;roborazziVersion&quot; }&#xA;"
                 priority="0">
                 <range
                     file="../gradle/libs.versions.toml"
@@ -2107,24 +2179,74 @@
                     endOffset="1103"/>
             </fix-replace>
             <fix-replace
-                description="Replace with libs.io.github.takahirom.roborazzi.roborazzi.compose"
+                description="Replace with libs.roborazzi"
                 robot="true"
-                replacement="libs.io.github.takahirom.roborazzi.roborazzi.compose"
+                replacement="libs.roborazzi"
                 priority="0">
                 <range
                     file="${:app*projectDir}/build.gradle.kts"
-                    startOffset="3517"
-                    endOffset="3573"/>
+                    startOffset="3554"
+                    endOffset="3602"/>
             </fix-replace>
         </fix-composite>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="109"
+            line="110"
             column="24"
-            startOffset="3517"
-            endLine="109"
+            startOffset="3554"
+            endLine="110"
+            endColumn="72"
+            endOffset="3602"/>
+    </incident>
+
+    <incident
+        id="UseTomlInstead"
+        severity="warning"
+        message="Use version catalog instead">
+        <fix-composite
+            description="Replace with new library catalog declaration for roborazzi-compose"
+            robot="true">
+            <fix-replace
+                description="Replace with roborazziCompose = &quot;1.42.0&quot;..."
+                robot="true"
+                oldString="_lint_insert_begin_"
+                replacement="roborazziCompose = &quot;1.42.0&quot;&#xA;"
+                priority="0">
+                <range
+                    file="../gradle/libs.versions.toml"
+                    startOffset="144"
+                    endOffset="144"/>
+            </fix-replace>
+            <fix-replace
+                description="Replace with roborazzi-compose = { module = &quot;io.github.takahirom.roborazzi:roborazzi-compose&quot;, version.ref = &quot;roborazziCompose&quot; }..."
+                robot="true"
+                oldString="_lint_insert_begin_"
+                replacement="roborazzi-compose = { module = &quot;io.github.takahirom.roborazzi:roborazzi-compose&quot;, version.ref = &quot;roborazziCompose&quot; }&#xA;"
+                priority="0">
+                <range
+                    file="../gradle/libs.versions.toml"
+                    startOffset="1103"
+                    endOffset="1103"/>
+            </fix-replace>
+            <fix-replace
+                description="Replace with libs.roborazzi.compose"
+                robot="true"
+                replacement="libs.roborazzi.compose"
+                priority="0">
+                <range
+                    file="${:app*projectDir}/build.gradle.kts"
+                    startOffset="3627"
+                    endOffset="3683"/>
+            </fix-replace>
+        </fix-composite>
+        <location
+            file="${:app*projectDir}/build.gradle.kts"
+            line="111"
+            column="24"
+            startOffset="3627"
+            endLine="111"
             endColumn="80"
-            endOffset="3573"/>
+            endOffset="3683"/>
     </incident>
 
     <incident
@@ -2132,38 +2254,38 @@
         severity="warning"
         message="Use version catalog instead">
         <fix-composite
-            description="Replace with new library catalog declaration for androidx-compose-ui-ui-test-manifest4"
+            description="Replace with new library catalog declaration for ui-test-manifest"
             robot="true">
             <fix-replace
-                description="Replace with androidx-compose-ui-ui-test-manifest4 = { module = &quot;androidx.compose.ui:ui-test-manifest&quot; }..."
+                description="Replace with ui-test-manifest = { module = &quot;androidx.compose.ui:ui-test-manifest&quot; }..."
                 robot="true"
                 oldString="_lint_insert_begin_"
-                replacement="androidx-compose-ui-ui-test-manifest4 = { module = &quot;androidx.compose.ui:ui-test-manifest&quot; }&#xA;"
+                replacement="ui-test-manifest = { module = &quot;androidx.compose.ui:ui-test-manifest&quot; }&#xA;"
                 priority="0">
                 <range
                     file="../gradle/libs.versions.toml"
-                    startOffset="381"
-                    endOffset="381"/>
+                    startOffset="1103"
+                    endOffset="1103"/>
             </fix-replace>
             <fix-replace
-                description="Replace with libs.androidx.compose.ui.ui.test.manifest4"
+                description="Replace with libs.ui.test.manifest"
                 robot="true"
-                replacement="libs.androidx.compose.ui.ui.test.manifest4"
+                replacement="libs.ui.test.manifest"
                 priority="0">
                 <range
                     file="${:app*projectDir}/build.gradle.kts"
-                    startOffset="3650"
-                    endOffset="3688"/>
+                    startOffset="3760"
+                    endOffset="3798"/>
             </fix-replace>
         </fix-composite>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="112"
+            line="114"
             column="25"
-            startOffset="3650"
-            endLine="112"
+            startOffset="3760"
+            endLine="114"
             endColumn="63"
-            endOffset="3688"/>
+            endOffset="3798"/>
     </incident>
 
     <incident
@@ -2171,38 +2293,38 @@
         severity="warning"
         message="Use version catalog instead">
         <fix-composite
-            description="Replace with new library catalog declaration for androidx-compose-ui-ui-tooling"
+            description="Replace with new library catalog declaration for androidx-ui-tooling"
             robot="true">
             <fix-replace
-                description="Replace with androidx-compose-ui-ui-tooling = { module = &quot;androidx.compose.ui:ui-tooling&quot; }..."
+                description="Replace with androidx-ui-tooling = { module = &quot;androidx.compose.ui:ui-tooling&quot; }..."
                 robot="true"
                 oldString="_lint_insert_begin_"
-                replacement="androidx-compose-ui-ui-tooling = { module = &quot;androidx.compose.ui:ui-tooling&quot; }&#xA;"
+                replacement="androidx-ui-tooling = { module = &quot;androidx.compose.ui:ui-tooling&quot; }&#xA;"
                 priority="0">
                 <range
                     file="../gradle/libs.versions.toml"
-                    startOffset="381"
-                    endOffset="381"/>
+                    startOffset="972"
+                    endOffset="972"/>
             </fix-replace>
             <fix-replace
-                description="Replace with libs.androidx.compose.ui.ui.tooling"
+                description="Replace with libs.androidx.ui.tooling"
                 robot="true"
-                replacement="libs.androidx.compose.ui.ui.tooling"
+                replacement="libs.androidx.ui.tooling"
                 priority="0">
                 <range
                     file="${:app*projectDir}/build.gradle.kts"
-                    startOffset="3714"
-                    endOffset="3746"/>
+                    startOffset="3824"
+                    endOffset="3856"/>
             </fix-replace>
         </fix-composite>
         <location
             file="${:app*projectDir}/build.gradle.kts"
-            line="113"
+            line="115"
             column="25"
-            startOffset="3714"
-            endLine="113"
+            startOffset="3824"
+            endLine="115"
             endColumn="57"
-            endOffset="3746"/>
+            endOffset="3856"/>
     </incident>
 
 </incidents>

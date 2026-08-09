@@ -18,6 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.wear.compose.foundation.rememberSwipeToDismissBoxState
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
 import androidx.wear.compose.foundation.rotary.RotaryScrollableDefaults
@@ -252,8 +253,31 @@ private fun QueueItem(
     onRemove: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    // Spotify-style: swipe the row away to remove it from the queue.
+    val dismissState = rememberSwipeToDismissBoxState()
+    SwipeToDismissBox(
+        onDismissed = { onRemove() },
+        state = dismissState,
+        modifier = modifier,
+        backgroundScrimColor = Color(0xFFE91E63).copy(alpha = 0.25f),
+        content = { isBackground ->
+        if (isBackground) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.CenterEnd
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_close),
+                    contentDescription = null,
+                    tint = Color(0xFFE91E63),
+                    modifier = Modifier
+                        .padding(end = 20.dp)
+                        .size(20.dp)
+                )
+            }
+        } else {
     Row(
-        modifier = modifier
+        modifier = Modifier
             .padding(vertical = 3.dp)
             .background(
                 color = if (isCurrentTrack) Color(0xFF1DB954).copy(alpha = 0.15f) 
@@ -353,6 +377,9 @@ private fun QueueItem(
             )
         }
     }
+        }
+        }
+    )
 }
 
 /**

@@ -3,6 +3,7 @@ package com.wearsic.server
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application
+import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.ApplicationCallPipeline
 import io.ktor.server.application.ApplicationStopped
 import io.ktor.server.application.call
@@ -17,6 +18,7 @@ import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
 import io.ktor.server.cio.CIO
+import kotlinx.coroutines.CancellationException
 import io.ktor.server.engine.embeddedServer
 import kotlinx.serialization.json.Json
 import org.schabi.newpipe.extractor.NewPipe
@@ -44,6 +46,12 @@ fun Application.module(databasePath: String = System.getenv("WEARSIC_DB_PATH") ?
         })
     }
     val database = Database(databasePath)
+    // A cookie saved from the watch app persists in SQLite. The env var remains
+    // the fallback default for operators who prefer file-based configuration.
+    val persistedCookie = database.getSetting(SETTING_YOUTUBE_COOKIE).orEmpty()
+    if (YoutubeSession.cookie.isBlank() && persistedCookie.isNotBlank()) {
+        YoutubeSession.cookie = persistedCookie
+    }
     val extractor = ExtractorService()
     val audioProxy = AudioProxy(extractor)
     NewPipe.init(NewPipeDownloader())
@@ -83,14 +91,19 @@ private fun Route.registerApiRoutes(database: Database, extractor: ExtractorServ
     get("/search") {
         val query = call.request.queryParameters["q"].orEmpty()
         if (query.length < 2) return@get call.respond(HttpStatusCode.BadRequest, ErrorResponse("Query must contain at least two characters"))
-        call.respond(SearchResponse(extractor.search(query)))
+        call.respondExtracted { SearchResponse(extractor.search(query)) }
     }
     get("/suggestions") {
-        call.respond(SuggestionResponse(extractor.suggestions(call.request.queryParameters["q"].orEmpty())))
+        call.respondExtracted { SuggestionResponse(extractor.suggestions(call.request.queryParameters["q"].orEmpty())) }
+    }
+    get("/search/albums") {
+        val query = call.request.queryParameters["q"].orEmpty()
+        if (query.length < 2) return@get call.respond(HttpStatusCode.BadRequest, ErrorResponse("Query must contain at least two characters"))
+        call.respondExtracted { extractor.searchAlbums(query) }
     }
     get("/related/{videoId}") {
         val videoId = call.parameters["videoId"] ?: return@get call.respond(HttpStatusCode.BadRequest, ErrorResponse("Missing videoId"))
-        call.respond(SearchResponse(extractor.related(videoId)))
+        call.respondExtracted { SearchResponse(extractor.related(videoId)) }
     }
     get("/favorites") { call.respond(database.getFavorites()) }
     post("/favorites") {
@@ -126,13 +139,42 @@ private fun Route.registerApiRoutes(database: Database, extractor: ExtractorServ
     }
     get("/playlist") {
         val url = call.request.queryParameters["url"] ?: return@get call.respond(HttpStatusCode.BadRequest, ErrorResponse("Missing playlist URL"))
-        call.respond(extractor.playlist(url))
+        call.respondExtracted { extractor.playlist(url) }
     }
     get("/channel") {
         val url = call.request.queryParameters["url"] ?: return@get call.respond(HttpStatusCode.BadRequest, ErrorResponse("Missing channel URL"))
-        call.respond(extractor.channel(url))
+        call.respondExtracted { extractor.channel(url) }
+    }
+    get("/config/youtube-cookie") {
+        call.respond(YoutubeCookieStatus(database.getSetting(SETTING_YOUTUBE_COOKIE).orEmpty().isNotBlank()))
+    }
+    post("/config/youtube-cookie") {
+        val cookie = call.receive<YoutubeCookieRequest>().cookie.trim()
+        database.saveSetting(SETTING_YOUTUBE_COOKIE, cookie)
+        // An empty push from the app clears the saved cookie but must not clobber
+        // an operator-configured WEARSIC_YOUTUBE_COOKIE fallback at runtime.
+        YoutubeSession.cookie = cookie.ifBlank { YoutubeSession.envFallbackCookie }
+        call.respond(HttpStatusCode.NoContent)
+    }
+}
+
+/**
+ * Runs a NewPipe-backed producer and maps extraction failures to clean JSON
+ * errors instead of unhandled HTTP 500 responses.
+ */
+private suspend fun ApplicationCall.respondExtracted(block: suspend () -> Any) {
+    try {
+        respond(block())
+    } catch (error: CancellationException) {
+        throw error
+    } catch (error: Exception) {
+        // Log the real failure server-side; clients only get the mapped message.
+        application.environment.log.warn("Extraction failed", error)
+        val mapped = mapExtractionError(error)
+        respond(mapped.status, ErrorResponse(mapped.message))
     }
 }
 
 private const val VERSION = "1.0.0"
 private const val API_KEY_HEADER = "X-Wearsic-Key"
+private const val SETTING_YOUTUBE_COOKIE = "youtube_cookie"

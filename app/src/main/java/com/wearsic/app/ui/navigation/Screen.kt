@@ -6,6 +6,7 @@ package com.wearsic.app.ui.navigation
 sealed class Screen(val route: String) {
     object NowPlaying : Screen("now_playing")
     object Search : Screen("search")
+    object AlbumDetail : Screen("album_detail")
     object Favorites : Screen("favorites")
     object Queue : Screen("queue")
     object Settings : Screen("settings")

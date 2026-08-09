@@ -22,6 +22,7 @@ class SettingsManager(private val context: Context) {
     companion object {
         private val SERVER_URL = stringPreferencesKey("server_url")
         private val API_KEY = stringPreferencesKey("api_key")
+        private val YOUTUBE_COOKIE = stringPreferencesKey("youtube_cookie")
     }
     
     /**
@@ -53,6 +54,22 @@ class SettingsManager(private val context: Context) {
     suspend fun saveApiKey(key: String) {
         context.dataStore.edit { preferences ->
             preferences[API_KEY] = key
+        }
+    }
+    
+    /**
+     * Get the saved YouTube browser cookie as a Flow
+     */
+    val youtubeCookie: Flow<String> = context.dataStore.data.map { preferences ->
+        preferences[YOUTUBE_COOKIE] ?: ""
+    }
+    
+    /**
+     * Save the YouTube browser cookie
+     */
+    suspend fun saveYoutubeCookie(cookie: String) {
+        context.dataStore.edit { preferences ->
+            preferences[YOUTUBE_COOKIE] = cookie.trim()
         }
     }
     

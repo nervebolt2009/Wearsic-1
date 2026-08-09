@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.wearsic.app.QueueScreenTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-08-08T17:10:37" hostname="codespaces-3c9c6d" time="0.87">
+<testsuite name="com.wearsic.app.QueueScreenTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-08-09T07:57:49" hostname="codespaces-3c9c6d" time="0.878">
   <properties/>
-  <testcase name="testQueueScreenDisplaysCurrentTrack" classname="com.wearsic.app.QueueScreenTest" time="0.127"/>
-  <testcase name="testQueueScreenDisplaysEmptyState" classname="com.wearsic.app.QueueScreenTest" time="0.098"/>
-  <testcase name="testQueueScreenDisplaysHeader" classname="com.wearsic.app.QueueScreenTest" time="0.087"/>
-  <testcase name="testQueueScreenDisplaysTracks" classname="com.wearsic.app.QueueScreenTest" time="0.157"/>
-  <testcase name="testClearQueueButtonExists" classname="com.wearsic.app.QueueScreenTest" time="0.121"/>
-  <testcase name="testTrackClickable" classname="com.wearsic.app.QueueScreenTest" time="0.166"/>
-  <testcase name="testRemoveFromQueueButtonExists" classname="com.wearsic.app.QueueScreenTest" time="0.113"/>
+  <testcase name="testQueueScreenDisplaysCurrentTrack" classname="com.wearsic.app.QueueScreenTest" time="0.197"/>
+  <testcase name="testQueueScreenDisplaysEmptyState" classname="com.wearsic.app.QueueScreenTest" time="0.08"/>
+  <testcase name="testQueueScreenDisplaysHeader" classname="com.wearsic.app.QueueScreenTest" time="0.096"/>
+  <testcase name="testQueueScreenDisplaysTracks" classname="com.wearsic.app.QueueScreenTest" time="0.156"/>
+  <testcase name="testClearQueueButtonExists" classname="com.wearsic.app.QueueScreenTest" time="0.12"/>
+  <testcase name="testTrackClickable" classname="com.wearsic.app.QueueScreenTest" time="0.137"/>
+  <testcase name="testRemoveFromQueueButtonExists" classname="com.wearsic.app.QueueScreenTest" time="0.092"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

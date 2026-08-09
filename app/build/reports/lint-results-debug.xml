@@ -61,7 +61,7 @@
         errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="65"
+            line="66"
             column="20"/>
     </issue>
 
@@ -77,7 +77,7 @@
         errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="66"
+            line="67"
             column="20"/>
     </issue>
 
@@ -93,7 +93,7 @@
         errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="67"
+            line="68"
             column="20"/>
     </issue>
 
@@ -109,7 +109,7 @@
         errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="70"
+            line="71"
             column="20"/>
     </issue>
 
@@ -125,7 +125,7 @@
         errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="76"
+            line="77"
             column="20"/>
     </issue>
 
@@ -141,7 +141,7 @@
         errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="77"
+            line="78"
             column="20"/>
     </issue>
 
@@ -157,7 +157,7 @@
         errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="78"
+            line="79"
             column="20"/>
     </issue>
 
@@ -173,7 +173,7 @@
         errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="81"
+            line="82"
             column="20"/>
     </issue>
 
@@ -189,7 +189,7 @@
         errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="82"
+            line="83"
             column="20"/>
     </issue>
 
@@ -205,7 +205,7 @@
         errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="91"
+            line="93"
             column="20"/>
     </issue>
 
@@ -221,7 +221,7 @@
         errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="94"
+            line="96"
             column="20"/>
     </issue>
 
@@ -237,7 +237,7 @@
         errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="97"
+            line="99"
             column="20"/>
     </issue>
 
@@ -253,7 +253,7 @@
         errorLine2="                       ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="102"
+            line="104"
             column="24"/>
     </issue>
 
@@ -269,7 +269,7 @@
         errorLine2="                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="103"
+            line="105"
             column="24"/>
     </issue>
 
@@ -285,7 +285,7 @@
         errorLine2="                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="104"
+            line="106"
             column="24"/>
     </issue>
 
@@ -301,7 +301,7 @@
         errorLine2="                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="105"
+            line="107"
             column="24"/>
     </issue>
 
@@ -1119,6 +1119,54 @@
             file="/workspaces/Wearsic/gradle/libs.versions.toml"
             line="15"
             column="13"/>
+    </issue>
+
+    <issue
+        id="ModifierParameter"
+        severity="Warning"
+        message="Modifier parameter should be the first optional parameter"
+        category="Correctness"
+        priority="3"
+        summary="Guidelines for Modifier parameters in a Composable function"
+        explanation="The first (or only) Modifier parameter in a Composable function should follow the following rules:&#xA;- Be named `modifier`&#xA;- Have a type of `Modifier`&#xA;- Either have no default value, or have a default value of `Modifier`&#xA;- If optional, be the first optional parameter in the parameter list"
+        errorLine1="    modifier: Modifier = Modifier"
+        errorLine2="    ~~~~~~~~">
+        <location
+            file="/workspaces/Wearsic/app/src/main/java/com/wearsic/app/ui/screens/AlbumDetailScreen.kt"
+            line="35"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ModifierParameter"
+        severity="Warning"
+        message="Modifier parameter should be the first optional parameter"
+        category="Correctness"
+        priority="3"
+        summary="Guidelines for Modifier parameters in a Composable function"
+        explanation="The first (or only) Modifier parameter in a Composable function should follow the following rules:&#xA;- Be named `modifier`&#xA;- Have a type of `Modifier`&#xA;- Either have no default value, or have a default value of `Modifier`&#xA;- If optional, be the first optional parameter in the parameter list"
+        errorLine1="    modifier: Modifier = Modifier"
+        errorLine2="    ~~~~~~~~">
+        <location
+            file="/workspaces/Wearsic/app/src/main/java/com/wearsic/app/ui/screens/NowPlayingScreen.kt"
+            line="66"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ModifierParameter"
+        severity="Warning"
+        message="Modifier parameter should be the first optional parameter"
+        category="Correctness"
+        priority="3"
+        summary="Guidelines for Modifier parameters in a Composable function"
+        explanation="The first (or only) Modifier parameter in a Composable function should follow the following rules:&#xA;- Be named `modifier`&#xA;- Have a type of `Modifier`&#xA;- Either have no default value, or have a default value of `Modifier`&#xA;- If optional, be the first optional parameter in the parameter list"
+        errorLine1="    modifier: Modifier = Modifier"
+        errorLine2="    ~~~~~~~~">
+        <location
+            file="/workspaces/Wearsic/app/src/main/java/com/wearsic/app/ui/screens/SearchScreen.kt"
+            line="365"
+            column="5"/>
     </issue>
 
     <issue
@@ -1135,8 +1183,40 @@
         errorLine2="         ~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/src/main/AndroidManifest.xml"
-            line="44"
+            line="43"
             column="10"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        severity="Warning"
+        message="Unnecessary; SDK_INT is always >= 30"
+        category="Performance"
+        priority="6"
+        summary="Obsolete SDK_INT Version Check"
+        explanation="This check flags version checks that are not necessary, because the `minSdkVersion` (or surrounding known API level) is already at least as high as the version checked for.&#xA;&#xA;Similarly, it also looks for resources in `-vNN` folders, such as `values-v14` where the version qualifier is less than or equal to the `minSdkVersion`, where the contents should be merged into the best folder."
+        errorLine1="                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/workspaces/Wearsic/app/src/main/java/com/wearsic/app/service/MediaPlaybackService.kt"
+            line="143"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        severity="Warning"
+        message="Unnecessary; SDK_INT is always >= 30"
+        category="Performance"
+        priority="6"
+        summary="Obsolete SDK_INT Version Check"
+        explanation="This check flags version checks that are not necessary, because the `minSdkVersion` (or surrounding known API level) is already at least as high as the version checked for.&#xA;&#xA;Similarly, it also looks for resources in `-vNN` folders, such as `values-v14` where the version qualifier is less than or equal to the `minSdkVersion`, where the contents should be merged into the best folder."
+        errorLine1="        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/workspaces/Wearsic/app/src/main/java/com/wearsic/app/service/MediaPlaybackService.kt"
+            line="232"
+            column="13"/>
     </issue>
 
     <issue
@@ -1179,7 +1259,7 @@
         errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="65"
+            line="66"
             column="20"/>
     </issue>
 
@@ -1195,7 +1275,7 @@
         errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="66"
+            line="67"
             column="20"/>
     </issue>
 
@@ -1211,7 +1291,7 @@
         errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="67"
+            line="68"
             column="20"/>
     </issue>
 
@@ -1227,7 +1307,7 @@
         errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="70"
+            line="71"
             column="20"/>
     </issue>
 
@@ -1243,7 +1323,7 @@
         errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="71"
+            line="72"
             column="20"/>
     </issue>
 
@@ -1259,7 +1339,7 @@
         errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="72"
+            line="73"
             column="20"/>
     </issue>
 
@@ -1275,7 +1355,7 @@
         errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="73"
+            line="74"
             column="20"/>
     </issue>
 
@@ -1291,7 +1371,7 @@
         errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="76"
+            line="77"
             column="20"/>
     </issue>
 
@@ -1307,7 +1387,7 @@
         errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="77"
+            line="78"
             column="20"/>
     </issue>
 
@@ -1323,7 +1403,7 @@
         errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="78"
+            line="79"
             column="20"/>
     </issue>
 
@@ -1339,7 +1419,7 @@
         errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="81"
+            line="82"
             column="20"/>
     </issue>
 
@@ -1355,7 +1435,7 @@
         errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="82"
+            line="83"
             column="20"/>
     </issue>
 
@@ -1371,7 +1451,7 @@
         errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="85"
+            line="86"
             column="20"/>
     </issue>
 
@@ -1387,7 +1467,7 @@
         errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="86"
+            line="87"
             column="20"/>
     </issue>
 
@@ -1403,7 +1483,7 @@
         errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="87"
+            line="88"
             column="20"/>
     </issue>
 
@@ -1419,8 +1499,24 @@
         errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="88"
+            line="89"
             column="20"/>
+    </issue>
+
+    <issue
+        id="UseTomlInstead"
+        severity="Warning"
+        message="Use version catalog instead"
+        category="Productivity"
+        priority="4"
+        summary="Use TOML Version Catalog Instead"
+        explanation="If your project is using a `libs.versions.toml` file, you should place all Gradle dependencies in the TOML file. This lint check looks for version declarations outside of the TOML file and suggests moving them (and in the IDE, provides a quickfix to performing the operation automatically)."
+        errorLine1="    testImplementation(&quot;io.ktor:ktor-client-mock:2.3.12&quot;)"
+        errorLine2="                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/workspaces/Wearsic/app/build.gradle.kts"
+            line="90"
+            column="24"/>
     </issue>
 
     <issue
@@ -1435,7 +1531,7 @@
         errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="91"
+            line="93"
             column="20"/>
     </issue>
 
@@ -1451,7 +1547,7 @@
         errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="94"
+            line="96"
             column="20"/>
     </issue>
 
@@ -1467,7 +1563,7 @@
         errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="97"
+            line="99"
             column="20"/>
     </issue>
 
@@ -1483,7 +1579,7 @@
         errorLine2="                       ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="100"
+            line="102"
             column="24"/>
     </issue>
 
@@ -1499,7 +1595,7 @@
         errorLine2="                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="101"
+            line="103"
             column="24"/>
     </issue>
 
@@ -1515,7 +1611,7 @@
         errorLine2="                       ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="102"
+            line="104"
             column="24"/>
     </issue>
 
@@ -1531,7 +1627,7 @@
         errorLine2="                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="103"
+            line="105"
             column="24"/>
     </issue>
 
@@ -1547,7 +1643,7 @@
         errorLine2="                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="104"
+            line="106"
             column="24"/>
     </issue>
 
@@ -1563,7 +1659,7 @@
         errorLine2="                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="105"
+            line="107"
             column="24"/>
     </issue>
 
@@ -1579,7 +1675,7 @@
         errorLine2="                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="106"
+            line="108"
             column="24"/>
     </issue>
 
@@ -1595,7 +1691,7 @@
         errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="107"
+            line="109"
             column="25"/>
     </issue>
 
@@ -1611,7 +1707,7 @@
         errorLine2="                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="108"
+            line="110"
             column="24"/>
     </issue>
 
@@ -1627,7 +1723,7 @@
         errorLine2="                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="109"
+            line="111"
             column="24"/>
     </issue>
 
@@ -1643,7 +1739,7 @@
         errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="112"
+            line="114"
             column="25"/>
     </issue>
 
@@ -1659,7 +1755,7 @@
         errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="/workspaces/Wearsic/app/build.gradle.kts"
-            line="113"
+            line="115"
             column="25"/>
     </issue>
 

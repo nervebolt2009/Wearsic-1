@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.wearsic.app.NowPlayingScreenTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-08-08T17:10:36" hostname="codespaces-3c9c6d" time="0.821">
+<testsuite name="com.wearsic.app.NowPlayingScreenTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-08-09T07:57:48" hostname="codespaces-3c9c6d" time="0.93">
   <properties/>
-  <testcase name="testFavoriteToggleCallable" classname="com.wearsic.app.NowPlayingScreenTest" time="0.193"/>
-  <testcase name="testNowPlayingScreenDisplaysTrackInfo" classname="com.wearsic.app.NowPlayingScreenTest" time="0.138"/>
-  <testcase name="testShuffleToggleCallable" classname="com.wearsic.app.NowPlayingScreenTest" time="0.118"/>
-  <testcase name="testRepeatToggleCallable" classname="com.wearsic.app.NowPlayingScreenTest" time="0.13"/>
-  <testcase name="testPlayPauseButtonClickable" classname="com.wearsic.app.NowPlayingScreenTest" time="0.132"/>
-  <testcase name="testNowPlayingScreenDisplaysEmptyState" classname="com.wearsic.app.NowPlayingScreenTest" time="0.11"/>
+  <testcase name="testFavoriteToggleCallable" classname="com.wearsic.app.NowPlayingScreenTest" time="0.187"/>
+  <testcase name="testNowPlayingScreenDisplaysTrackInfo" classname="com.wearsic.app.NowPlayingScreenTest" time="0.127"/>
+  <testcase name="testShuffleToggleCallable" classname="com.wearsic.app.NowPlayingScreenTest" time="0.106"/>
+  <testcase name="testRepeatToggleCallable" classname="com.wearsic.app.NowPlayingScreenTest" time="0.113"/>
+  <testcase name="testPlaybackErrorIsVisible" classname="com.wearsic.app.NowPlayingScreenTest" time="0.134"/>
+  <testcase name="testPlayPauseButtonClickable" classname="com.wearsic.app.NowPlayingScreenTest" time="0.137"/>
+  <testcase name="testNowPlayingScreenDisplaysEmptyState" classname="com.wearsic.app.NowPlayingScreenTest" time="0.122"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
