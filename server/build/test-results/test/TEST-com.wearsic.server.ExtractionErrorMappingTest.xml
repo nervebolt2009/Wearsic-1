@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.wearsic.server.ExtractionErrorMappingTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-08-09T08:09:53" hostname="codespaces-3c9c6d" time="0.05">
+  <properties/>
+  <testcase name="mapsNewPipeFailuresToCleanStatusCodes()" classname="com.wearsic.server.ExtractionErrorMappingTest" time="0.05"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

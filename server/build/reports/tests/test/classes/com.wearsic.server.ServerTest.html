@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - ServerTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>ServerTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/com.wearsic.server.html">com.wearsic.server</a> &gt; ServerTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">5</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.924s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">albumsSearchRejectsShortQueries()</td>
+<td class="success">0.031s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">favoritesAndPlaylistsPersist()</td>
+<td class="success">0.773s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">healthIsPublicAndReportsOk()</td>
+<td class="success">0.029s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">shortSearchIsRejectedBeforeExtraction()</td>
+<td class="success">0.028s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">youtubeCookieCanBeStoredAndCleared()</td>
+<td class="success">0.063s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>08:09:54.257 [DefaultDispatcher-worker-1 @call-context#2] INFO ktor.test -- No ktor.deployment.watch patterns specified, automatic reload is not active.
+08:09:54.423 [DefaultDispatcher-worker-1 @call-context#2] INFO ktor.test -- Application started in 0.177 seconds.
+08:09:54.426 [DefaultDispatcher-worker-3 @coroutine#4] INFO ktor.test -- Responding at http://localhost:80
+08:09:54.426 [DefaultDispatcher-worker-3 @coroutine#4] INFO ktor.test -- Responding at https://localhost:443
+08:09:54.640 [DefaultDispatcher-worker-3 @call-context#24] INFO ktor.test -- No ktor.deployment.watch patterns specified, automatic reload is not active.
+08:09:54.649 [DefaultDispatcher-worker-3 @call-context#24] INFO ktor.test -- Application started in 0.01 seconds.
+08:09:54.650 [DefaultDispatcher-worker-6 @coroutine#26] INFO ktor.test -- Responding at http://localhost:80
+08:09:54.650 [DefaultDispatcher-worker-6 @coroutine#26] INFO ktor.test -- Responding at https://localhost:443
+08:09:54.670 [DefaultDispatcher-worker-3 @call-context#35] INFO ktor.test -- No ktor.deployment.watch patterns specified, automatic reload is not active.
+08:09:54.684 [DefaultDispatcher-worker-3 @call-context#35] INFO ktor.test -- Application started in 0.015 seconds.
+08:09:54.686 [DefaultDispatcher-worker-2 @coroutine#37] INFO ktor.test -- Responding at http://localhost:80
+08:09:54.686 [DefaultDispatcher-worker-2 @coroutine#37] INFO ktor.test -- Responding at https://localhost:443
+08:09:54.705 [DefaultDispatcher-worker-3 @call-context#46] INFO ktor.test -- No ktor.deployment.watch patterns specified, automatic reload is not active.
+08:09:54.723 [DefaultDispatcher-worker-3 @call-context#46] INFO ktor.test -- Application started in 0.02 seconds.
+08:09:54.727 [DefaultDispatcher-worker-4 @coroutine#48] INFO ktor.test -- Responding at http://localhost:80
+08:09:54.727 [DefaultDispatcher-worker-4 @coroutine#48] INFO ktor.test -- Responding at https://localhost:443
+08:09:54.769 [DefaultDispatcher-worker-5 @call-context#63] INFO ktor.test -- No ktor.deployment.watch patterns specified, automatic reload is not active.
+08:09:54.781 [DefaultDispatcher-worker-5 @call-context#63] INFO ktor.test -- Application started in 0.013 seconds.
+08:09:54.782 [DefaultDispatcher-worker-4 @coroutine#65] INFO ktor.test -- Responding at http://localhost:80
+08:09:54.782 [DefaultDispatcher-worker-4 @coroutine#65] INFO ktor.test -- Responding at https://localhost:443
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 8.11.1</a> at Aug 9, 2026, 8:09:54 AM</p>
+</div>
+</div>
+</body>
+</html>
