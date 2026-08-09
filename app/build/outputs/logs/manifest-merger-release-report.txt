@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:2:1-54:12
-INJECTED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:2:1-54:12
-INJECTED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:2:1-54:12
-INJECTED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:2:1-54:12
+ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:2:1-55:12
+INJECTED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:2:1-55:12
+INJECTED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:2:1-55:12
+INJECTED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:2:1-55:12
 MERGED from [androidx.wear.compose:compose-material:1.5.0] /home/vscode/.gradle/caches/8.11.1/transforms/bfcdc302a0ab72c8d30ac455d8909441/transformed/compose-material-1.5.0/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.wear.compose:compose-material-core:1.5.0] /home/vscode/.gradle/caches/8.11.1/transforms/6207acc287ed43c16fbf4fc1575d248c/transformed/compose-material-core-1.5.0/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.wear.compose:compose-foundation:1.5.0] /home/vscode/.gradle/caches/8.11.1/transforms/a11648ee16af70f739a084310a43516c/transformed/compose-foundation-1.5.0/AndroidManifest.xml:17:1-28:12
@@ -27,7 +27,6 @@ MERGED from [androidx.compose.material:material-icons-core-android:1.7.7] /home/
 MERGED from [com.google.accompanist:accompanist-drawablepainter:0.32.0] /home/vscode/.gradle/caches/8.11.1/transforms/e376179520ee8004a6a337a166e99a0d/transformed/accompanist-drawablepainter-0.32.0/AndroidManifest.xml:17:1-23:12
 MERGED from [androidx.compose.ui:ui-unit-android:1.8.2] /home/vscode/.gradle/caches/8.11.1/transforms/94295d05ea44efb0c41813adf1f8ef2e/transformed/ui-unit-release/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.ui:ui-geometry-android:1.8.2] /home/vscode/.gradle/caches/8.11.1/transforms/6d9f89f22676cb1548145f3ed637d3a2/transformed/ui-geometry-release/AndroidManifest.xml:2:1-7:12
-MERGED from [androidx.compose.ui:ui-tooling-preview-android:1.8.2] /home/vscode/.gradle/caches/8.11.1/transforms/78280252ab51ae2d1c9575168d5048ed/transformed/ui-tooling-preview-release/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.compose.ui:ui-util-android:1.8.2] /home/vscode/.gradle/caches/8.11.1/transforms/002ab68579feb43472ba822d01c3d669/transformed/ui-util-release/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.ui:ui-text-android:1.8.2] /home/vscode/.gradle/caches/8.11.1/transforms/0ccceff205847952c97625c85b3d5152/transformed/ui-text-release/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.ui:ui-graphics-android:1.8.2] /home/vscode/.gradle/caches/8.11.1/transforms/44286b3447b3c5ec673233987cfaf25a/transformed/ui-graphics-release/AndroidManifest.xml:2:1-7:12
@@ -113,19 +112,23 @@ uses-permission#android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK
 ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:10:5-92
 	android:name
 		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:10:22-89
+uses-permission#android.permission.POST_NOTIFICATIONS
+ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:11:5-77
+	android:name
+		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:11:22-74
 uses-feature#android.hardware.type.watch
-ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:13:5-64
+ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:14:5-64
 	android:name
-		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:13:19-61
+		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:14:19-61
 uses-feature#android.hardware.rotary
-ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:14:5-16:36
+ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:15:5-17:36
 	android:required
-		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:16:9-33
+		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:17:9-33
 	android:name
-		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:15:9-47
+		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:16:9-47
 application
-ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:18:5-52:19
-INJECTED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:18:5-52:19
+ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:19:5-53:19
+INJECTED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:19:5-53:19
 MERGED from [androidx.wear.compose:compose-foundation:1.5.0] /home/vscode/.gradle/caches/8.11.1/transforms/a11648ee16af70f739a084310a43516c/transformed/compose-foundation-1.5.0/AndroidManifest.xml:22:5-26:19
 MERGED from [androidx.wear.compose:compose-foundation:1.5.0] /home/vscode/.gradle/caches/8.11.1/transforms/a11648ee16af70f739a084310a43516c/transformed/compose-foundation-1.5.0/AndroidManifest.xml:22:5-26:19
 MERGED from [androidx.emoji2:emoji2:1.4.0] /home/vscode/.gradle/caches/8.11.1/transforms/769b980ee83d502c13dfcf55ca6f7226/transformed/emoji2-1.4.0/AndroidManifest.xml:23:5-33:19
@@ -145,59 +148,59 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] /home/vscode/.gradle/caches
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.15.0] /home/vscode/.gradle/caches/8.11.1/transforms/780fffc1c8dc21dc26594fe0c9b6438e/transformed/core-1.15.0/AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:23:9-35
+		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:24:9-35
 	android:label
-		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:22:9-41
+		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:23:9-41
 	android:roundIcon
-		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:21:9-48
+		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:22:9-48
 	tools:targetApi
-		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:25:9-29
+		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:26:9-29
 	android:icon
-		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:20:9-43
+		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:21:9-43
 	android:allowBackup
-		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:19:9-35
+		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:20:9-35
 	android:theme
-		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:24:9-59
+		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:25:9-59
 meta-data#com.google.android.wearable.standalone
-ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:27:9-29:36
+ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:28:9-30:36
 	android:value
-		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:29:13-33
+		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:30:13-33
 	android:name
-		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:28:13-66
+		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:29:13-66
 activity#com.wearsic.app.MainActivity
-ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:31:9-40:20
+ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:32:9-41:20
 	android:exported
-		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:33:13-36
-	android:theme
-		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:35:13-63
-	android:taskAffinity
 		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:34:13-36
+	android:theme
+		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:36:13-63
+	android:taskAffinity
+		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:35:13-36
 	android:name
-		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:32:13-41
+		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:33:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:36:13-39:29
+ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:37:13-40:29
 action#android.intent.action.MAIN
-ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:37:17-69
+ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:38:17-69
 	android:name
-		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:37:25-66
+		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:38:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:38:17-77
+ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:39:17-77
 	android:name
-		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:38:27-74
+		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:39:27-74
 service#com.wearsic.app.service.MediaPlaybackService
-ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:43:9-50:19
+ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:44:9-51:19
 	android:exported
-		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:46:13-36
+		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:47:13-36
 	android:foregroundServiceType
-		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:45:13-58
+		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:46:13-58
 	android:name
-		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:44:13-57
+		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:45:13-57
 intent-filter#action:name:androidx.media3.session.MediaSessionService
-ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:47:13-49:29
+ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:48:13-50:29
 action#androidx.media3.session.MediaSessionService
-ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:48:17-86
+ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:49:17-86
 	android:name
-		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:48:25-83
+		ADDED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml:49:25-83
 uses-sdk
 INJECTED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /workspaces/Wearsic/app/src/main/AndroidManifest.xml
@@ -248,8 +251,6 @@ MERGED from [androidx.compose.ui:ui-unit-android:1.8.2] /home/vscode/.gradle/cac
 MERGED from [androidx.compose.ui:ui-unit-android:1.8.2] /home/vscode/.gradle/caches/8.11.1/transforms/94295d05ea44efb0c41813adf1f8ef2e/transformed/ui-unit-release/AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.ui:ui-geometry-android:1.8.2] /home/vscode/.gradle/caches/8.11.1/transforms/6d9f89f22676cb1548145f3ed637d3a2/transformed/ui-geometry-release/AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.ui:ui-geometry-android:1.8.2] /home/vscode/.gradle/caches/8.11.1/transforms/6d9f89f22676cb1548145f3ed637d3a2/transformed/ui-geometry-release/AndroidManifest.xml:5:5-44
-MERGED from [androidx.compose.ui:ui-tooling-preview-android:1.8.2] /home/vscode/.gradle/caches/8.11.1/transforms/78280252ab51ae2d1c9575168d5048ed/transformed/ui-tooling-preview-release/AndroidManifest.xml:20:5-44
-MERGED from [androidx.compose.ui:ui-tooling-preview-android:1.8.2] /home/vscode/.gradle/caches/8.11.1/transforms/78280252ab51ae2d1c9575168d5048ed/transformed/ui-tooling-preview-release/AndroidManifest.xml:20:5-44
 MERGED from [androidx.compose.ui:ui-util-android:1.8.2] /home/vscode/.gradle/caches/8.11.1/transforms/002ab68579feb43472ba822d01c3d669/transformed/ui-util-release/AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.ui:ui-util-android:1.8.2] /home/vscode/.gradle/caches/8.11.1/transforms/002ab68579feb43472ba822d01c3d669/transformed/ui-util-release/AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.ui:ui-text-android:1.8.2] /home/vscode/.gradle/caches/8.11.1/transforms/0ccceff205847952c97625c85b3d5152/transformed/ui-text-release/AndroidManifest.xml:5:5-44

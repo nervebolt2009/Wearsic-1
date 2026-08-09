@@ -38,6 +38,7 @@ fun QueueScreen(
     onTrackClick: (Int) -> Unit,
     onRemoveFromQueue: (Int) -> Unit,
     onClearQueue: () -> Unit,
+    onBack: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     ScreenScaffold(
@@ -52,16 +53,27 @@ fun QueueScreen(
             contentPadding = PaddingValues(top = 28.dp, bottom = 28.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Header
+            // Header with back navigation
             item {
-                Text(
-                    text = stringResource(R.string.queue),
-                    style = MaterialTheme.typography.titleMedium.copy(
-                        fontWeight = FontWeight.Bold
-                    ),
-                    color = Color.White,
-                    modifier = Modifier.padding(bottom = 12.dp)
-                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(0.9f)
+                        .padding(bottom = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    BackButton(onBack)
+                    Text(
+                        text = stringResource(R.string.queue),
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            fontWeight = FontWeight.Bold
+                        ),
+                        color = Color.White,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(end = 40.dp)
+                    )
+                }
             }
             
             // Current Track
@@ -163,6 +175,27 @@ fun QueueScreen(
                 }
             }
         }
+    }
+}
+
+/**
+ * Compact back button used at the top of secondary screens.
+ */
+@Composable
+private fun BackButton(onBack: () -> Unit) {
+    IconButton(
+        onClick = onBack,
+        modifier = Modifier.size(36.dp),
+        colors = IconButtonDefaults.iconButtonColors(
+            containerColor = Color.White.copy(alpha = 0.08f),
+            contentColor = Color.White.copy(alpha = 0.85f)
+        )
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_back),
+            contentDescription = "Back",
+            modifier = Modifier.size(20.dp)
+        )
     }
 }
 

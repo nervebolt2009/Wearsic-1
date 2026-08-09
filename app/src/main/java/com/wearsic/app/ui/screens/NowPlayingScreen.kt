@@ -8,7 +8,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -36,6 +35,7 @@ import androidx.wear.compose.material3.Text
 import coil.compose.AsyncImage
 import com.wearsic.app.R
 import com.wearsic.app.data.model.Track
+import com.wearsic.app.ui.navigation.Screen
 
 private val Accent = Color(0xFFB7F397)
 
@@ -63,25 +63,26 @@ fun NowPlayingScreen(
     onRepeatToggle: () -> Unit,
     onFavoriteToggle: () -> Unit,
     isFavorite: Boolean,
+    onNavigate: (Screen) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     ScreenScaffold(modifier = modifier) {
         Box(modifier = Modifier.fillMaxSize()) {
-            // Full-screen blurred album art as the backdrop.
-            if (currentTrack != null) {
-                AsyncImage(
-                    model = currentTrack.thumbnailUrl,
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .blur(26.dp)
-                )
-            }
+            // Keep the watch GPU cool: use a static gradient instead of a
+            // full-screen blur. Artwork is decoded only once below.
+
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color(0xFF0C0D10).copy(alpha = if (currentTrack != null) 0.66f else 1f))
+                    .background(
+                        Brush.verticalGradient(
+                            colors = if (currentTrack != null) {
+                                listOf(Color(0xFF202A32), Color(0xFF0C0D10), Color(0xFF080909))
+                            } else {
+                                listOf(Color(0xFF15171B), Color(0xFF080909))
+                            }
+                        )
+                    )
             )
         val listState = rememberScalingLazyListState()
         val rotaryBehavior = RotaryScrollableDefaults.behavior(listState)
@@ -164,6 +165,20 @@ fun NowPlayingScreen(
                             .padding(top = 3.dp)
                     )
 
+                    // In-screen navigation: reach the other screens from here
+                    // instead of a permanent bottom bar that eats the screen.
+                    Spacer(modifier = Modifier.height(7.dp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(0.82f),
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        MiniNavButton(R.drawable.ic_search, "Search", { onNavigate(Screen.Search) })
+                        MiniNavButton(R.drawable.ic_favorite_outline, "Favorites", { onNavigate(Screen.Favorites) })
+                        MiniNavButton(R.drawable.ic_queue, "Queue", { onNavigate(Screen.Queue) })
+                        MiniNavButton(R.drawable.ic_settings, "Settings", { onNavigate(Screen.Settings) })
+                    }
+
                     Spacer(modifier = Modifier.height(9.dp))
                     Column(modifier = Modifier.fillMaxWidth()) {
                         LinearProgressIndicator(
@@ -245,6 +260,28 @@ fun NowPlayingScreen(
             }
         }
         }
+    }
+}
+
+@Composable
+private fun MiniNavButton(
+    icon: Int,
+    label: String,
+    onClick: () -> Unit
+) {
+    IconButton(
+        onClick = onClick,
+        modifier = Modifier.size(40.dp),
+        colors = IconButtonDefaults.iconButtonColors(
+            containerColor = Color.White.copy(alpha = 0.12f),
+            contentColor = Color.White.copy(alpha = 0.9f)
+        )
+    ) {
+        Icon(
+            painter = painterResource(icon),
+            contentDescription = label,
+            modifier = Modifier.size(20.dp)
+        )
     }
 }
 

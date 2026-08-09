@@ -44,10 +44,15 @@ fun SearchScreen(
     onAddToFavorites: (Track) -> Unit,
     modifier: Modifier = Modifier,
     onAddToQueue: (Track) -> Unit = {},
+    onDownload: (Track) -> Unit = {},
+    downloadedIds: Set<String> = emptySet(),
+    downloadProgress: Map<String, Float> = emptyMap(),
+    downloadErrors: Map<String, String> = emptyMap(),
     albums: List<Album> = emptyList(),
     albumsMode: Boolean = false,
     onAlbumsModeChange: (Boolean) -> Unit = {},
-    onAlbumClick: (Album) -> Unit = {}
+    onAlbumClick: (Album) -> Unit = {},
+    onBack: () -> Unit = {}
 ) {
     ScreenScaffold(
         modifier = modifier
@@ -61,16 +66,27 @@ fun SearchScreen(
             contentPadding = PaddingValues(top = 28.dp, bottom = 28.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Search Header
+            // Search Header with back navigation
             item {
-                Text(
-                    text = stringResource(R.string.search),
-                    style = MaterialTheme.typography.titleMedium.copy(
-                        fontWeight = FontWeight.Bold
-                    ),
-                    color = Color.White,
-                    modifier = Modifier.padding(bottom = 12.dp)
-                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(0.9f)
+                        .padding(bottom = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    BackButton(onBack)
+                    Text(
+                        text = stringResource(R.string.search),
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            fontWeight = FontWeight.Bold
+                        ),
+                        color = Color.White,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(end = 40.dp)
+                    )
+                }
             }
             
             // Search Input Field
@@ -221,6 +237,10 @@ fun SearchScreen(
                         onClick = { onTrackClick(searchResults[index]) },
                         onAddToFavorites = { onAddToFavorites(searchResults[index]) },
                         onAddToQueue = { onAddToQueue(searchResults[index]) },
+                        onDownload = { onDownload(searchResults[index]) },
+                        isDownloaded = searchResults[index].videoId in downloadedIds,
+                        downloadProgress = downloadProgress[searchResults[index].videoId],
+                        downloadError = downloadErrors[searchResults[index].videoId],
                         modifier = Modifier.fillMaxWidth(0.9f)
                     )
                 }
@@ -311,6 +331,27 @@ private fun AlbumResultItem(
 }
 
 /**
+ * Compact back button used at the top of secondary screens.
+ */
+@Composable
+private fun BackButton(onBack: () -> Unit) {
+    IconButton(
+        onClick = onBack,
+        modifier = Modifier.size(36.dp),
+        colors = IconButtonDefaults.iconButtonColors(
+            containerColor = Color.White.copy(alpha = 0.08f),
+            contentColor = Color.White.copy(alpha = 0.85f)
+        )
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_back),
+            contentDescription = "Back",
+            modifier = Modifier.size(20.dp)
+        )
+    }
+}
+
+/**
  * Suggestion item for autocomplete
  */
 @Composable
@@ -362,6 +403,10 @@ private fun SearchResultItem(
     onClick: () -> Unit,
     onAddToFavorites: () -> Unit,
     onAddToQueue: () -> Unit = {},
+    onDownload: () -> Unit = {},
+    isDownloaded: Boolean = false,
+    downloadProgress: Float? = null,
+    downloadError: String? = null,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -371,11 +416,11 @@ private fun SearchResultItem(
                 color = Color.White.copy(alpha = 0.08f),
                 shape = RoundedCornerShape(20.dp)
             )
-            .clickable(onClick = onClick)
             .padding(horizontal = 12.dp, vertical = 10.dp)
     ) {
         // Line 1: thumbnail + title/artist (full available width)
         Row(
+            modifier = Modifier.clickable(onClick = onClick),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(
@@ -420,33 +465,66 @@ private fun SearchResultItem(
             }
         }
 
-        // Line 2: action buttons, right aligned
-        Row(
+        // Actions are wrapped into two rows so every control keeps a 48dp
+        // touch target without overflowing the 44mm round viewport.
+        Column(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End
+            horizontalAlignment = Alignment.End
         ) {
-            IconButton(
-                onClick = onAddToFavorites,
-                modifier = Modifier.size(38.dp)
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_favorite_outline),
-                    contentDescription = stringResource(R.string.add_to_favorites),
-                    tint = Color(0xFFE91E63).copy(alpha = 0.8f),
-                    modifier = Modifier.size(18.dp)
-                )
-            }
+            Row {
+                IconButton(
+                    onClick = onAddToFavorites,
+                    modifier = Modifier.size(48.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_favorite_outline),
+                        contentDescription = stringResource(R.string.add_to_favorites),
+                        tint = Color(0xFFE91E63).copy(alpha = 0.8f),
+                        modifier = Modifier.size(18.dp)
+                    )
+                }
 
-            IconButton(
-                onClick = onAddToQueue,
-                modifier = Modifier.size(38.dp)
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_queue),
-                    contentDescription = "Add to queue",
-                    tint = Color(0xFFB7F397).copy(alpha = 0.9f),
-                    modifier = Modifier.size(18.dp)
-                )
+                IconButton(
+                    onClick = onAddToQueue,
+                    modifier = Modifier.size(48.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_queue),
+                        contentDescription = "Add to queue",
+                        tint = Color(0xFFB7F397).copy(alpha = 0.9f),
+                        modifier = Modifier.size(18.dp)
+                    )
+                }
+            }
+            Row {
+                if (downloadError != null) {
+                    Text(
+                        text = "Download failed",
+                        style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp),
+                        color = Color(0xFFE91E63),
+                        modifier = Modifier.align(Alignment.CenterVertically).padding(end = 4.dp)
+                    )
+                }
+                IconButton(
+                    onClick = onDownload,
+                    enabled = !isDownloaded && downloadProgress == null,
+                    modifier = Modifier.size(48.dp)
+                ) {
+                    if (downloadProgress != null) {
+                        CircularProgressIndicator(
+                            progress = { downloadProgress },
+                            modifier = Modifier.size(18.dp),
+                            strokeWidth = 2.dp
+                        )
+                    } else {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_download),
+                            contentDescription = if (isDownloaded) "Available offline" else "Download for offline",
+                            tint = if (isDownloaded) Color(0xFFB7F397) else Color.White.copy(alpha = 0.8f),
+                            modifier = Modifier.size(18.dp)
+                        )
+                    }
+                }
             }
         }
     }

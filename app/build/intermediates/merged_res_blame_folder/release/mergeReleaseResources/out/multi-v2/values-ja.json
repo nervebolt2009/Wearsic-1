@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.wearsic.app-mergeReleaseResources-60:/values-ja/values-ja.xml",
+            "outputFile": "com.wearsic.app-mergeReleaseResources-59:/values-ja/values-ja.xml",
             "map": [
                 {
                     "source": "/home/vscode/.gradle/caches/8.11.1/transforms/43dcadd4035c0b9db036114e2d2d2fc0/transformed/media3-exoplayer-1.5.1/res/values-ja/values-ja.xml",

@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.wearsic.app.RobolectricScreenshotTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-08-09T07:57:51" hostname="codespaces-3c9c6d" time="0.65">
+<testsuite name="com.wearsic.app.RobolectricScreenshotTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-08-09T13:11:31" hostname="codespaces-3c9c6d" time="0.697">
   <properties/>
-  <testcase name="bottomNavigation_watch44mm" classname="com.wearsic.app.RobolectricScreenshotTest" time="0.061"/>
-  <testcase name="search_watch44mm" classname="com.wearsic.app.RobolectricScreenshotTest" time="0.086"/>
-  <testcase name="favorites_watch44mm" classname="com.wearsic.app.RobolectricScreenshotTest" time="0.083"/>
-  <testcase name="playlists_watch44mm" classname="com.wearsic.app.RobolectricScreenshotTest" time="0.079"/>
-  <testcase name="settings_watch44mm" classname="com.wearsic.app.RobolectricScreenshotTest" time="0.066"/>
-  <testcase name="queue_watch44mm" classname="com.wearsic.app.RobolectricScreenshotTest" time="0.083"/>
-  <testcase name="nowPlaying_watch44mm" classname="com.wearsic.app.RobolectricScreenshotTest" time="0.088"/>
-  <testcase name="appShell_watch44mm" classname="com.wearsic.app.RobolectricScreenshotTest" time="0.103"/>
+  <testcase name="search_watch44mm" classname="com.wearsic.app.RobolectricScreenshotTest" time="0.112"/>
+  <testcase name="favorites_watch44mm" classname="com.wearsic.app.RobolectricScreenshotTest" time="0.088"/>
+  <testcase name="playlists_watch44mm" classname="com.wearsic.app.RobolectricScreenshotTest" time="0.093"/>
+  <testcase name="settings_watch44mm" classname="com.wearsic.app.RobolectricScreenshotTest" time="0.095"/>
+  <testcase name="queue_watch44mm" classname="com.wearsic.app.RobolectricScreenshotTest" time="0.097"/>
+  <testcase name="nowPlaying_watch44mm" classname="com.wearsic.app.RobolectricScreenshotTest" time="0.084"/>
+  <testcase name="appShell_watch44mm" classname="com.wearsic.app.RobolectricScreenshotTest" time="0.126"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

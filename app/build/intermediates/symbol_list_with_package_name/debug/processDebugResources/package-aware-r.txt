@@ -76,6 +76,7 @@ dimen notification_top_pad_large_text
 drawable abc_vector_test
 drawable circular_vignette_bottom
 drawable circular_vignette_top
+drawable ic_back
 drawable ic_call_answer
 drawable ic_call_answer_low
 drawable ic_call_answer_video
@@ -83,6 +84,7 @@ drawable ic_call_answer_video_low
 drawable ic_call_decline
 drawable ic_call_decline_low
 drawable ic_close
+drawable ic_download
 drawable ic_favorite_filled
 drawable ic_favorite_outline
 drawable ic_launcher_foreground

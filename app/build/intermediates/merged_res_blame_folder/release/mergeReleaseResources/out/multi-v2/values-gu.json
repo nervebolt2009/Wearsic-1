@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.wearsic.app-mergeReleaseResources-60:/values-gu/values-gu.xml",
+            "outputFile": "com.wearsic.app-mergeReleaseResources-59:/values-gu/values-gu.xml",
             "map": [
                 {
                     "source": "/home/vscode/.gradle/caches/8.11.1/transforms/2b5d4bc5f70ea87025c0b8ee3f301c5e/transformed/compose-material3-1.5.0/res/values-gu/values-gu.xml",

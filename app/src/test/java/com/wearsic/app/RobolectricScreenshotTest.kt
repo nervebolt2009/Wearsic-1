@@ -16,9 +16,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.takahirom.roborazzi.captureRoboImage
 import com.wearsic.app.data.model.Playlist
 import com.wearsic.app.data.model.Track
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.wearsic.app.ui.components.BottomNavigation
-import com.wearsic.app.ui.navigation.Screen
 import com.wearsic.app.ui.screens.*
 import com.wearsic.app.ui.theme.WearsicTheme
 import org.junit.Rule
@@ -131,21 +128,6 @@ class RobolectricScreenshotTest {
         }
         composeTestRule.onNodeWithText("Playlists").performClick()
         capture("playlists-watch44mm")
-    }
-
-    @Test
-    fun bottomNavigation_watch44mm() {
-        composeTestRule.setContent {
-            WearsicTheme {
-                WatchRoot {
-                    BottomNavigation(
-                        currentScreen = Screen.NowPlaying,
-                        onNavigate = {}
-                    )
-                }
-            }
-        }
-        capture("bottom-navigation-watch44mm")
     }
 
     @Test

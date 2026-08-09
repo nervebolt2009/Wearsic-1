@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -17,10 +18,15 @@ import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
 import androidx.wear.compose.foundation.rotary.RotaryScrollableDefaults
 import androidx.wear.compose.material3.CircularProgressIndicator
+import androidx.wear.compose.material3.Icon
+import androidx.wear.compose.material3.IconButton
+import androidx.wear.compose.material3.IconButtonDefaults
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TextButton
+import androidx.compose.ui.res.painterResource
+import com.wearsic.app.R
 import com.wearsic.app.data.model.Album
 import com.wearsic.app.data.model.Track
 
@@ -32,6 +38,11 @@ fun AlbumDetailScreen(
     errorMessage: String? = null,
     onRetry: () -> Unit = {},
     onTrackClick: (Track) -> Unit,
+    onDownload: (Track) -> Unit = {},
+    downloadedIds: Set<String> = emptySet(),
+    downloadProgress: Map<String, Float> = emptyMap(),
+    downloadErrors: Map<String, String> = emptyMap(),
+    onBack: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     ScreenScaffold(modifier = modifier) {
@@ -44,25 +55,33 @@ fun AlbumDetailScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             item {
-                Column(
-                    modifier = Modifier.fillMaxWidth(0.9f).padding(bottom = 8.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                Row(
+                    modifier = Modifier.fillMaxWidth(0.9f).padding(bottom = 6.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
+                    BackButton(onBack)
                     Text(
                         text = album.name,
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                         color = Color.White,
+                        textAlign = TextAlign.Center,
                         maxLines = 2,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                    Text(
-                        text = "${album.uploader} • ${album.trackCount} tracks",
-                        style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp),
-                        color = Color.White.copy(alpha = 0.62f),
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(end = 40.dp)
                     )
                 }
+            }
+            item {
+                Text(
+                    text = "${album.uploader} • ${album.trackCount} tracks",
+                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp),
+                    color = Color.White.copy(alpha = 0.62f),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.fillMaxWidth(0.9f).padding(bottom = 6.dp)
+                )
             }
 
             if (isLoading) {
@@ -117,6 +136,10 @@ fun AlbumDetailScreen(
                     AlbumTrackRow(
                         track = track,
                         onClick = { onTrackClick(track) },
+                        onDownload = { onDownload(track) },
+                        isDownloaded = track.videoId in downloadedIds,
+                        downloadProgress = downloadProgress[track.videoId],
+                        downloadError = downloadErrors[track.videoId],
                         modifier = Modifier.fillMaxWidth(0.9f)
                     )
                 }
@@ -126,9 +149,31 @@ fun AlbumDetailScreen(
 }
 
 @Composable
+private fun BackButton(onBack: () -> Unit) {
+    IconButton(
+        onClick = onBack,
+        modifier = Modifier.size(36.dp),
+        colors = IconButtonDefaults.iconButtonColors(
+            containerColor = Color.White.copy(alpha = 0.08f),
+            contentColor = Color.White.copy(alpha = 0.85f)
+        )
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_back),
+            contentDescription = "Back",
+            modifier = Modifier.size(20.dp)
+        )
+    }
+}
+
+@Composable
 private fun AlbumTrackRow(
     track: Track,
     onClick: () -> Unit,
+    onDownload: () -> Unit = {},
+    isDownloaded: Boolean = false,
+    downloadProgress: Float? = null,
+    downloadError: String? = null,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -155,11 +200,40 @@ private fun AlbumTrackRow(
                 overflow = TextOverflow.Ellipsis
             )
         }
-        Text(
-            text = track.formatDuration(),
-            style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp),
-            color = Color.White.copy(alpha = 0.55f),
-            modifier = Modifier.padding(start = 8.dp)
-        )
+        Column(horizontalAlignment = Alignment.End) {
+            Text(
+                text = track.formatDuration(),
+                style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp),
+                color = Color.White.copy(alpha = 0.55f),
+                modifier = Modifier.padding(start = 8.dp)
+            )
+            if (downloadError != null) {
+                Text(
+                    text = "Failed",
+                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp),
+                    color = Color(0xFFE91E63)
+                )
+            }
+            IconButton(
+                onClick = onDownload,
+                enabled = !isDownloaded && downloadProgress == null,
+                modifier = Modifier.size(48.dp)
+            ) {
+                if (downloadProgress != null) {
+                    CircularProgressIndicator(
+                        progress = { downloadProgress },
+                        modifier = Modifier.size(17.dp),
+                        strokeWidth = 2.dp
+                    )
+                } else {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_download),
+                        contentDescription = if (isDownloaded) "Available offline" else "Download for offline",
+                        tint = if (isDownloaded) Color(0xFFB7F397) else Color.White.copy(alpha = 0.8f),
+                        modifier = Modifier.size(17.dp)
+                    )
+                }
+            }
+        }
     }
 }
