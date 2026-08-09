@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.wearsic.app-mergeReleaseResources-60:/values-ru/values-ru.xml",
+            "outputFile": "com.wearsic.app-mergeReleaseResources-59:/values-ru/values-ru.xml",
             "map": [
                 {
                     "source": "/home/vscode/.gradle/caches/8.11.1/transforms/07a483f85ada53958c214199cbc77136/transformed/ui-release/res/values-ru/values-ru.xml",

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.wearsic.app.SettingsScreenTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2026-08-09T07:57:53" hostname="codespaces-3c9c6d" time="0.962">
+<testsuite name="com.wearsic.app.SettingsScreenTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2026-08-09T13:11:33" hostname="codespaces-3c9c6d" time="0.898">
   <properties/>
-  <testcase name="testSettingsScreenDisplaysConnectedStatus" classname="com.wearsic.app.SettingsScreenTest" time="0.08"/>
-  <testcase name="testSettingsScreenDisplaysServerUrlField" classname="com.wearsic.app.SettingsScreenTest" time="0.105"/>
-  <testcase name="testSettingsScreenDisplaysOfflineStatus" classname="com.wearsic.app.SettingsScreenTest" time="0.072"/>
-  <testcase name="testSettingsScreenDisplaysLoadingState" classname="com.wearsic.app.SettingsScreenTest" time="0.084"/>
-  <testcase name="testYoutubeCookieFieldSavesValue" classname="com.wearsic.app.SettingsScreenTest" time="0.144"/>
-  <testcase name="testTestConnectionButtonClickable" classname="com.wearsic.app.SettingsScreenTest" time="0.093"/>
-  <testcase name="testTestConnectionButtonDisabledWhenEmptyUrl" classname="com.wearsic.app.SettingsScreenTest" time="0.073"/>
-  <testcase name="testSettingsScreenDisplaysHeader" classname="com.wearsic.app.SettingsScreenTest" time="0.113"/>
-  <testcase name="testSettingsScreenDisplaysEmptyServerUrl" classname="com.wearsic.app.SettingsScreenTest" time="0.088"/>
-  <testcase name="testSettingsScreenDisplaysTestConnectionButton" classname="com.wearsic.app.SettingsScreenTest" time="0.11"/>
+  <testcase name="testSettingsScreenDisplaysConnectedStatus" classname="com.wearsic.app.SettingsScreenTest" time="0.088"/>
+  <testcase name="testSettingsScreenDisplaysServerUrlField" classname="com.wearsic.app.SettingsScreenTest" time="0.083"/>
+  <testcase name="testSettingsScreenDisplaysOfflineStatus" classname="com.wearsic.app.SettingsScreenTest" time="0.069"/>
+  <testcase name="testSettingsScreenDisplaysLoadingState" classname="com.wearsic.app.SettingsScreenTest" time="0.088"/>
+  <testcase name="testYoutubeCookieFieldSavesValue" classname="com.wearsic.app.SettingsScreenTest" time="0.158"/>
+  <testcase name="testTestConnectionButtonClickable" classname="com.wearsic.app.SettingsScreenTest" time="0.105"/>
+  <testcase name="testTestConnectionButtonDisabledWhenEmptyUrl" classname="com.wearsic.app.SettingsScreenTest" time="0.1"/>
+  <testcase name="testSettingsScreenDisplaysHeader" classname="com.wearsic.app.SettingsScreenTest" time="0.063"/>
+  <testcase name="testSettingsScreenDisplaysEmptyServerUrl" classname="com.wearsic.app.SettingsScreenTest" time="0.064"/>
+  <testcase name="testSettingsScreenDisplaysTestConnectionButton" classname="com.wearsic.app.SettingsScreenTest" time="0.078"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

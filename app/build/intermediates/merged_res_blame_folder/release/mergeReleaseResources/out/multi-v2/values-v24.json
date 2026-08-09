@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.wearsic.app-mergeReleaseResources-60:/values-v24/values-v24.xml",
+            "outputFile": "com.wearsic.app-mergeReleaseResources-59:/values-v24/values-v24.xml",
             "map": [
                 {
                     "source": "/home/vscode/.gradle/caches/8.11.1/transforms/267c049a7e344e55befd9b7ab64cf6b9/transformed/media3-session-1.5.1/res/values-v24/values-v24.xml",

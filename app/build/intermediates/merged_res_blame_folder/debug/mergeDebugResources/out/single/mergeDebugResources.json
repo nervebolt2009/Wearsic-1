@@ -20,6 +20,10 @@
         "source": "com.wearsic.app-main-69:/drawable/ic_skip_previous.xml"
     },
     {
+        "merged": "com.wearsic.app-debug-67:/drawable_ic_download.xml.flat",
+        "source": "com.wearsic.app-main-69:/drawable/ic_download.xml"
+    },
+    {
         "merged": "com.wearsic.app-debug-67:/drawable_ic_repeat.xml.flat",
         "source": "com.wearsic.app-main-69:/drawable/ic_repeat.xml"
     },
@@ -28,12 +32,16 @@
         "source": "com.wearsic.app-main-69:/drawable/ic_skip_next.xml"
     },
     {
+        "merged": "com.wearsic.app-debug-67:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.wearsic.app-main-69:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
         "merged": "com.wearsic.app-debug-67:/drawable_ic_pause.xml.flat",
         "source": "com.wearsic.app-main-69:/drawable/ic_pause.xml"
     },
     {
-        "merged": "com.wearsic.app-debug-67:/mipmap-anydpi-v26_ic_launcher.xml.flat",
-        "source": "com.wearsic.app-main-69:/mipmap-anydpi-v26/ic_launcher.xml"
+        "merged": "com.wearsic.app-debug-67:/drawable_ic_back.xml.flat",
+        "source": "com.wearsic.app-main-69:/drawable/ic_back.xml"
     },
     {
         "merged": "com.wearsic.app-debug-67:/drawable_ic_favorite_outline.xml.flat",

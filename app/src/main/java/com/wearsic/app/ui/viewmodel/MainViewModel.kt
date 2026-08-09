@@ -5,18 +5,23 @@ import android.content.Intent
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.wearsic.app.data.cache.PlaybackCache
 import com.wearsic.app.data.model.Album
 import com.wearsic.app.data.model.Track
 import com.wearsic.app.data.preferences.SettingsManager
 import com.wearsic.app.data.repository.MusicRepository
 import com.wearsic.app.service.MediaPlaybackService
 import com.wearsic.app.service.PlaybackEvents
+import com.wearsic.app.service.progressFraction
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 /**
  * Main ViewModel for managing app state
@@ -111,6 +116,22 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val isTestingConnection: StateFlow<Boolean> = _isTestingConnection.asStateFlow()
     private var connectionTestJob: Job? = null
     private var connectionTestGeneration = 0L
+
+    // Offline audio cache
+    val cacheSizeMb: StateFlow<Int> = settingsManager.cacheSizeMb
+        .stateIn(viewModelScope, SharingStarted.Eagerly, SettingsManager.DEFAULT_CACHE_SIZE_MB)
+
+    private val _cacheUsageBytes = MutableStateFlow(0L)
+    val cacheUsageBytes: StateFlow<Long> = _cacheUsageBytes.asStateFlow()
+
+    val autoCacheEnabled: StateFlow<Boolean> = settingsManager.autoCacheEnabled
+        .stateIn(viewModelScope, SharingStarted.Eagerly, SettingsManager.DEFAULT_AUTO_CACHE_ENABLED)
+    val downloadedIds: StateFlow<Set<String>> = PlaybackEvents.downloadedIds
+    val downloadProgress: StateFlow<Map<String, Float>> = PlaybackEvents.downloadProgress
+    val downloadErrors: StateFlow<Map<String, String>> = PlaybackEvents.downloadErrors
+
+    // Kotlinx JSON used to ship the queue to the foreground service.
+    private val queueJson = Json { ignoreUnknownKeys = true }
     
     // Server URL
     val serverUrl: StateFlow<String> = settingsManager.serverUrl
@@ -168,9 +189,17 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
 
-        // Live playback state reported by the foreground service.
+        // Live playback state reported by the foreground service. The fraction
+        // falls back to the track's metadata duration when the stream itself
+        // reports none (proxied audio often has no Content-Length).
         viewModelScope.launch {
-            PlaybackEvents.progress.collect { _progress.value = it }
+            combine(
+                PlaybackEvents.positionMs,
+                PlaybackEvents.durationMs,
+                _currentTrack
+            ) { position, duration, track ->
+                progressFraction(position, duration, track?.durationMs ?: 0L)
+            }.collect { _progress.value = it }
         }
         viewModelScope.launch {
             PlaybackEvents.isPlaying.collect { _isPlaying.value = it }
@@ -178,6 +207,24 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             PlaybackEvents.trackEnded.collect { onTrackEnded() }
         }
+
+        // Mirror the queue owned by the foreground service so the UI stays in
+        // sync when playback advances in the background (or via notification
+        // controls), and so state is restored when the app is reopened.
+        viewModelScope.launch {
+            PlaybackEvents.queue.collect { queue -> if (queue.isNotEmpty()) _queue.value = queue }
+        }
+        viewModelScope.launch {
+            PlaybackEvents.currentIndex.collect { index -> if (index >= 0) _currentIndex.value = index }
+        }
+        viewModelScope.launch {
+            PlaybackEvents.currentTrack.collect { track -> if (track != null) _currentTrack.value = track }
+        }
+        viewModelScope.launch {
+            PlaybackEvents.cacheCleared.collect { refreshCacheUsage() }
+        }
+
+        refreshCacheUsage()
 
         // One debounced pipeline prevents stale responses from replacing newer searches.
         viewModelScope.launch {
@@ -371,7 +418,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         } else {
             _currentIndex.value = _queue.value.indexOfFirst { it.videoId == track.videoId }
         }
-        startPlaybackService(MediaPlaybackService.ACTION_PLAY, track)
+        pushQueueToService()
     }
     
     /**
@@ -382,13 +429,44 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun playTracks(tracks: List<Track>, startIndex: Int = 0) {
         PlaybackEvents.clearError()
         autoPlayedVideoId = null
-        _queue.value = tracks
-        _currentIndex.value = startIndex.coerceIn(0, (tracks.size - 1).coerceAtLeast(0))
-        _currentTrack.value = tracks.getOrNull(startIndex)
-        _isPlaying.value = tracks.getOrNull(startIndex) != null
+        // The same song can appear several times in search/playlist results
+        // (different channels mirroring it); keep only the first occurrence.
+        val deduped = tracks.distinctBy { it.videoId }
+        if (deduped.isEmpty()) return
+        val start = tracks.getOrNull(startIndex)?.let { tapped ->
+            deduped.indexOfFirst { it.videoId == tapped.videoId }.coerceAtLeast(0)
+        } ?: 0
+        _queue.value = deduped
+        _currentIndex.value = start
+        _currentTrack.value = deduped.getOrNull(start)
+        _isPlaying.value = true
         _progress.value = 0f
-        tracks.getOrNull(startIndex)?.let {
-            startPlaybackService(MediaPlaybackService.ACTION_PLAY, it)
+        pushQueueToService()
+    }
+
+    /**
+     * Play a track picked from a search result. Instead of queueing the whole
+     * search page (often the same song mirrored by many channels), the queue is
+     * seeded from the song's related/album tracks — the Spotify-style "up next".
+     */
+    fun playSearchResult(track: Track) {
+        playTrack(track)
+        viewModelScope.launch {
+            repository.getRelatedTracks(track.videoId).onSuccess { response ->
+                // Only apply if the user hasn't already moved on to another song
+                // while the related list was loading.
+                if (_currentTrack.value?.videoId != track.videoId) return@onSuccess
+                val related = response.results
+                    .filter { it.videoId != track.videoId }
+                    .distinctBy { it.videoId }
+                if (related.isNotEmpty()) {
+                    _queue.value = listOf(track) + related
+                    _currentIndex.value = 0
+                    pushQueueToService()
+                }
+            }.onFailure {
+                // Related fetch failed; the single-track queue still plays.
+            }
         }
     }
     
@@ -398,7 +476,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun togglePlayPause() {
         if (_currentTrack.value == null) return
         _isPlaying.value = !_isPlaying.value
-        startPlaybackService(MediaPlaybackService.ACTION_TOGGLE_PLAYBACK, _currentTrack.value)
+        sendServiceIntent(MediaPlaybackService.ACTION_TOGGLE_PLAYBACK)
     }
     
     /**
@@ -407,20 +485,24 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun skipToNext() {
         val currentIndex = _currentIndex.value
         val queue = _queue.value
-        
-        if (currentIndex < queue.size - 1) {
-            _currentIndex.value = currentIndex + 1
-            _currentTrack.value = queue[currentIndex + 1]
-            _progress.value = 0f
-            _isPlaying.value = true
-            startPlaybackService(MediaPlaybackService.ACTION_PLAY, _currentTrack.value)
-        } else if (_repeatEnabled.value && queue.isNotEmpty()) {
-            // Repeat from beginning
-            _currentIndex.value = 0
-            _currentTrack.value = queue[0]
-            _progress.value = 0f
-            _isPlaying.value = true
-            startPlaybackService(MediaPlaybackService.ACTION_PLAY, _currentTrack.value)
+
+        when {
+            currentIndex < queue.size - 1 -> {
+                _currentIndex.value = currentIndex + 1
+                _currentTrack.value = queue[currentIndex + 1]
+                _progress.value = 0f
+                _isPlaying.value = true
+                pushQueueToService()
+            }
+            _repeatEnabled.value && queue.isNotEmpty() -> {
+                // Repeat from beginning
+                _currentIndex.value = 0
+                _currentTrack.value = queue[0]
+                _progress.value = 0f
+                _isPlaying.value = true
+                pushQueueToService()
+            }
+            else -> autoplayRelated()
         }
     }
     
@@ -429,20 +511,23 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      */
     fun skipToPrevious() {
         val currentIndex = _currentIndex.value
-        
-        if (currentIndex > 0) {
-            _currentIndex.value = currentIndex - 1
-            _currentTrack.value = _queue.value[currentIndex - 1]
-            _progress.value = 0f
-            _isPlaying.value = true
-            startPlaybackService(MediaPlaybackService.ACTION_PLAY, _currentTrack.value)
-        } else if (_repeatEnabled.value && _queue.value.isNotEmpty()) {
-            // Repeat from end
-            _currentIndex.value = _queue.value.size - 1
-            _currentTrack.value = _queue.value.last()
-            _progress.value = 0f
-            _isPlaying.value = true
-            startPlaybackService(MediaPlaybackService.ACTION_PLAY, _currentTrack.value)
+
+        when {
+            currentIndex > 0 -> {
+                _currentIndex.value = currentIndex - 1
+                _currentTrack.value = _queue.value[currentIndex - 1]
+                _progress.value = 0f
+                _isPlaying.value = true
+                pushQueueToService()
+            }
+            _repeatEnabled.value && _queue.value.isNotEmpty() -> {
+                // Repeat from end
+                _currentIndex.value = _queue.value.size - 1
+                _currentTrack.value = _queue.value.last()
+                _progress.value = 0f
+                _isPlaying.value = true
+                pushQueueToService()
+            }
         }
     }
     
@@ -585,7 +670,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      * Add track to queue
      */
     fun addToQueue(track: Track) {
-        _queue.value = _queue.value + track
+        if (_queue.value.none { it.videoId == track.videoId }) {
+            _queue.value = _queue.value + track
+            sendServiceIntent(MediaPlaybackService.ACTION_ADD_TO_QUEUE) {
+                putExtra(MediaPlaybackService.EXTRA_ADD_TRACK_JSON, queueJson.encodeToString(track))
+            }
+        }
     }
     
     /**
@@ -594,7 +684,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun removeFromQueue(index: Int) {
         if (index in _queue.value.indices) {
             _queue.value = _queue.value.toMutableList().apply { removeAt(index) }
-            
+
             // Adjust current index if needed
             if (index < _currentIndex.value) {
                 _currentIndex.value--
@@ -610,6 +700,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     _isPlaying.value = false
                 }
             }
+            if (_queue.value.isEmpty()) {
+                sendServiceIntent(MediaPlaybackService.ACTION_CLEAR_QUEUE)
+            } else {
+                sendServiceIntent(MediaPlaybackService.ACTION_REMOVE_FROM_QUEUE) {
+                    putExtra(MediaPlaybackService.EXTRA_REMOVE_INDEX, index)
+                }
+            }
         }
     }
     
@@ -622,6 +719,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         _currentTrack.value = null
         _isPlaying.value = false
         _progress.value = 0f
+        sendServiceIntent(MediaPlaybackService.ACTION_CLEAR_QUEUE)
     }
 
     /**
@@ -631,15 +729,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      */
     private fun onTrackEnded() {
         val queue = _queue.value
-        val index = _currentIndex.value
         when {
-            index in 0 until queue.size - 1 -> skipToNext()
+            // The service auto-advances between queue items; STATE_ENDED only
+            // fires when the whole queue is exhausted.
             _repeatEnabled.value && queue.isNotEmpty() -> {
                 _currentIndex.value = 0
                 _currentTrack.value = queue[0]
                 _progress.value = 0f
                 _isPlaying.value = true
-                startPlaybackService(MediaPlaybackService.ACTION_PLAY, _currentTrack.value)
+                pushQueueToService()
             }
             else -> autoplayRelated()
         }
@@ -650,9 +748,17 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         if (autoPlayedVideoId == track.videoId) return
         viewModelScope.launch {
             repository.getRelatedTracks(track.videoId).onSuccess { response ->
-                if (response.results.isNotEmpty() && autoPlayedVideoId != track.videoId) {
+                val related = response.results
+                    .filter { it.videoId != track.videoId }
+                    .distinctBy { it.videoId }
+                if (related.isNotEmpty() && autoPlayedVideoId != track.videoId) {
                     autoPlayedVideoId = track.videoId
-                    playTracks(response.results, 0)
+                    _queue.value = related
+                    _currentIndex.value = 0
+                    _currentTrack.value = related.first()
+                    _isPlaying.value = true
+                    _progress.value = 0f
+                    pushQueueToService()
                 }
             }.onFailure {
                 // No related stream available; stop quietly.
@@ -667,35 +773,115 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         _progress.value = progress.coerceIn(0f, 1f)
     }
     
-    private fun startPlaybackService(action: String, track: Track?) {
-        if (serverUrl.value.isBlank()) {
-            _isPlaying.value = false
-            _error.value = "Configure your server URL in Settings first."
-            return
+    /**
+     * Ship the whole queue (with the current index) to the foreground service.
+     * The service owns playback, so music keeps playing and auto-advancing even
+     * after this activity is destroyed.
+     */
+    private fun pushQueueToService() {
+        if (serverUrl.value.isBlank()) return
+        val queue = _queue.value
+        if (queue.isEmpty()) return
+        val intent = Intent(getApplication(), MediaPlaybackService::class.java).apply {
+            this.action = MediaPlaybackService.ACTION_PLAY_TRACKS
+            putExtra(MediaPlaybackService.EXTRA_SERVER_URL, serverUrl.value)
+            putExtra(MediaPlaybackService.EXTRA_API_KEY, apiKey.value)
+            putExtra(MediaPlaybackService.EXTRA_QUEUE_JSON, queueJson.encodeToString(queue))
+            putExtra(MediaPlaybackService.EXTRA_START_INDEX, _currentIndex.value.coerceAtLeast(0))
         }
+        try {
+            // Playback is initiated by a visible user tap. Start as a foreground
+            // service so Android cannot kill it while the stream is buffering.
+            ContextCompat.startForegroundService(getApplication(), intent)
+        } catch (error: RuntimeException) {
+            _isPlaying.value = false
+            _error.value = "Playback service could not start: ${error.message.orEmpty()}"
+        }
+    }
+
+    /**
+     * Send a control command (toggle, remove, clear, add-to-queue) to the
+     * already-running foreground service.
+     */
+    private fun sendServiceIntent(action: String, configure: Intent.() -> Unit = {}) {
+        if (serverUrl.value.isBlank()) return
         val intent = Intent(getApplication(), MediaPlaybackService::class.java).apply {
             this.action = action
             putExtra(MediaPlaybackService.EXTRA_SERVER_URL, serverUrl.value)
             putExtra(MediaPlaybackService.EXTRA_API_KEY, apiKey.value)
-            track?.let {
-                putExtra(MediaPlaybackService.EXTRA_VIDEO_ID, it.videoId)
-                putExtra(MediaPlaybackService.EXTRA_TITLE, it.title)
-                putExtra(MediaPlaybackService.EXTRA_UPLOADER, it.uploader)
-                putExtra(MediaPlaybackService.EXTRA_DURATION_MS, it.durationMs)
-                putExtra(MediaPlaybackService.EXTRA_THUMBNAIL_URL, it.thumbnailUrl)
-            }
+            configure()
         }
         try {
-            if (action == MediaPlaybackService.ACTION_PLAY) {
-                // Playback is initiated by a visible user tap. Start as a foreground
-                // service so Android cannot kill it while the stream is buffering.
+            if (action == MediaPlaybackService.ACTION_DOWNLOAD_TRACK) {
                 ContextCompat.startForegroundService(getApplication(), intent)
             } else {
                 getApplication<Application>().startService(intent)
             }
         } catch (error: RuntimeException) {
-            _isPlaying.value = false
             _error.value = "Playback service could not start: ${error.message.orEmpty()}"
+        }
+    }
+
+    /**
+     * Refresh the stored offline-cache usage from disk.
+     */
+    fun refreshCacheUsage() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _cacheUsageBytes.value = PlaybackCache.sizeBytes(getApplication())
+        }
+    }
+
+    /**
+     * Change the offline audio cache size limit (megabytes). Applies to new
+     * playback sessions.
+     */
+    fun setCacheSizeMb(mb: Int) {
+        viewModelScope.launch {
+            settingsManager.saveCacheSizeMb(mb)
+        }
+    }
+
+    fun setAutoCacheEnabled(enabled: Boolean) {
+        viewModelScope.launch {
+            settingsManager.saveAutoCacheEnabled(enabled)
+        }
+    }
+
+    /**
+     * Download a complete track into the existing Media3 cache. The service
+     * performs the blocking CacheWriter work off the main thread.
+     */
+    fun downloadTrack(track: Track) {
+        if (serverUrl.value.isBlank()) {
+            _error.value = "Configure your server URL in Settings first."
+            return
+        }
+        sendServiceIntent(MediaPlaybackService.ACTION_DOWNLOAD_TRACK) {
+            putExtra(
+                MediaPlaybackService.EXTRA_DOWNLOAD_TRACK_JSON,
+                queueJson.encodeToString(track)
+            )
+        }
+    }
+
+    /**
+     * Delete every cached audio file immediately. When the foreground service
+     * is holding the cache handle, ask it to clear safely (pause, delete, and
+     * resume playback); otherwise delete directly.
+     */
+    fun clearPlaybackCache() {
+        // Always route through the service. A download can be active even when
+        // no playback queue is loaded, and the service is the only owner that
+        // can cancel CacheWriter before removing cache spans safely.
+        val intent = Intent(getApplication(), MediaPlaybackService::class.java).apply {
+            action = MediaPlaybackService.ACTION_CLEAR_CACHE
+            putExtra(MediaPlaybackService.EXTRA_SERVER_URL, serverUrl.value)
+            putExtra(MediaPlaybackService.EXTRA_API_KEY, apiKey.value)
+        }
+        try {
+            ContextCompat.startForegroundService(getApplication(), intent)
+        } catch (error: RuntimeException) {
+            _error.value = "Could not clear cache: ${error.message.orEmpty()}"
         }
     }
 

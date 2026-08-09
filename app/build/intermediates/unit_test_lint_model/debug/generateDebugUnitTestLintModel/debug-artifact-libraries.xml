@@ -185,6 +185,19 @@
       externalAnnotations="annotations.zip"
       proguardRules="proguard.txt"/>
   <library
+      name="androidx.compose.ui:ui-tooling-preview-android:1.8.2@aar"
+      jars="/home/vscode/.gradle/caches/8.11.1/transforms/78280252ab51ae2d1c9575168d5048ed/transformed/ui-tooling-preview-release/jars/classes.jar"
+      resolved="androidx.compose.ui:ui-tooling-preview-android:1.8.2"
+      folder="/home/vscode/.gradle/caches/8.11.1/transforms/78280252ab51ae2d1c9575168d5048ed/transformed/ui-tooling-preview-release"
+      manifest="AndroidManifest.xml"
+      resFolder="res"
+      assetsFolder="assets"
+      lintJar="lint.jar"
+      publicResources="public.txt"
+      symbolFile="R.txt"
+      externalAnnotations="annotations.zip"
+      proguardRules="proguard.txt"/>
+  <library
       name="androidx.compose.ui:ui-tooling-data-android:1.8.2@aar"
       jars="/home/vscode/.gradle/caches/8.11.1/transforms/d87e5d4cf4d6c26d911730b2daf23e70/transformed/ui-tooling-data-release/jars/classes.jar"
       resolved="androidx.compose.ui:ui-tooling-data-android:1.8.2"
@@ -215,19 +228,6 @@
       jars="/home/vscode/.gradle/caches/8.11.1/transforms/c8720e4051b8bdad0731259d85b4dda9/transformed/ui-test-junit4-release/jars/classes.jar"
       resolved="androidx.compose.ui:ui-test-junit4-android:1.8.2"
       folder="/home/vscode/.gradle/caches/8.11.1/transforms/c8720e4051b8bdad0731259d85b4dda9/transformed/ui-test-junit4-release"
-      manifest="AndroidManifest.xml"
-      resFolder="res"
-      assetsFolder="assets"
-      lintJar="lint.jar"
-      publicResources="public.txt"
-      symbolFile="R.txt"
-      externalAnnotations="annotations.zip"
-      proguardRules="proguard.txt"/>
-  <library
-      name="androidx.compose.ui:ui-tooling-preview-android:1.8.2@aar"
-      jars="/home/vscode/.gradle/caches/8.11.1/transforms/78280252ab51ae2d1c9575168d5048ed/transformed/ui-tooling-preview-release/jars/classes.jar"
-      resolved="androidx.compose.ui:ui-tooling-preview-android:1.8.2"
-      folder="/home/vscode/.gradle/caches/8.11.1/transforms/78280252ab51ae2d1c9575168d5048ed/transformed/ui-tooling-preview-release"
       manifest="AndroidManifest.xml"
       resFolder="res"
       assetsFolder="assets"

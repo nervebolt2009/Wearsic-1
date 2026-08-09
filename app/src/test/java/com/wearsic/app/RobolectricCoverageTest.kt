@@ -4,12 +4,8 @@ import android.app.Application
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.requiredSize
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import kotlin.math.hypot
 import androidx.compose.ui.test.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -17,7 +13,6 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.wearsic.app.data.model.Playlist
 import com.wearsic.app.data.model.Track
-import com.wearsic.app.ui.components.BottomNavigation
 import com.wearsic.app.ui.navigation.NavigationManager
 import com.wearsic.app.ui.navigation.Screen
 import com.wearsic.app.ui.screens.*
@@ -82,111 +77,28 @@ class RobolectricCoverageTest {
         assertTrue(navigation.navigateBack())
         assertEquals(Screen.NowPlaying, navigation.getCurrentScreen())
         assertFalse(navigation.navigateBack())
-    }
-
-    @Test
-    fun bottomNavigationExposesAllDestinationsAndRoutesClicks() {
-        var selected: Screen? = null
+    }    @Test
+    fun nowPlayingMiniNavigationRoutesThroughScreens() {
+        val application = ApplicationProvider.getApplicationContext<Application>()
+        val viewModel = com.wearsic.app.ui.viewmodel.MainViewModel(application)
         composeTestRule.setContent {
             WearsicTheme {
                 WatchRoot {
-                    BottomNavigation(
-                        currentScreen = Screen.NowPlaying,
-                        onNavigate = { selected = it }
-                    )
+                    com.wearsic.app.WearsicApp(viewModel = viewModel)
                 }
             }
         }
 
-        listOf("Now Playing", "Search", "Favorites", "Queue", "Settings")
+        // Now Playing exposes the four destinations as in-screen icons.
+        listOf("Search", "Favorites", "Queue", "Settings")
             .forEach { composeTestRule.onNodeWithContentDescription(it).assertExists() }
 
-        composeTestRule.onNodeWithContentDescription("Settings").performClick()
-        assertEquals(Screen.Settings, selected)
-        assertInteractiveNodesFitInsideRoot()
-    }
+        composeTestRule.onNodeWithContentDescription("Search").performScrollTo().performClick()
+        composeTestRule.onNode(hasSetTextAction()).assertExists() // the Search text field
 
-    @Test
-    fun bottomNavigationFitsRoundWatchWidth() {
-        composeTestRule.setContent {
-            WearsicTheme {
-                Box(modifier = Modifier.size(width = 174.dp, height = 400.dp)) {
-                    BottomNavigation(
-                        currentScreen = Screen.NowPlaying,
-                        onNavigate = {},
-                        modifier = Modifier.align(Alignment.BottomCenter)
-                    )
-                }
-            }
-        }
-
-        composeTestRule.onAllNodes(hasClickAction(), useUnmergedTree = true)
-            .fetchSemanticsNodes()
-            .forEach { node ->
-                assertTrue("bottom nav item clipped: ${node.boundsInRoot}", node.boundsInRoot.left >= 0f)
-                assertTrue("bottom nav item clipped: ${node.boundsInRoot}", node.boundsInRoot.top >= 0f)
-                assertTrue("bottom nav item clipped: ${node.boundsInRoot}", node.boundsInRoot.right <= 174.dp.value)
-                assertTrue("bottom nav item clipped: ${node.boundsInRoot}", node.boundsInRoot.bottom <= 400.dp.value)
-                assertTrue("navigation touch target too small: ${node.boundsInRoot}", node.boundsInRoot.height >= 48.dp.value)
-            }
-
-        // The bar must be anchored near the bottom of the screen (regression
-        // guard: it previously floated in the middle of the 235dp display
-        // because the layout was sized for a phantom 480dp screen).
-        val pillBounds = composeTestRule
-            .onNodeWithTag("bottom-navigation-pill", useUnmergedTree = true)
-            .fetchSemanticsNode().boundsInRoot
-        assertTrue(
-            "pill floats in the middle of the screen: $pillBounds",
-            pillBounds.bottom >= 400.dp.value - 60f
-        )
-    }
-
-    @Test
-    fun bottomNavigationFitsInsideRoundWatchBezel() {
-        composeTestRule.setContent {
-            WearsicTheme {
-                Box(modifier = Modifier.requiredSize(480.dp)) {
-                    BottomNavigation(
-                        currentScreen = Screen.NowPlaying,
-                        onNavigate = {},
-                        modifier = Modifier.fillMaxSize()
-                    )
-                }
-            }
-        }
-
-    val pillBounds = composeTestRule
-        .onNodeWithTag("bottom-navigation-pill", useUnmergedTree = true)
-        .fetchSemanticsNode().boundsInRoot
-    assertTrue("pill is too wide for the 172dp cap: $pillBounds", pillBounds.width <= 172.dp.value + 1f)
-
-    // The Galaxy Watch 7 44mm is a ~235dp ROUND display (480 px @ 327 ppi).
-    // This models that round geometry (diameter 480dp here, i.e. a 2x scale
-    // of the 235dp screen) so the pill's corners are proven to stay inside
-    // the bezel instead of being clipped by the bottom arc.
-    val pillWidth = 172f
-    val pillHeight = 48f
-    val pillBottomGap = 42f
-    val displayCenter = 240f
-    val safeRadius = 232f // 8dp bezel margin
-    val pillLeft = (480f - pillWidth) / 2f
-    val pillTop = 480f - pillBottomGap - pillHeight
-    // 5 targets cannot be 48dp wide each on this display (48*5=240dp > the
-    // widest pill that fits the round bezel), so the requirement is a sane
-    // minimum that keeps every target individually tappable.
-    assertTrue("navigation targets would be too narrow", (pillWidth - 6f) / 5f >= 24f)
-    listOf(
-        pillLeft to pillTop,
-        (pillLeft + pillWidth) to pillTop,
-        pillLeft to (pillTop + pillHeight),
-        (pillLeft + pillWidth) to (pillTop + pillHeight)
-    ).forEach { (x, y) ->
-        assertTrue(
-            "painted pill crosses the 480dp round bezel at ($x, $y)",
-            hypot(x - displayCenter, y - displayCenter) <= safeRadius + 1f
-        )
-    }
+        composeTestRule.onNodeWithContentDescription("Back").performScrollTo().performClick()
+        composeTestRule.onNodeWithContentDescription("Search").assertExists() // back on Now Playing
+        viewModel.clearError()
     }
 
     @Test
@@ -336,6 +248,44 @@ class RobolectricCoverageTest {
     }
 
     @Test
+    fun settingsOfflineCacheSectionExposesSizeAndClearActions() {
+        var cleared = false
+        var selectedSize = 0
+        composeTestRule.setContent {
+            WearsicTheme {
+                WatchRoot {
+                    SettingsScreen(
+                        serverUrl = "https://example.com",
+                        onServerUrlChange = {},
+                        onTestConnection = {},
+                        isConnected = true,
+                        isLoading = false,
+                        cacheSizeMb = 256,
+                        onCacheSizeMbChange = { selectedSize = it },
+                        cacheUsageBytes = 256L * 1024L * 1024L,
+                        onClearCache = { cleared = true }
+                    )
+                }
+            }
+        }
+
+        // The cache section is far down the lazy list; scroll to each element.
+        composeTestRule.onNode(hasScrollAction())
+            .performScrollToNode(hasText("512MB"))
+        // Usage + limit line is rendered in the same card as the chips.
+        composeTestRule.onNodeWithText("limit 256 MB", substring = true, useUnmergedTree = true)
+            .assertExists()
+        // Size chips exist and changing one reports the new size.
+        composeTestRule.onNodeWithText("512MB").performClick()
+        assertEquals(512, selectedSize)
+        // Clearing the cache reports the callback.
+        composeTestRule.onNode(hasScrollAction())
+            .performScrollToNode(hasText("Clear Cache"))
+        composeTestRule.onNodeWithText("Clear Cache").performClick()
+        assertTrue(cleared)
+    }
+
+    @Test
     fun completeShellCanRenderWithRobolectricApplicationState() {
         val application = ApplicationProvider.getApplicationContext<Application>()
         val viewModel = com.wearsic.app.ui.viewmodel.MainViewModel(application)
@@ -347,18 +297,8 @@ class RobolectricCoverageTest {
             }
         }
 
-        composeTestRule.onNodeWithContentDescription("Now Playing").assertExists()
+        composeTestRule.onNodeWithContentDescription("Search").assertExists()
         composeTestRule.onNodeWithText("No tracks found").performScrollTo().assertIsDisplayed()
-
-        // The bottom navigation must be pinned near the bottom of the app shell
-        // (it previously floated mid-screen on the real 235dp round display).
-        val pillBounds = composeTestRule
-            .onNodeWithTag("bottom-navigation-pill", useUnmergedTree = true)
-            .fetchSemanticsNode().boundsInRoot
-        assertTrue(
-            "pill floats in the middle of the app: $pillBounds",
-            pillBounds.bottom >= 400.dp.value - 60f
-        )
         viewModel.clearError()
     }
 }
