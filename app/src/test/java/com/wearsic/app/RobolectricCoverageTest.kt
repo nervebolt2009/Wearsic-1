@@ -13,7 +13,6 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.wearsic.app.data.model.Playlist
 import com.wearsic.app.data.model.Track
-import com.wearsic.app.ui.components.BottomNavigation
 import com.wearsic.app.ui.navigation.NavigationManager
 import com.wearsic.app.ui.navigation.Screen
 import com.wearsic.app.ui.screens.*
@@ -78,52 +77,28 @@ class RobolectricCoverageTest {
         assertTrue(navigation.navigateBack())
         assertEquals(Screen.NowPlaying, navigation.getCurrentScreen())
         assertFalse(navigation.navigateBack())
-    }
-
-    @Test
-    fun bottomNavigationExposesAllDestinationsAndRoutesClicks() {
-        var selected: Screen? = null
+    }    @Test
+    fun nowPlayingMiniNavigationRoutesThroughScreens() {
+        val application = ApplicationProvider.getApplicationContext<Application>()
+        val viewModel = com.wearsic.app.ui.viewmodel.MainViewModel(application)
         composeTestRule.setContent {
             WearsicTheme {
                 WatchRoot {
-                    BottomNavigation(
-                        currentScreen = Screen.NowPlaying,
-                        onNavigate = { selected = it }
-                    )
+                    com.wearsic.app.WearsicApp(viewModel = viewModel)
                 }
             }
         }
 
-        listOf("Now Playing", "Search", "Favorites", "Queue", "Settings")
+        // Now Playing exposes the four destinations as in-screen icons.
+        listOf("Search", "Favorites", "Queue", "Settings")
             .forEach { composeTestRule.onNodeWithContentDescription(it).assertExists() }
 
-        composeTestRule.onNodeWithContentDescription("Settings").performClick()
-        assertEquals(Screen.Settings, selected)
-        assertInteractiveNodesFitInsideRoot()
-    }
+        composeTestRule.onNodeWithContentDescription("Search").performScrollTo().performClick()
+        composeTestRule.onNode(hasSetTextAction()).assertExists() // the Search text field
 
-    @Test
-    fun bottomNavigationFitsRoundWatchWidth() {
-        composeTestRule.setContent {
-            WearsicTheme {
-                WatchRoot {
-                    BottomNavigation(
-                        currentScreen = Screen.NowPlaying,
-                        onNavigate = {}
-                    )
-                }
-            }
-        }
-
-        composeTestRule.onAllNodes(hasClickAction(), useUnmergedTree = true)
-            .fetchSemanticsNodes()
-            .forEach { node ->
-                assertTrue("bottom nav item clipped: ${node.boundsInRoot}", node.boundsInRoot.left >= 0f)
-                assertTrue("bottom nav item clipped: ${node.boundsInRoot}", node.boundsInRoot.top >= 0f)
-                assertTrue("bottom nav item clipped: ${node.boundsInRoot}", node.boundsInRoot.right <= 174.dp.value)
-                assertTrue("bottom nav item clipped: ${node.boundsInRoot}", node.boundsInRoot.bottom <= 400.dp.value)
-                assertTrue("navigation touch target too small: ${node.boundsInRoot}", node.boundsInRoot.height >= 48.dp.value)
-            }
+        composeTestRule.onNodeWithContentDescription("Back").performScrollTo().performClick()
+        composeTestRule.onNodeWithContentDescription("Search").assertExists() // back on Now Playing
+        viewModel.clearError()
     }
 
     @Test
@@ -159,6 +134,7 @@ class RobolectricCoverageTest {
         var changedQuery = ""
         var selectedTrack: Track? = null
         var favoriteTrack: Track? = null
+        var queuedTrack: Track? = null
         composeTestRule.setContent {
             WearsicTheme {
                 WatchRoot {
@@ -169,7 +145,8 @@ class RobolectricCoverageTest {
                     searchResults = listOf(track),
                     isLoading = false,
                     onTrackClick = { selectedTrack = it },
-                    onAddToFavorites = { favoriteTrack = it }
+                    onAddToFavorites = { favoriteTrack = it },
+                    onAddToQueue = { queuedTrack = it }
                     )
                 }
             }
@@ -181,6 +158,8 @@ class RobolectricCoverageTest {
         assertEquals(track, selectedTrack)
         composeTestRule.onNodeWithContentDescription("Add to favorites").performScrollTo().performClick()
         assertEquals(track, favoriteTrack)
+        composeTestRule.onNodeWithContentDescription("Add to queue").performScrollTo().performClick()
+        assertEquals(track, queuedTrack)
         assertInteractiveNodesFitInsideRoot()
     }
 
@@ -269,6 +248,44 @@ class RobolectricCoverageTest {
     }
 
     @Test
+    fun settingsOfflineCacheSectionExposesSizeAndClearActions() {
+        var cleared = false
+        var selectedSize = 0
+        composeTestRule.setContent {
+            WearsicTheme {
+                WatchRoot {
+                    SettingsScreen(
+                        serverUrl = "https://example.com",
+                        onServerUrlChange = {},
+                        onTestConnection = {},
+                        isConnected = true,
+                        isLoading = false,
+                        cacheSizeMb = 256,
+                        onCacheSizeMbChange = { selectedSize = it },
+                        cacheUsageBytes = 256L * 1024L * 1024L,
+                        onClearCache = { cleared = true }
+                    )
+                }
+            }
+        }
+
+        // The cache section is far down the lazy list; scroll to each element.
+        composeTestRule.onNode(hasScrollAction())
+            .performScrollToNode(hasText("512MB"))
+        // Usage + limit line is rendered in the same card as the chips.
+        composeTestRule.onNodeWithText("limit 256 MB", substring = true, useUnmergedTree = true)
+            .assertExists()
+        // Size chips exist and changing one reports the new size.
+        composeTestRule.onNodeWithText("512MB").performClick()
+        assertEquals(512, selectedSize)
+        // Clearing the cache reports the callback.
+        composeTestRule.onNode(hasScrollAction())
+            .performScrollToNode(hasText("Clear Cache"))
+        composeTestRule.onNodeWithText("Clear Cache").performClick()
+        assertTrue(cleared)
+    }
+
+    @Test
     fun completeShellCanRenderWithRobolectricApplicationState() {
         val application = ApplicationProvider.getApplicationContext<Application>()
         val viewModel = com.wearsic.app.ui.viewmodel.MainViewModel(application)
@@ -280,7 +297,7 @@ class RobolectricCoverageTest {
             }
         }
 
-        composeTestRule.onNodeWithContentDescription("Now Playing").assertExists()
+        composeTestRule.onNodeWithContentDescription("Search").assertExists()
         composeTestRule.onNodeWithText("No tracks found").performScrollTo().assertIsDisplayed()
         viewModel.clearError()
     }

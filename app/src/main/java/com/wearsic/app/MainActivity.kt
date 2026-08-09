@@ -2,14 +2,13 @@ package com.wearsic.app
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.wearsic.app.ui.components.BottomNavigation
 import com.wearsic.app.ui.navigation.NavigationManager
 import com.wearsic.app.ui.navigation.Screen
 import com.wearsic.app.ui.screens.*
@@ -36,12 +35,15 @@ fun WearsicApp(
 
     val currentTrack by viewModel.currentTrack.collectAsState()
     val isPlaying by viewModel.isPlaying.collectAsState()
+    val playbackError by viewModel.error.collectAsState()
     val progress by viewModel.progress.collectAsState()
     val shuffleEnabled by viewModel.shuffleEnabled.collectAsState()
     val repeatEnabled by viewModel.repeatEnabled.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
     val suggestions by viewModel.suggestions.collectAsState()
     val searchResults by viewModel.searchResults.collectAsState()
+    val albumSearchResults by viewModel.albumSearchResults.collectAsState()
+    val albumsMode by viewModel.albumsMode.collectAsState()
     val isSearching by viewModel.isSearching.collectAsState()
     val favorites by viewModel.favorites.collectAsState()
     val playlists by viewModel.playlists.collectAsState()
@@ -52,89 +54,151 @@ fun WearsicApp(
     val isConnected by viewModel.isConnected.collectAsState()
     val isTestingConnection by viewModel.isTestingConnection.collectAsState()
     val apiKey by viewModel.apiKey.collectAsState()
+    val youtubeCookie by viewModel.youtubeCookie.collectAsState()
+    val cacheSizeMb by viewModel.cacheSizeMb.collectAsState()
+    val cacheUsageBytes by viewModel.cacheUsageBytes.collectAsState()
+    val autoCacheEnabled by viewModel.autoCacheEnabled.collectAsState()
+    val downloadedIds by viewModel.downloadedIds.collectAsState()
+    val downloadProgress by viewModel.downloadProgress.collectAsState()
+    val downloadErrors by viewModel.downloadErrors.collectAsState()
+    val selectedAlbum by viewModel.selectedAlbum.collectAsState()
+    val albumTracks by viewModel.albumTracks.collectAsState()
+    val isLoadingAlbum by viewModel.isLoadingAlbum.collectAsState()
+    val albumError by viewModel.albumError.collectAsState()
 
-    // Keep a clear safe area above the pill-shaped navigation. This is more reliable
-    // on both round and square watches than drawing the bar over the content.
+    // System back gesture navigates back through the in-app history.
+    BackHandler(enabled = navigationManager.canNavigateBack()) {
+        navigationManager.navigateBack()
+    }
+
+    // No permanent bottom bar: the screens navigate on their own. Now Playing
+    // exposes Search/Favorites/Queue/Settings icons, and every other screen has
+    // a back button, so the whole 235dp round display stays usable.
     Box(modifier = Modifier.fillMaxSize()) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(bottom = 64.dp)
-        ) {
-            when (currentScreen) {
-                is Screen.NowPlaying -> NowPlayingScreen(
-                    currentTrack = currentTrack,
-                    isPlaying = isPlaying,
-                    progress = progress,
-                    shuffleEnabled = shuffleEnabled,
-                    repeatEnabled = repeatEnabled,
-                    onPlayPause = { viewModel.togglePlayPause() },
-                    onNext = { viewModel.skipToNext() },
-                    onPrevious = { viewModel.skipToPrevious() },
-                    onShuffleToggle = { viewModel.toggleShuffle() },
-                    onRepeatToggle = { viewModel.toggleRepeat() },
-                    onFavoriteToggle = { viewModel.toggleFavorite() },
-                    isFavorite = viewModel.isCurrentTrackFavorite()
-                )
+        when (currentScreen) {
+            is Screen.NowPlaying -> NowPlayingScreen(
+                currentTrack = currentTrack,
+                isPlaying = isPlaying,
+                playbackError = playbackError,
+                progress = progress,
+                shuffleEnabled = shuffleEnabled,
+                repeatEnabled = repeatEnabled,
+                onPlayPause = { viewModel.togglePlayPause() },
+                onNext = { viewModel.skipToNext() },
+                onPrevious = { viewModel.skipToPrevious() },
+                onShuffleToggle = { viewModel.toggleShuffle() },
+                onRepeatToggle = { viewModel.toggleRepeat() },
+                onFavoriteToggle = { viewModel.toggleFavorite() },
+                isFavorite = viewModel.isCurrentTrackFavorite(),
+                onNavigate = navigationManager::navigateTo
+            )
 
-                is Screen.Search -> SearchScreen(
-                    searchQuery = searchQuery,
-                    onSearchQueryChange = viewModel::updateSearchQuery,
-                    suggestions = suggestions,
-                    searchResults = searchResults,
-                    isLoading = isSearching,
+            is Screen.Search -> SearchScreen(
+                searchQuery = searchQuery,
+                onSearchQueryChange = viewModel::updateSearchQuery,
+                suggestions = suggestions,
+                searchResults = searchResults,
+                isLoading = isSearching,
+                albums = albumSearchResults,
+                albumsMode = albumsMode,
+                onAlbumsModeChange = viewModel::setAlbumsMode,
+                onAlbumClick = { album ->
+                    viewModel.loadAlbum(album)
+                    navigationManager.navigateTo(Screen.AlbumDetail)
+                },
+                onTrackClick = { track ->
+                    // Queue is seeded from the song's related/album tracks instead
+                    // of the search page (which can be the same song mirrored by
+                    // many channels).
+                    viewModel.playSearchResult(track)
+                    navigationManager.navigateTo(Screen.NowPlaying)
+                },
+                onAddToFavorites = viewModel::addToFavorites,
+                onAddToQueue = viewModel::addToQueue,
+                onDownload = viewModel::downloadTrack,
+                downloadedIds = downloadedIds,
+                downloadProgress = downloadProgress,
+                downloadErrors = downloadErrors,
+                onBack = { navigationManager.navigateBack() }
+            )
+
+            is Screen.AlbumDetail -> selectedAlbum?.let { album ->
+                AlbumDetailScreen(
+                    album = album,
+                    tracks = albumTracks,
+                    isLoading = isLoadingAlbum,
+                    errorMessage = albumError,
+                    onRetry = { viewModel.loadAlbum(album) },
                     onTrackClick = { track ->
-                        viewModel.playTrack(track)
+                        // Queue the whole album, starting from the tapped track.
+                        val index = albumTracks.indexOfFirst { it.videoId == track.videoId }
+                            .coerceAtLeast(0)
+                        viewModel.playTracks(albumTracks, index)
                         navigationManager.navigateTo(Screen.NowPlaying)
                     },
-                    onAddToFavorites = viewModel::addToFavorites
-                )
-
-                is Screen.Favorites -> FavoritesPlaylistsScreen(
-                    favorites = favorites,
-                    playlists = playlists,
-                    isLoading = isLoading,
-                    onTrackClick = { track ->
-                        viewModel.playTrack(track)
-                        navigationManager.navigateTo(Screen.NowPlaying)
-                    },
-                    onRemoveFromFavorites = viewModel::removeFromFavorites,
-                    onPlaylistClick = { playlist ->
-                        viewModel.playPlaylist(playlist)
-                        navigationManager.navigateTo(Screen.NowPlaying)
-                    }
-                )
-
-                is Screen.Queue -> QueueScreen(
-                    currentTrack = currentTrack,
-                    queue = queue,
-                    currentIndex = currentIndex,
-                    onTrackClick = { index ->
-                        queue.getOrNull(index)?.let {
-                            viewModel.playTrack(it)
-                            navigationManager.navigateTo(Screen.NowPlaying)
-                        }
-                    },
-                    onRemoveFromQueue = viewModel::removeFromQueue,
-                    onClearQueue = viewModel::clearQueue
-                )
-
-                is Screen.Settings -> SettingsScreen(
-                    serverUrl = serverUrl,
-                    onServerUrlChange = viewModel::saveServerUrl,
-                    onTestConnection = viewModel::testConnection,
-                    isConnected = isConnected,
-                    isLoading = isTestingConnection,
-                    apiKey = apiKey,
-                    onApiKeyChange = viewModel::saveApiKey
+                    onDownload = viewModel::downloadTrack,
+                    downloadedIds = downloadedIds,
+                    downloadProgress = downloadProgress,
+                    downloadErrors = downloadErrors,
+                    onBack = { navigationManager.navigateBack() }
                 )
             }
-        }
 
-        BottomNavigation(
-            currentScreen = currentScreen,
-            onNavigate = navigationManager::navigateTo,
-            modifier = Modifier.align(Alignment.BottomCenter)
-        )
+            is Screen.Favorites -> FavoritesPlaylistsScreen(
+                favorites = favorites,
+                playlists = playlists,
+                isLoading = isLoading,
+                onTrackClick = { track ->
+                    val index = favorites.indexOfFirst { it.videoId == track.videoId }
+                        .coerceAtLeast(0)
+                    viewModel.playTracks(favorites, index)
+                    navigationManager.navigateTo(Screen.NowPlaying)
+                },
+                onRemoveFromFavorites = viewModel::removeFromFavorites,
+                onPlaylistClick = { playlist ->
+                    viewModel.playPlaylist(playlist)
+                    navigationManager.navigateTo(Screen.NowPlaying)
+                },
+                onDownload = viewModel::downloadTrack,
+                downloadedIds = downloadedIds,
+                downloadProgress = downloadProgress,
+                downloadErrors = downloadErrors,
+                onBack = { navigationManager.navigateBack() }
+            )
+
+            is Screen.Queue -> QueueScreen(
+                currentTrack = currentTrack,
+                queue = queue,
+                currentIndex = currentIndex,
+                onTrackClick = { index ->
+                    queue.getOrNull(index)?.let {
+                        viewModel.playTrack(it)
+                        navigationManager.navigateTo(Screen.NowPlaying)
+                    }
+                },
+                onRemoveFromQueue = viewModel::removeFromQueue,
+                onClearQueue = viewModel::clearQueue,
+                onBack = { navigationManager.navigateBack() }
+            )
+
+            is Screen.Settings -> SettingsScreen(
+                serverUrl = serverUrl,
+                onServerUrlChange = viewModel::saveServerUrl,
+                onTestConnection = viewModel::testConnection,
+                isConnected = isConnected,
+                isLoading = isTestingConnection,
+                apiKey = apiKey,
+                onApiKeyChange = viewModel::saveApiKey,
+                youtubeCookie = youtubeCookie,
+                onYoutubeCookieChange = viewModel::saveYoutubeCookie,
+                onBack = { navigationManager.navigateBack() },
+                cacheSizeMb = cacheSizeMb,
+                onCacheSizeMbChange = viewModel::setCacheSizeMb,
+                cacheUsageBytes = cacheUsageBytes,
+                onClearCache = viewModel::clearPlaybackCache,
+                autoCacheEnabled = autoCacheEnabled,
+                onAutoCacheEnabledChange = viewModel::setAutoCacheEnabled
+            )
+        }
     }
 }

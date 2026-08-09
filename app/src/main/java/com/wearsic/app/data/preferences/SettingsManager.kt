@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
@@ -22,6 +23,12 @@ class SettingsManager(private val context: Context) {
     companion object {
         private val SERVER_URL = stringPreferencesKey("server_url")
         private val API_KEY = stringPreferencesKey("api_key")
+        private val YOUTUBE_COOKIE = stringPreferencesKey("youtube_cookie")
+        private val CACHE_SIZE_MB = intPreferencesKey("cache_size_mb")
+        private val AUTO_CACHE_ENABLED = androidx.datastore.preferences.core.booleanPreferencesKey("auto_cache_enabled")
+
+        const val DEFAULT_CACHE_SIZE_MB = 256
+        const val DEFAULT_AUTO_CACHE_ENABLED = false
     }
     
     /**
@@ -56,6 +63,49 @@ class SettingsManager(private val context: Context) {
         }
     }
     
+    /**
+     * Get the saved YouTube browser cookie as a Flow
+     */
+    val youtubeCookie: Flow<String> = context.dataStore.data.map { preferences ->
+        preferences[YOUTUBE_COOKIE] ?: ""
+    }
+    
+    /**
+     * Save the YouTube browser cookie
+     */
+    suspend fun saveYoutubeCookie(cookie: String) {
+        context.dataStore.edit { preferences ->
+            preferences[YOUTUBE_COOKIE] = cookie.trim()
+        }
+    }
+
+    /**
+     * Offline audio cache size limit in megabytes.
+     */
+    val cacheSizeMb: Flow<Int> = context.dataStore.data.map { preferences ->
+        preferences[CACHE_SIZE_MB] ?: DEFAULT_CACHE_SIZE_MB
+    }    /**
+     * Save the offline audio cache size limit in megabytes.
+     */
+    suspend fun saveCacheSizeMb(mb: Int) {
+        context.dataStore.edit { preferences ->
+            preferences[CACHE_SIZE_MB] = mb.coerceAtLeast(0)
+        }
+    }
+
+    /**
+     * Whether playback may finish caching the current song automatically.
+     */
+    val autoCacheEnabled: Flow<Boolean> = context.dataStore.data.map { preferences ->
+        preferences[AUTO_CACHE_ENABLED] ?: DEFAULT_AUTO_CACHE_ENABLED
+    }
+
+    suspend fun saveAutoCacheEnabled(enabled: Boolean) {
+        context.dataStore.edit { preferences ->
+            preferences[AUTO_CACHE_ENABLED] = enabled
+        }
+    }
+
     /**
      * Clear all settings
      */

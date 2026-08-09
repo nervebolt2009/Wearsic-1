@@ -7,7 +7,7 @@
     mergedManifest="build/intermediates/merged_manifest/release/processReleaseMainManifest/AndroidManifest.xml"
     proguardFiles="build/intermediates/default_proguard_files/global/proguard-android-optimize.txt-8.7.3:proguard-rules.pro"
     partialResultsDir="build/intermediates/lint_vital_partial_results/release/lintVitalAnalyzeRelease/out"
-    desugaredMethodsFiles="/home/vscode/.gradle/caches/8.11.1/transforms/77bcae5dde40031391af8510ddb00b71/transformed/D8BackportedDesugaredMethods.txt">
+    desugaredMethodsFiles="/home/vscode/.gradle/caches/8.11.1/transforms/fd1492cd4754b7eb3fd3ddddaa9c13c1/transformed/D8BackportedDesugaredMethods.txt">
   <buildFeatures
       namespacing="REQUIRED"/>
   <sourceProviders>
@@ -27,6 +27,6 @@
       applicationId="com.wearsic.app"
       generatedSourceFolders="build/generated/ap_generated_sources/release/out"
       generatedResourceFolders="build/generated/res/resValues/release"
-      desugaredMethodsFiles="/home/vscode/.gradle/caches/8.11.1/transforms/77bcae5dde40031391af8510ddb00b71/transformed/D8BackportedDesugaredMethods.txt">
+      desugaredMethodsFiles="/home/vscode/.gradle/caches/8.11.1/transforms/fd1492cd4754b7eb3fd3ddddaa9c13c1/transformed/D8BackportedDesugaredMethods.txt">
   </artifact>
 </variant>

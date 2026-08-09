@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.wearsic.app.RobolectricCoverageTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-08-08T17:10:38" hostname="codespaces-3c9c6d" time="1.437">
+<testsuite name="com.wearsic.app.RobolectricCoverageTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-08-09T13:11:29" hostname="codespaces-3c9c6d" time="1.646">
   <properties/>
-  <testcase name="bottomNavigationExposesAllDestinationsAndRoutesClicks" classname="com.wearsic.app.RobolectricCoverageTest" time="0.091"/>
-  <testcase name="queueClearAndTrackActionsWorkInsideSafeBounds" classname="com.wearsic.app.RobolectricCoverageTest" time="0.167"/>
-  <testcase name="searchTextEntryAndResultActionWorkInsideSafeBounds" classname="com.wearsic.app.RobolectricCoverageTest" time="0.415"/>
-  <testcase name="favoritesPlaylistTabAndRemovalActionWorkInsideSafeBounds" classname="com.wearsic.app.RobolectricCoverageTest" time="0.123"/>
-  <testcase name="bottomNavigationFitsRoundWatchWidth" classname="com.wearsic.app.RobolectricCoverageTest" time="0.083"/>
-  <testcase name="completeShellCanRenderWithRobolectricApplicationState" classname="com.wearsic.app.RobolectricCoverageTest" time="0.263"/>
-  <testcase name="settingsTextEntryAndConnectionActionWorkInsideSafeBounds" classname="com.wearsic.app.RobolectricCoverageTest" time="0.145"/>
-  <testcase name="nowPlayingInteractiveControlsStayInsideTheRoot" classname="com.wearsic.app.RobolectricCoverageTest" time="0.094"/>
-  <testcase name="navigationManagerDoesNotCreateDuplicateHistoryEntries" classname="com.wearsic.app.RobolectricCoverageTest" time="0.052"/>
+  <testcase name="queueClearAndTrackActionsWorkInsideSafeBounds" classname="com.wearsic.app.RobolectricCoverageTest" time="0.13"/>
+  <testcase name="settingsOfflineCacheSectionExposesSizeAndClearActions" classname="com.wearsic.app.RobolectricCoverageTest" time="0.419"/>
+  <testcase name="searchTextEntryAndResultActionWorkInsideSafeBounds" classname="com.wearsic.app.RobolectricCoverageTest" time="0.339"/>
+  <testcase name="favoritesPlaylistTabAndRemovalActionWorkInsideSafeBounds" classname="com.wearsic.app.RobolectricCoverageTest" time="0.122"/>
+  <testcase name="completeShellCanRenderWithRobolectricApplicationState" classname="com.wearsic.app.RobolectricCoverageTest" time="0.242"/>
+  <testcase name="nowPlayingMiniNavigationRoutesThroughScreens" classname="com.wearsic.app.RobolectricCoverageTest" time="0.148"/>
+  <testcase name="settingsTextEntryAndConnectionActionWorkInsideSafeBounds" classname="com.wearsic.app.RobolectricCoverageTest" time="0.107"/>
+  <testcase name="nowPlayingInteractiveControlsStayInsideTheRoot" classname="com.wearsic.app.RobolectricCoverageTest" time="0.093"/>
+  <testcase name="navigationManagerDoesNotCreateDuplicateHistoryEntries" classname="com.wearsic.app.RobolectricCoverageTest" time="0.044"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
 SLF4J: Defaulting to no-operation (NOP) logger implementation

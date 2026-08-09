@@ -8,7 +8,11 @@ import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.*
+import kotlinx.coroutines.CancellationException
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
@@ -160,8 +164,15 @@ class MusicRepository {
     suspend fun testConnection(): Result<HealthResponse> {
         val url = requireServerUrl().getOrElse { return Result.failure(it) }
         return try {
-            val response = client.get("$url/health").body<HealthResponse>()
+            val response = client.get("$url/health") {
+                // Health is intentionally public, but sending the configured key
+                // also supports deployments that protect every route uniformly.
+                if (apiKey.isNotBlank()) header("X-Wearsic-Key", apiKey)
+                header("Cache-Control", "no-cache")
+            }.body<HealthResponse>()
             Result.success(response)
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             Result.failure(e)
         }
@@ -177,11 +188,38 @@ class MusicRepository {
                 parameter("q", query)
             }
             Result.success(payload.toSearchResponse())
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
     
+    /** Search real YouTube playlist-style albums. */
+    suspend fun searchAlbums(query: String): Result<List<Album>> {
+        val url = requireServerUrl().getOrElse { return Result.failure(it) }
+        return try {
+            Result.success(client.get(apiUrl("/search/albums")) {
+                parameter("q", query)
+            }.body())
+        } catch (error: ClientRequestException) {
+            if (error.response.status.value != 404) return Result.failure(error)
+            try {
+                Result.success(client.get("$url/search/albums") {
+                    parameter("q", query)
+                }.body())
+            } catch (fallbackError: CancellationException) {
+                throw fallbackError
+            } catch (fallbackError: Exception) {
+                Result.failure(fallbackError)
+            }
+        } catch (error: CancellationException) {
+            throw error
+        } catch (error: Exception) {
+            Result.failure(error)
+        }
+    }
+
     /**
      * Get search suggestions (autocomplete)
      */
@@ -192,6 +230,8 @@ class MusicRepository {
                 parameter("q", query)
             }
             Result.success(SuggestionResponse(payload.toSuggestions()))
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             Result.failure(e)
         }
@@ -204,6 +244,26 @@ class MusicRepository {
         return try {
             val payload = getApiOrRoot<JsonObject>("/related/$videoId")
             Result.success(payload.toSearchResponse())
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+    
+    /**
+     * Push the YouTube browser cookie to the server. The server applies it to
+     * every YouTube request and persists it in SQLite.
+     */
+    suspend fun setYoutubeCookie(cookie: String): Result<Unit> {
+        return try {
+            postApiOrRoot("/config/youtube-cookie") {
+                contentType(ContentType.Application.Json)
+                setBody(YoutubeCookieRequest(cookie))
+            }
+            Result.success(Unit)
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             Result.failure(e)
         }
@@ -225,6 +285,8 @@ class MusicRepository {
         return try {
             val response = getApiOrRoot<List<Track>>("/favorites")
             Result.success(response)
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             Result.failure(e)
         }
@@ -236,9 +298,12 @@ class MusicRepository {
     suspend fun addToFavorites(track: Track): Result<Unit> {
         return try {
             postApiOrRoot("/favorites") {
+                contentType(ContentType.Application.Json)
                 setBody(track)
             }
             Result.success(Unit)
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             Result.failure(e)
         }
@@ -251,6 +316,8 @@ class MusicRepository {
         return try {
             deleteApiOrRoot("/favorites/$videoId")
             Result.success(Unit)
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             Result.failure(e)
         }
@@ -263,6 +330,8 @@ class MusicRepository {
         return try {
             val response = getApiOrRoot<List<Playlist>>("/playlists")
             Result.success(response)
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             Result.failure(e)
         }
@@ -275,6 +344,8 @@ class MusicRepository {
         return try {
             val response = getApiOrRoot<PlaylistWithTracks>("/playlists/$id")
             Result.success(response)
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             Result.failure(e)
         }
@@ -289,6 +360,8 @@ class MusicRepository {
                 parameter("url", url)
             }
             Result.success(response)
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             Result.failure(e)
         }
@@ -304,6 +377,8 @@ class MusicRepository {
                 parameter("page", page)
             }
             Result.success(response)
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             Result.failure(e)
         }
@@ -316,15 +391,19 @@ class MusicRepository {
         return try {
             val response = try {
                 client.post(apiUrl("/playlists")) {
+                    contentType(ContentType.Application.Json)
                     setBody(mapOf("name" to name))
                 }.body<Playlist>()
             } catch (error: ClientRequestException) {
                 if (error.response.status.value != 404) throw error
                 client.post("$baseUrl/playlists") {
+                    contentType(ContentType.Application.Json)
                     setBody(mapOf("name" to name))
                 }.body<Playlist>()
             }
             Result.success(response)
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             Result.failure(e)
         }
@@ -336,9 +415,12 @@ class MusicRepository {
     suspend fun addTrackToPlaylist(playlistId: String, track: Track): Result<Unit> {
         return try {
             postApiOrRoot("/playlists/$playlistId/tracks") {
+                contentType(ContentType.Application.Json)
                 setBody(track)
             }
             Result.success(Unit)
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             Result.failure(e)
         }
@@ -351,6 +433,8 @@ class MusicRepository {
         return try {
             deleteApiOrRoot("/playlists/$playlistId/tracks/$videoId")
             Result.success(Unit)
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             Result.failure(e)
         }
@@ -363,3 +447,6 @@ class MusicRepository {
         client.close()
     }
 }
+
+@Serializable
+internal data class YoutubeCookieRequest(val cookie: String)

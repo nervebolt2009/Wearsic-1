@@ -5,18 +5,30 @@ import kotlinx.coroutines.withContext
 import org.schabi.newpipe.extractor.InfoItem
 import org.schabi.newpipe.extractor.ServiceList
 import org.schabi.newpipe.extractor.channel.ChannelExtractor
+import org.schabi.newpipe.extractor.exceptions.ContentNotAvailableException
+import org.schabi.newpipe.extractor.exceptions.ExtractionException
 import org.schabi.newpipe.extractor.playlist.PlaylistExtractor
+import org.schabi.newpipe.extractor.playlist.PlaylistInfoItem
 import org.schabi.newpipe.extractor.stream.AudioStream
 import org.schabi.newpipe.extractor.stream.StreamExtractor
 import org.schabi.newpipe.extractor.stream.StreamInfoItem
+import org.schabi.newpipe.extractor.stream.StreamType
+import org.schabi.newpipe.extractor.services.youtube.extractors.YoutubeStreamExtractor
+import org.schabi.newpipe.extractor.services.youtube.linkHandler.YoutubeSearchQueryHandlerFactory
+import org.slf4j.LoggerFactory
 import java.util.Collections
 import java.util.LinkedHashMap
 import java.util.concurrent.ConcurrentHashMap
 
 class ExtractorService {
+    private val logger = LoggerFactory.getLogger(ExtractorService::class.java)
     private val searchCache = BoundedCache<String, List<TrackDto>>(64)
     private val streamCache = BoundedCache<String, CachedStreamTarget>(64)
     private val locks = ConcurrentHashMap<String, Any>()
+    // Stream extraction is guarded by a single lock because the iOS-client
+    // fallback toggles a static extractor flag; a global lock keeps concurrent
+    // extractions from seeing each other's client state.
+    private val streamExtractionLock = Any()
 
     suspend fun search(query: String): List<TrackDto> = withContext(Dispatchers.IO) {
         val normalized = query.trim()
@@ -24,16 +36,66 @@ class ExtractorService {
         val key = normalized.lowercase()
         searchCache[key] ?: synchronized(lockFor("search:$key")) {
             searchCache[key] ?: run {
-                val extractor = ServiceList.YouTube.getSearchExtractor(normalized)
-                extractor.fetchPage()
-                extractor.getInitialPage().getItems()
-                    .asSequence()
-                    .mapNotNull(::toTrack)
-                    .take(MAX_RESULTS)
-                    .toList()
-                    .also { searchCache[key] = it }
+                searchMusic(normalized).also { searchCache[key] = it }
             }
         }
+    }
+
+    /**
+     * Music-only search. Prefers YouTube's real music filter ("music_songs",
+     * i.e. the YouTube Music / music tab) so results are songs, not random
+     * videos, live streams or clips. If the filtered request fails or yields
+     * nothing, falls back to a plain search filtered client-side.
+     */
+    private fun searchMusic(query: String): List<TrackDto> {
+        val filtered = try {
+            searchPage(query, listOf(YoutubeSearchQueryHandlerFactory.MUSIC_SONGS))
+        } catch (error: Exception) {
+            logger.info(
+                "Music-filtered search failed for '{}', falling back to plain search: {}",
+                query,
+                error.message
+            )
+            emptyList()
+        }
+        if (filtered.isNotEmpty()) return filtered
+        return searchPage(query, contentFilters = null)
+    }
+
+    private fun searchPage(query: String, contentFilters: List<String>?): List<TrackDto> {
+        val extractor = if (contentFilters == null) {
+            ServiceList.YouTube.getSearchExtractor(query)
+        } else {
+            ServiceList.YouTube.getSearchExtractor(query, contentFilters, null)
+        }
+        extractor.fetchPage()
+        return extractor.getInitialPage().getItems()
+            .asSequence()
+            .mapNotNull(::toTrack)
+            .take(MAX_RESULTS)
+            .toList()
+    }
+
+    suspend fun searchAlbums(query: String): List<AlbumDto> = withContext(Dispatchers.IO) {
+        val normalized = query.trim()
+        require(normalized.length >= 2) { "Query must contain at least two characters" }
+        val extractor = ServiceList.YouTube.getSearchExtractor(normalized)
+        extractor.fetchPage()
+        extractor.getInitialPage().getItems()
+            .asSequence()
+            .filterIsInstance<PlaylistInfoItem>()
+            .map { item ->
+                AlbumDto(
+                    id = item.getUrl(),
+                    name = item.getName(),
+                    uploader = item.getUploaderName().orEmpty().ifBlank { "YouTube" },
+                    trackCount = item.getStreamCount().coerceAtLeast(0L).coerceAtMost(Int.MAX_VALUE.toLong()).toInt(),
+                    thumbnailUrl = item.getThumbnails().firstOrNull()?.getUrl().orEmpty(),
+                    url = item.getUrl()
+                )
+            }
+            .take(MAX_RESULTS)
+            .toList()
     }
 
     suspend fun suggestions(query: String): List<String> = withContext(Dispatchers.IO) {
@@ -42,36 +104,71 @@ class ExtractorService {
     }
 
     suspend fun related(videoId: String): List<TrackDto> = withContext(Dispatchers.IO) {
-        val collector = streamExtractor(videoId).getRelatedItems()
-        collector?.getItems().orEmpty().asSequence().mapNotNull(::toTrack).take(MAX_RESULTS).toList()
+        // Guarded by the same lock as streamTarget: related items build a stream
+        // extractor, and the iOS-client fallback toggles a global extractor flag.
+        synchronized(streamExtractionLock) {
+            val collector = streamExtractor(videoId).getRelatedItems()
+            collector?.getItems().orEmpty().asSequence().mapNotNull(::toTrack).take(MAX_RESULTS).toList()
+        }
+    }
+
+    fun invalidateStreamTarget(videoId: String) {
+        streamCache.remove(videoId)
     }
 
     suspend fun streamTarget(videoId: String): StreamTarget = withContext(Dispatchers.IO) {
         streamCache[videoId]
             ?.takeIf { it.expiresAtMillis > System.currentTimeMillis() }
             ?.target
-            ?: synchronized(lockFor("stream:$videoId")) {
+            ?: synchronized(streamExtractionLock) {
                 streamCache[videoId]
                     ?.takeIf { it.expiresAtMillis > System.currentTimeMillis() }
                     ?.target
                     ?: run {
-                val audio = streamExtractor(videoId).getAudioStreams()
-                    .asSequence()
-                    .filter { it.isUrl() }
-                    .sortedWith(compareBy<AudioStream> {
-                        if (it.getFormat()?.getMimeType() == "audio/mp4") 0 else 1
-                    }.thenBy { bitrateDistance(it.getAverageBitrate()) })
-                    .firstOrNull() ?: error("No playable audio stream found")
-                StreamTarget(
-                    url = audio.getContent(),
-                    contentType = audio.getFormat()?.getMimeType() ?: "audio/mp4"
-                ).also {
-                    streamCache[videoId] = CachedStreamTarget(
-                        target = it,
-                        expiresAtMillis = System.currentTimeMillis() + STREAM_CACHE_TTL_MILLIS
-                    )
-                }
+                        val audio = try {
+                            resolveAudioStream(videoId, useIosClient = false)
+                        } catch (error: ContentNotAvailableException) {
+                            // The video itself is gone; a different client cannot help.
+                            throw error
+                        } catch (error: ExtractionException) {
+                            // Client-agnostic extraction failures (bot checks, throttling,
+                            // player/API changes) often succeed on the iOS Innertube client.
+                            logger.info(
+                                "Default YouTube client failed for video {}, retrying with iOS client: {}",
+                                videoId,
+                                error.message
+                            )
+                            resolveAudioStream(videoId, useIosClient = true)
+                        }
+                        StreamTarget(
+                            url = audio.getContent(),
+                            contentType = audio.getFormat()?.getMimeType() ?: "audio/mp4"
+                        ).also {
+                            streamCache[videoId] = CachedStreamTarget(
+                                target = it,
+                                expiresAtMillis = System.currentTimeMillis() + STREAM_CACHE_TTL_MILLIS
+                            )
+                        }
+                    }
             }
+    }
+
+    /**
+     * Resolve a playable audio stream, optionally using the iOS Innertube client.
+     * The extractor flag is global, so it is always restored in a finally block.
+     */
+    private fun resolveAudioStream(videoId: String, useIosClient: Boolean): AudioStream {
+        if (useIosClient) YoutubeStreamExtractor.setFetchIosClient(true)
+        try {
+            return streamExtractor(videoId).getAudioStreams()
+                .asSequence()
+                .filter { it.isUrl() }
+                .sortedWith(compareBy<AudioStream> {
+                    if (it.getFormat()?.getMimeType() == "audio/mp4") 0 else 1
+                }.thenBy { bitrateDistance(it.getAverageBitrate()) })
+                .firstOrNull() ?: error("No playable audio stream found")
+        } finally {
+            if (useIosClient) YoutubeStreamExtractor.setFetchIosClient(false)
         }
     }
 
@@ -108,6 +205,9 @@ class ExtractorService {
 
     private fun toTrack(item: InfoItem): TrackDto? {
         if (item !is StreamInfoItem) return null
+        // Keep the queue/autoplay music-only: drop live streams, Shorts and
+        // micro-clips before they reach the app.
+        if (!isPlayableMusicItem(item)) return null
         val url = item.getUrl()
         return TrackDto(
             videoId = videoIdFromUrl(url) ?: return null,
@@ -116,6 +216,29 @@ class ExtractorService {
             durationMs = item.getDuration().coerceAtLeast(0) * 1000,
             thumbnailUrl = item.getThumbnails().firstOrNull()?.getUrl().orEmpty()
         )
+    }
+
+    private fun isPlayableMusicItem(item: StreamInfoItem): Boolean =
+        isPlayableMusicCandidate(item.getStreamType(), item.isShortFormContent(), item.getDuration().coerceAtLeast(0))
+
+    /**
+     * Pure music-candidate check used to keep search results and autoplay
+     * music-only. Live streams, Shorts and micro-clips (< 30s) are excluded.
+     */
+    internal fun isPlayableMusicCandidate(
+        streamType: StreamType,
+        isShortForm: Boolean,
+        durationSeconds: Long
+    ): Boolean {
+        if (isShortForm) return false
+        when (streamType) {
+            StreamType.LIVE_STREAM,
+            StreamType.AUDIO_LIVE_STREAM,
+            StreamType.POST_LIVE_STREAM,
+            StreamType.POST_LIVE_AUDIO_STREAM -> return false
+            else -> Unit
+        }
+        return durationSeconds >= MIN_MUSIC_SECONDS
     }
 
     private fun videoIdFromUrl(url: String): String? = when {
@@ -129,6 +252,7 @@ class ExtractorService {
     companion object {
         const val MAX_RESULTS = 10
         const val MAX_SUGGESTIONS = 5
+        private const val MIN_MUSIC_SECONDS = 30
         private const val STREAM_CACHE_TTL_MILLIS = 15 * 60 * 1000L
     }
 }
@@ -144,4 +268,5 @@ private class BoundedCache<K, V>(private val maxSize: Int) {
 
     operator fun get(key: K): V? = values[key]
     operator fun set(key: K, value: V) { values[key] = value }
+    fun remove(key: K) { values.remove(key) }
 }

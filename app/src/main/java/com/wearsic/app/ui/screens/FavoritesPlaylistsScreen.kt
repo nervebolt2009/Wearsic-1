@@ -42,6 +42,11 @@ fun FavoritesPlaylistsScreen(
     onTrackClick: (Track) -> Unit,
     onRemoveFromFavorites: (Track) -> Unit,
     onPlaylistClick: (Playlist) -> Unit,
+    onDownload: (Track) -> Unit = {},
+    downloadedIds: Set<String> = emptySet(),
+    downloadProgress: Map<String, Float> = emptyMap(),
+    downloadErrors: Map<String, String> = emptyMap(),
+    onBack: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     var selectedTab by remember { mutableIntStateOf(0) }
@@ -58,16 +63,27 @@ fun FavoritesPlaylistsScreen(
             contentPadding = PaddingValues(top = 28.dp, bottom = 28.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Header
+            // Header with back navigation
             item {
-                Text(
-                    text = stringResource(R.string.favorites),
-                    style = MaterialTheme.typography.titleMedium.copy(
-                        fontWeight = FontWeight.Bold
-                    ),
-                    color = Color.White,
-                    modifier = Modifier.padding(bottom = 12.dp)
-                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(0.9f)
+                        .padding(bottom = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    BackButton(onBack)
+                    Text(
+                        text = stringResource(R.string.favorites),
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            fontWeight = FontWeight.Bold
+                        ),
+                        color = Color.White,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(end = 40.dp)
+                    )
+                }
             }
             
             // Tab Selector
@@ -176,6 +192,10 @@ fun FavoritesPlaylistsScreen(
                             track = favorites[index],
                             onClick = { onTrackClick(favorites[index]) },
                             onRemove = { onRemoveFromFavorites(favorites[index]) },
+                            onDownload = { onDownload(favorites[index]) },
+                            isDownloaded = favorites[index].videoId in downloadedIds,
+                            downloadProgress = downloadProgress[favorites[index].videoId],
+                            downloadError = downloadErrors[favorites[index].videoId],
                             modifier = Modifier.fillMaxWidth(0.9f)
                         )
                     }
@@ -224,6 +244,27 @@ fun FavoritesPlaylistsScreen(
 }
 
 /**
+ * Compact back button used at the top of secondary screens.
+ */
+@Composable
+private fun BackButton(onBack: () -> Unit) {
+    IconButton(
+        onClick = onBack,
+        modifier = Modifier.size(36.dp),
+        colors = IconButtonDefaults.iconButtonColors(
+            containerColor = Color.White.copy(alpha = 0.08f),
+            contentColor = Color.White.copy(alpha = 0.85f)
+        )
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_back),
+            contentDescription = "Back",
+            modifier = Modifier.size(20.dp)
+        )
+    }
+}
+
+/**
  * Favorite item with track info and remove action
  */
 @Composable
@@ -231,6 +272,10 @@ private fun FavoriteItem(
     track: Track,
     onClick: () -> Unit,
     onRemove: () -> Unit,
+    onDownload: () -> Unit = {},
+    isDownloaded: Boolean = false,
+    downloadProgress: Float? = null,
+    downloadError: String? = null,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -289,29 +334,56 @@ private fun FavoriteItem(
             )
         }
         
-        // Duration
-        Text(
-            text = track.formatDuration(),
-            style = MaterialTheme.typography.labelSmall.copy(
-                fontSize = 11.sp
-            ),
-            color = Color.White.copy(alpha = 0.5f),
-            modifier = Modifier.padding(start = 8.dp)
-        )
-        
-        // Remove from favorites button
-        IconButton(
-            onClick = onRemove,
-            modifier = Modifier
-                .size(44.dp)
-                .padding(start = 2.dp)
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_favorite_filled),
-                contentDescription = stringResource(R.string.remove_from_favorites),
-                tint = Color(0xFFE91E63),
-                modifier = Modifier.size(18.dp)
+        // Keep the compact metadata row separate from actions. This prevents
+        // the two 48dp controls from pushing text beyond a round 44mm bezel.
+        Column(horizontalAlignment = Alignment.End) {
+            Text(
+                text = track.formatDuration(),
+                style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp),
+                color = Color.White.copy(alpha = 0.5f),
+                modifier = Modifier.padding(start = 8.dp)
             )
+            Row {
+                if (downloadError != null) {
+                    Text(
+                        text = "Failed",
+                        style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp),
+                        color = Color(0xFFE91E63),
+                        modifier = Modifier.align(Alignment.CenterVertically).padding(end = 2.dp)
+                    )
+                }
+                IconButton(
+                    onClick = onDownload,
+                    enabled = !isDownloaded && downloadProgress == null,
+                    modifier = Modifier.size(48.dp)
+                ) {
+                    if (downloadProgress != null) {
+                        CircularProgressIndicator(
+                            progress = { downloadProgress },
+                            modifier = Modifier.size(17.dp),
+                            strokeWidth = 2.dp
+                        )
+                    } else {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_download),
+                            contentDescription = if (isDownloaded) "Available offline" else "Download for offline",
+                            tint = if (isDownloaded) Color(0xFFB7F397) else Color.White.copy(alpha = 0.8f),
+                            modifier = Modifier.size(17.dp)
+                        )
+                    }
+                }
+                IconButton(
+                    onClick = onRemove,
+                    modifier = Modifier.size(48.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_favorite_filled),
+                        contentDescription = stringResource(R.string.remove_from_favorites),
+                        tint = Color(0xFFE91E63),
+                        modifier = Modifier.size(18.dp)
+                    )
+                }
+            }
         }
     }
 }

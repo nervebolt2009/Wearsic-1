@@ -1,118 +1,38 @@
-# ProGuard/R8 rules for Wearsic app
+# Wearsic release shrinking rules.
+# AndroidX/Compose/Media3/Ktor/Coil ship their own consumer rules; do not keep
+# entire libraries here or R8 cannot remove unused code from the watch APK.
 
-# ============================================================
-# General Android
-# ============================================================
--keepattributes Signature
--keepattributes *Annotation*
--keepattributes SourceFile,LineNumberTable
--keepattributes Exceptions,InnerClasses
+-keepattributes Signature,*Annotation*,InnerClasses,EnclosingMethod
+-keepattributes SourceFile,LineNumberTable,Exceptions
 
-# Keep the entry point
--keep class com.wearsic.app.MainActivity { *; }
+# Manifest entry points and MediaSessionService callbacks.
+-keep class com.wearsic.app.MainActivity { <init>(...); }
+-keep class com.wearsic.app.service.MediaPlaybackService { <init>(...); *; }
 
-# ============================================================
-# Kotlin Serialization
-# ============================================================
--keepattributes *Annotation*, InnerClasses
--dontnote kotlinx.serialization.AnnotationsKt
-
+# Kotlin serialization generated serializers for the network/cache models.
 -keepclassmembers @kotlinx.serialization.Serializable class ** {
     *** Companion;
 }
 -keepclasseswithmembers class **$$serializer {
     *** INSTANCE;
 }
-
--keepclassmembers class ** {
-    *** Companion;
-}
 -keepclasseswithmembers class ** {
     kotlinx.serialization.KSerializer serializer(...);
 }
-
-# Keep serializable models
 -keep class com.wearsic.app.data.model.** { *; }
 
-# ============================================================
-# Ktor Client
-# ============================================================
--keep class io.ktor.** { *; }
--keep class io.ktor.client.** { *; }
--keep class io.ktor.serialization.** { *; }
--keep class kotlinx.serialization.** { *; }
--dontwarn io.ktor.**
--dontwarn kotlinx.serialization.**
+# Keep the app's serializable request model used by reflection-free Ktor tests
+# and release request construction.
+-keep class com.wearsic.app.data.repository.YoutubeCookieRequest { *; }
 
-# ============================================================
-# Media3 / ExoPlayer
-# ============================================================
--keep class androidx.media3.** { *; }
--dontwarn androidx.media3.**
-
-# ============================================================
-# Wear Compose
-# ============================================================
--keep class androidx.wear.compose.** { *; }
--dontwarn androidx.wear.compose.**
-
-# ============================================================
-# Coil Image Loading
-# ============================================================
--keep class coil.** { *; }
--dontwarn coil.**
-
-# ============================================================
-# OkHttp (used by Ktor)
-# ============================================================
--dontwarn okhttp3.**
--dontwarn okio.**
--keep class okhttp3.** { *; }
--keep class okio.** { *; }
-
-# ============================================================
-# DataStore
-# ============================================================
--keep class androidx.datastore.** { *; }
--dontwarn androidx.datastore.**
-
-# ============================================================
-# Coroutines
-# ============================================================
--keep class kotlinx.coroutines.** { *; }
--dontwarn kotlinx.coroutines.**
-
-# ============================================================
-# Compose
-# ============================================================
--keep class androidx.compose.** { *; }
--dontwarn androidx.compose.**
-
-# ============================================================
-# Keep enums
-# ============================================================
+# Kotlin/Android generated metadata that R8 must preserve.
 -keepclassmembers enum * {
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
-
-# ============================================================
-# Keep Parcelable
-# ============================================================
 -keepclassmembers class * implements android.os.Parcelable {
     public static final ** CREATOR;
 }
 
-# ============================================================
-# SLF4J (missing classes)
-# ============================================================
--dontwarn org.slf4j.impl.StaticLoggerBinder
--dontwarn org.slf4j.impl.StaticMDCBinder
+# Optional bindings may be absent on Wear OS.
 -dontwarn org.slf4j.**
-
-# ============================================================
-# R8 full mode optimizations
-# ============================================================
--allowaccessmodification
--repackageclasses ''
--optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*

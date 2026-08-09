@@ -3,212 +3,144 @@ package com.wearsic.app
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.wearsic.app.data.model.Album
 import com.wearsic.app.data.model.Track
 import com.wearsic.app.ui.screens.SearchScreen
 import com.wearsic.app.ui.theme.WearsicTheme
+import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 
-/**
- * Robolectric test for SearchScreen
- * Verifies UI elements are present and correctly displayed
- */
+/** Robolectric coverage for track and real remote-album search modes. */
 @RunWith(AndroidJUnit4::class)
 @Config(sdk = [35])
 class SearchScreenTest {
-    
     @get:Rule
     val composeTestRule = createComposeRule()
-    
+
+    private val testTrack = Track("test123", "Test Song", "Test Artist", 180000, "")
+
     @Test
     fun testSearchScreenDisplaysHeader() {
         composeTestRule.setContent {
             WearsicTheme {
-                SearchScreen(
-                    searchQuery = "",
-                    onSearchQueryChange = {},
-                    suggestions = emptyList(),
-                    searchResults = emptyList(),
-                    isLoading = false,
-                    onTrackClick = {},
-                    onAddToFavorites = {}
-                )
+                SearchScreen("", {}, emptyList(), emptyList(), false, {}, {})
             }
         }
-        
-        // Verify search header
         composeTestRule.onNodeWithText("Search").assertIsDisplayed()
     }
-    
+
     @Test
     fun testSearchScreenDisplaysSuggestions() {
         composeTestRule.setContent {
             WearsicTheme {
-                SearchScreen(
-                    searchQuery = "Rick",
-                    onSearchQueryChange = {},
-                    suggestions = listOf("Rick Astley", "Rick Roll"),
-                    searchResults = emptyList(),
-                    isLoading = false,
-                    onTrackClick = {},
-                    onAddToFavorites = {}
-                )
+                SearchScreen("Rick", {}, listOf("Rick Astley", "Rick Roll"), emptyList(), false, {}, {})
             }
         }
-        
-        // Verify suggestions are displayed
-        composeTestRule.onNodeWithText("Rick Astley").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Rick Roll").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Rick Astley").performScrollTo().assertIsDisplayed()
+        composeTestRule.onNodeWithText("Rick Roll").performScrollTo().assertIsDisplayed()
     }
-    
+
     @Test
     fun testSearchScreenDisplaysResults() {
-        val testTracks = listOf(
-            Track(
-                videoId = "test123",
-                title = "Test Song",
-                uploader = "Test Artist",
-                durationMs = 180000,
-                thumbnailUrl = "https://example.com/image.jpg"
-            )
-        )
-        
         composeTestRule.setContent {
             WearsicTheme {
-                SearchScreen(
-                    searchQuery = "Test",
-                    onSearchQueryChange = {},
-                    suggestions = emptyList(),
-                    searchResults = testTracks,
-                    isLoading = false,
-                    onTrackClick = {},
-                    onAddToFavorites = {}
-                )
+                SearchScreen("Test", {}, emptyList(), listOf(testTrack), false, {}, {})
             }
         }
-        
-        // Verify search results are displayed
         composeTestRule.onNodeWithText("Test Song").assertIsDisplayed()
         composeTestRule.onNodeWithText("Test Artist").assertIsDisplayed()
     }
-    
+
     @Test
-    fun testSearchScreenDisplaysLoadingState() {
+    fun testSearchScreenDisplaysEmptyAndLoadingStates() {
         composeTestRule.setContent {
             WearsicTheme {
-                SearchScreen(
-                    searchQuery = "Test",
-                    onSearchQueryChange = {},
-                    suggestions = emptyList(),
-                    searchResults = emptyList(),
-                    isLoading = true,
-                    onTrackClick = {},
-                    onAddToFavorites = {}
-                )
+                SearchScreen("Test", {}, emptyList(), emptyList(), true, {}, {})
             }
         }
-        
-        // Verify loading indicator is displayed (CircularProgressIndicator)
         composeTestRule.onRoot().assertExists()
     }
-    
+
     @Test
     fun testSearchScreenDisplaysEmptyQuery() {
         composeTestRule.setContent {
             WearsicTheme {
-                SearchScreen(
-                    searchQuery = "",
-                    onSearchQueryChange = {},
-                    suggestions = emptyList(),
-                    searchResults = emptyList(),
-                    isLoading = false,
-                    onTrackClick = {},
-                    onAddToFavorites = {}
-                )
+                SearchScreen("", {}, emptyList(), emptyList(), false, {}, {})
             }
         }
-        
-        // Verify placeholder text is shown
         composeTestRule.onNodeWithText("Tap to search...").assertIsDisplayed()
     }
-    
+
     @Test
     fun testSearchScreenDisplaysNoResults() {
         composeTestRule.setContent {
             WearsicTheme {
-                SearchScreen(
-                    searchQuery = "xyz",
-                    onSearchQueryChange = {},
-                    suggestions = emptyList(),
-                    searchResults = emptyList(),
-                    isLoading = false,
-                    onTrackClick = {},
-                    onAddToFavorites = {}
-                )
+                SearchScreen("xyz", {}, emptyList(), emptyList(), false, {}, {})
             }
         }
-        
-        // Verify no results message
         composeTestRule.onNodeWithText("No results found").assertIsDisplayed()
     }
-    
+
     @Test
     fun testSearchResultClickable() {
         var clickedTrack: Track? = null
-        val testTrack = Track(
-            videoId = "test123",
-            title = "Test Song",
-            uploader = "Test Artist",
-            durationMs = 180000,
-            thumbnailUrl = "https://example.com/image.jpg"
-        )
-        
         composeTestRule.setContent {
             WearsicTheme {
-                SearchScreen(
-                    searchQuery = "Test",
-                    onSearchQueryChange = {},
-                    suggestions = emptyList(),
-                    searchResults = listOf(testTrack),
-                    isLoading = false,
-                    onTrackClick = { clickedTrack = it },
-                    onAddToFavorites = {}
-                )
+                SearchScreen("Test", {}, emptyList(), listOf(testTrack), false, { clickedTrack = it }, {})
             }
         }
-        
-        // Click on the search result
         composeTestRule.onNodeWithText("Test Song").performClick()
-        
-        // Verify callback was called with correct track
-        assert(clickedTrack != null) { "Track click callback should be called" }
-        assert(clickedTrack?.videoId == "test123") { "Should pass correct track" }
+        assertEquals(testTrack, clickedTrack)
     }
-    
+
     @Test
     fun testSuggestionClickable() {
         var selectedSuggestion = ""
-        
+        composeTestRule.setContent {
+            WearsicTheme {
+                SearchScreen("Rick", { selectedSuggestion = it }, listOf("Rick Astley"), emptyList(), false, {}, {})
+            }
+        }
+        composeTestRule.onNodeWithText("Rick Astley").performClick()
+        assertEquals("Rick Astley", selectedSuggestion)
+    }
+
+    @Test
+    fun albumsModeShowsRemoteAlbumsAndOpensUrl() {
+        val album = Album(
+            id = "https://www.youtube.com/playlist?list=PL123",
+            name = "Real Album",
+            uploader = "Artist",
+            trackCount = 10,
+            thumbnailUrl = "",
+            url = "https://www.youtube.com/playlist?list=PL123"
+        )
+        var selected: Album? = null
+        var mode: Boolean? = null
         composeTestRule.setContent {
             WearsicTheme {
                 SearchScreen(
-                    searchQuery = "Rick",
-                    onSearchQueryChange = { selectedSuggestion = it },
-                    suggestions = listOf("Rick Astley", "Rick Roll"),
+                    searchQuery = "Real Album",
+                    onSearchQueryChange = {},
+                    suggestions = emptyList(),
                     searchResults = emptyList(),
                     isLoading = false,
                     onTrackClick = {},
-                    onAddToFavorites = {}
+                    onAddToFavorites = {},
+                    albums = listOf(album),
+                    albumsMode = true,
+                    onAlbumsModeChange = { mode = it },
+                    onAlbumClick = { selected = it }
                 )
             }
         }
-        
-        // Click on a suggestion
-        composeTestRule.onNodeWithText("Rick Astley").performClick()
-        
-        // Verify callback was called with correct suggestion
-        assert(selectedSuggestion == "Rick Astley") { "Should pass selected suggestion" }
+        composeTestRule.onNodeWithText("Albums / Playlists (1)").performScrollTo().assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("Open album").performScrollTo().performClick()
+        assertEquals(album, selected)
+        composeTestRule.onNodeWithText("Tracks").performClick()
+        assertEquals(false, mode)
     }
 }

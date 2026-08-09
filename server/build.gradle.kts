@@ -12,7 +12,8 @@ application {
 }
 
 val ktorVersion = "2.3.12"
-val newPipeVersion = "v0.24.3"
+// Keep the extractor current because YouTube frequently changes player/bot checks.
+val newPipeVersion = "v0.26.4"
 val serializationVersion = "1.7.3"
 val sqliteVersion = "3.46.1.0"
 

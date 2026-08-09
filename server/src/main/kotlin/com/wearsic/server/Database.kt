@@ -41,6 +41,32 @@ class Database(databasePath: String) : AutoCloseable {
                     FOREIGN KEY (playlist_id) REFERENCES playlists(id) ON DELETE CASCADE
                 )
             """.trimIndent())
+            statement.executeUpdate("""
+                CREATE TABLE IF NOT EXISTS settings (
+                    key TEXT PRIMARY KEY,
+                    value TEXT NOT NULL
+                )
+            """.trimIndent())
+        }
+    }
+
+    @Synchronized
+    fun getSetting(key: String): String? = connection.prepareStatement(
+        "SELECT value FROM settings WHERE key = ?"
+    ).use { statement ->
+        statement.setString(1, key)
+        statement.executeQuery().use { rows -> if (rows.next()) rows.getString(1) else null }
+    }
+
+    @Synchronized
+    fun saveSetting(key: String, value: String) {
+        connection.prepareStatement("""
+            INSERT INTO settings(key, value) VALUES (?, ?)
+            ON CONFLICT(key) DO UPDATE SET value = excluded.value
+        """.trimIndent()).use { statement ->
+            statement.setString(1, key)
+            statement.setString(2, value)
+            statement.executeUpdate()
         }
     }
 

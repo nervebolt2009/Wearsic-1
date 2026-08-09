@@ -172,6 +172,35 @@ class SettingsScreenTest {
     }
     
     @Test
+    fun testYoutubeCookieFieldSavesValue() {
+        var changedCookie = ""
+        composeTestRule.setContent {
+            WearsicTheme {
+                SettingsScreen(
+                    serverUrl = "https://example.com",
+                    onServerUrlChange = {},
+                    onTestConnection = {},
+                    isConnected = false,
+                    isLoading = false,
+                    youtubeCookie = "",
+                    onYoutubeCookieChange = { changedCookie = it }
+                )
+            }
+        }
+
+        // The toggle sits below the lazy-list fold, so scroll the list until the
+        // button is composed before clicking it.
+        composeTestRule.onNode(hasScrollAction())
+            .performScrollToNode(hasText("Add YouTube cookie (fixes playback)"))
+        composeTestRule.onNodeWithText("Add YouTube cookie (fixes playback)").performClick()
+        composeTestRule.onNodeWithTag("youtube-cookie-field")
+            .performScrollTo()
+            .performTextInput("SID=abc123")
+
+        assert(changedCookie.contains("SID=abc123")) { "Cookie callback should receive typed text" }
+    }
+
+    @Test
     fun testTestConnectionButtonDisabledWhenEmptyUrl() {
         composeTestRule.setContent {
             WearsicTheme {

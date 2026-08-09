@@ -18,6 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.wear.compose.foundation.rememberSwipeToDismissBoxState
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
 import androidx.wear.compose.foundation.rotary.RotaryScrollableDefaults
@@ -37,6 +38,7 @@ fun QueueScreen(
     onTrackClick: (Int) -> Unit,
     onRemoveFromQueue: (Int) -> Unit,
     onClearQueue: () -> Unit,
+    onBack: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     ScreenScaffold(
@@ -51,16 +53,27 @@ fun QueueScreen(
             contentPadding = PaddingValues(top = 28.dp, bottom = 28.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Header
+            // Header with back navigation
             item {
-                Text(
-                    text = stringResource(R.string.queue),
-                    style = MaterialTheme.typography.titleMedium.copy(
-                        fontWeight = FontWeight.Bold
-                    ),
-                    color = Color.White,
-                    modifier = Modifier.padding(bottom = 12.dp)
-                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(0.9f)
+                        .padding(bottom = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    BackButton(onBack)
+                    Text(
+                        text = stringResource(R.string.queue),
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            fontWeight = FontWeight.Bold
+                        ),
+                        color = Color.White,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(end = 40.dp)
+                    )
+                }
             }
             
             // Current Track
@@ -166,6 +179,27 @@ fun QueueScreen(
 }
 
 /**
+ * Compact back button used at the top of secondary screens.
+ */
+@Composable
+private fun BackButton(onBack: () -> Unit) {
+    IconButton(
+        onClick = onBack,
+        modifier = Modifier.size(36.dp),
+        colors = IconButtonDefaults.iconButtonColors(
+            containerColor = Color.White.copy(alpha = 0.08f),
+            contentColor = Color.White.copy(alpha = 0.85f)
+        )
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_back),
+            contentDescription = "Back",
+            modifier = Modifier.size(20.dp)
+        )
+    }
+}
+
+/**
  * Current track item (highlighted)
  */
 @Composable
@@ -252,8 +286,31 @@ private fun QueueItem(
     onRemove: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    // Spotify-style: swipe the row away to remove it from the queue.
+    val dismissState = rememberSwipeToDismissBoxState()
+    SwipeToDismissBox(
+        onDismissed = { onRemove() },
+        state = dismissState,
+        modifier = modifier,
+        backgroundScrimColor = Color(0xFFE91E63).copy(alpha = 0.25f),
+        content = { isBackground ->
+        if (isBackground) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.CenterEnd
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_close),
+                    contentDescription = null,
+                    tint = Color(0xFFE91E63),
+                    modifier = Modifier
+                        .padding(end = 20.dp)
+                        .size(20.dp)
+                )
+            }
+        } else {
     Row(
-        modifier = modifier
+        modifier = Modifier
             .padding(vertical = 3.dp)
             .background(
                 color = if (isCurrentTrack) Color(0xFF1DB954).copy(alpha = 0.15f) 
@@ -353,6 +410,9 @@ private fun QueueItem(
             )
         }
     }
+        }
+        }
+    )
 }
 
 /**

@@ -54,7 +54,7 @@ data class SuggestionResponse(
 data class HealthResponse(
     val status: String,
     val version: String? = null,
-    val uptime: Long? = null
+    val uptimeSeconds: Long? = null
 )
 
 /**

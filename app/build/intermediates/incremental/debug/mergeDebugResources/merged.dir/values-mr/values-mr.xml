@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <plurals formatted="false" msgid="7688673698789346225" name="wear_m3c_time_picker_hours_content_description">
+      <item quantity="other">%d तास</item>
+      <item quantity="one">%d तास</item>
+    </plurals>
+    <plurals formatted="false" msgid="8268405448590438607" name="wear_m3c_time_picker_minutes_content_description">
+      <item quantity="other">%d मिनिटे</item>
+      <item quantity="one">%d मिनिट</item>
+    </plurals>
+    <plurals formatted="false" msgid="1073969431850983434" name="wear_m3c_time_picker_seconds_content_description">
+      <item quantity="other">%d सेकंद</item>
+      <item quantity="one">%d सेकंद</item>
+    </plurals>
+    <string msgid="389117264260014992" name="autofill">"ऑटोफिल"</string>
+    <string msgid="881409763997275156" name="call_notification_answer_action">"उत्तर द्या"</string>
+    <string msgid="8793775615905189152" name="call_notification_answer_video_action">"व्हिडिओ"</string>
+    <string msgid="3229508546291798546" name="call_notification_decline_action">"नकार द्या"</string>
+    <string msgid="2659457946726154263" name="call_notification_hang_up_action">"कॉल बंद करा"</string>
+    <string msgid="6107532579223922871" name="call_notification_incoming_text">"इनकमिंग कॉल"</string>
+    <string msgid="8623827134497363134" name="call_notification_ongoing_text">"सुरू असलेला कॉल"</string>
+    <string msgid="59049573811482460" name="call_notification_screening_text">"इनकमिंग कॉल स्क्रीन करत आहे"</string>
+    <string msgid="406453423630273620" name="close_drawer">"नेव्हिगेशन मेनू बंद करा"</string>
+    <string msgid="7573152094250666567" name="close_sheet">"शीट बंद करा"</string>
+    <string msgid="8038256446254964252" name="default_error_message">"इनपुट चुकीचे आहे"</string>
+    <string name="default_notification_channel_name">आता प्ले करत आहे</string>
+    <string msgid="6312721426453364202" name="default_popup_window_title">"पॉप-अप विंडो"</string>
+    <string msgid="1890207353314751437" name="dropdown_menu">"ड्रॉपडाउन मेनू"</string>
+    <string name="error_message_authentication_expired">हे अ‍ॅप वापरण्यासाठी साइन इन करा</string>
+    <string name="error_message_bad_value">इनपुट डेटा चुकीचा आहे</string>
+    <string name="error_message_concurrent_stream_limit">खूप जास्‍त डिव्हाइसवर ऐकले जात आहे</string>
+    <string name="error_message_content_already_playing">तो आशय आधीपासून प्ले करत आहे</string>
+    <string name="error_message_disconnected">मीडिया अ‍ॅपवरून डिस्कनेक्ट केले आहे</string>
+    <string name="error_message_end_of_playlist">इतर काहीही क्यू केलेले नाही</string>
+    <string name="error_message_fallback">काहीतरी चुकले. नंतर प्रयत्न करा.</string>
+    <string name="error_message_info_cancelled">पूर्ण करता आले नाही. पुन्हा प्रयत्न करा.</string>
+    <string name="error_message_invalid_state">ते आता करू शकत नाही</string>
+    <string name="error_message_io">इनपुट/आउटपुट एरर</string>
+    <string name="error_message_not_available_in_region">तो आशय येथे मिळवू शकत नाही</string>
+    <string name="error_message_not_supported">हे ॲप ते करू शकत नाही</string>
+    <string name="error_message_parental_control_restricted">तो आशय ब्लॉक केलेला आहे</string>
+    <string name="error_message_permission_denied">अ‍ॅक्सेस नाकारला</string>
+    <string name="error_message_premium_account_required">प्रीमियम ॲक्सेस आवश्यक आहे</string>
+    <string name="error_message_setup_required">सेटअप आवश्यक आहे</string>
+    <string name="error_message_skip_limit_reached">आणखी गाणी वगळू शकत नाही</string>
+    <string name="exo_download_completed">डाउनलोड पूर्ण झाले</string>
+    <string name="exo_download_description">डाउनलोड करा</string>
+    <string name="exo_download_downloading">डाउनलोड होत आहे</string>
+    <string name="exo_download_failed">डाउनलोड अयशस्वी झाले</string>
+    <string name="exo_download_notification_channel_name">डाउनलोड</string>
+    <string name="exo_download_paused">डाउनलोड थांबवले</string>
+    <string name="exo_download_paused_for_network">डाउनलोड नेटवर्कची प्रतीक्षा करत आहेत</string>
+    <string name="exo_download_paused_for_wifi">डाउनलोड वायफाय ची प्रतीक्षा करत आहेत</string>
+    <string name="exo_download_removing">डाउनलोड काढून टाकत आहे</string>
+    <string msgid="6827826412747255547" name="in_progress">"प्रगतीपथावर आहे"</string>
+    <string msgid="7933458017204019916" name="indeterminate">"अंशतः तपासले"</string>
+    <string name="media3_controls_pause_description">थांबवा</string>
+    <string name="media3_controls_play_description">प्ले करा</string>
+    <string name="media3_controls_seek_back_description">मागे जा</string>
+    <string name="media3_controls_seek_forward_description">पुढे जा</string>
+    <string name="media3_controls_seek_to_next_description">पुढील आयटमवर जा</string>
+    <string name="media3_controls_seek_to_previous_description">मागील आयटम वर जा</string>
+    <string msgid="542007171693138492" name="navigation_menu">"नेव्हिगेशन मेनू"</string>
+    <string msgid="6610465462668679431" name="not_selected">"निवडला नाही"</string>
+    <string msgid="5941395253238309765" name="range_end">"रेंजचा शेवट"</string>
+    <string msgid="7097486360902471446" name="range_start">"रेंजची सुरुवात"</string>
+    <string msgid="6043586758067023" name="selected">"निवडला"</string>
+    <string msgid="2792228137354697160" name="snackbar_pane_title">"सूचना"</string>
+    <string msgid="4139871816613051306" name="state_empty">"रिक्त"</string>
+    <string msgid="5834637030682409883" name="state_off">"बंद आहे"</string>
+    <string msgid="1490883874751719580" name="state_on">"सुरू आहे"</string>
+    <string msgid="6277540029070332960" name="status_bar_notification_info_overflow">"९९९+"</string>
+    <string msgid="2561197295334830845" name="switch_role">"स्विच"</string>
+    <string msgid="1672349317127674378" name="tab">"टॅब"</string>
+    <string msgid="5946805113151406391" name="template_percent">"<ns1:g id="PERCENTAGE">%1$d</ns1:g> टक्के."</string>
+    <string msgid="3765533235322692011" name="tooltip_description">"टूलटिप"</string>
+    <string msgid="3124740595719787496" name="tooltip_label">"टूलटिप दाखवा"</string>
+    <string msgid="7776845597891182382" name="wear_m3c_alert_dialog_content_description_confirm_button">"कन्फर्म करा"</string>
+    <string msgid="3572467833850785688" name="wear_m3c_alert_dialog_content_description_dismiss_button">"डिसमिस करा"</string>
+    <string msgid="8932770593644830235" name="wear_m3c_date_picker_day">"दिवस"</string>
+    <string msgid="1824308273028674826" name="wear_m3c_date_picker_heading">"तारीख सेट करण्यासाठी स्क्रोल करा"</string>
+    <string msgid="5962969526377479136" name="wear_m3c_date_picker_month">"महिना"</string>
+    <string msgid="4697690064312147449" name="wear_m3c_date_picker_year">"वर्ष"</string>
+    <string msgid="3200727397161392122" name="wear_m3c_open_on_phone">"फोन तपासा"</string>
+    <string msgid="5953380527505012363" name="wear_m3c_open_on_phone_icon_content_description">"तुमच्या फोनचा आयकन तपासा"</string>
+    <string msgid="167976024035966099" name="wear_m3c_picker_click_to_adjust_hint">"मूल्य अ‍ॅडजस्ट करा"</string>
+    <string msgid="7994498880084699884" name="wear_m3c_picker_click_to_select_hint">"मूल्य निवडा"</string>
+    <string msgid="8440144719909288057" name="wear_m3c_picker_confirm_button_content_description">"कन्फर्म करा"</string>
+    <string msgid="3346011303652897029" name="wear_m3c_picker_next_button_content_description">"पुढील"</string>
+    <string msgid="8242572466064289486" name="wear_m3c_slider_decrease_content_description">"कमी करा"</string>
+    <string msgid="3329631766954416834" name="wear_m3c_slider_increase_content_description">"वाढवा"</string>
+    <string msgid="1741225633698384262" name="wear_m3c_time_picker_heading">"वेळ सेट करण्यासाठी स्क्रोल करा"</string>
+    <string msgid="5670838450714030035" name="wear_m3c_time_picker_hour">"तास"</string>
+    <string msgid="2847700380677127030" name="wear_m3c_time_picker_minute">"मिनिट"</string>
+    <string msgid="5567285614451063120" name="wear_m3c_time_picker_period">"कालावधी"</string>
+    <string msgid="5551916170669814925" name="wear_m3c_time_picker_second">"सेकंद"</string>
+</resources>

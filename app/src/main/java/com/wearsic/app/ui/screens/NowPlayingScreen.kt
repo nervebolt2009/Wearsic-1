@@ -35,6 +35,7 @@ import androidx.wear.compose.material3.Text
 import coil.compose.AsyncImage
 import com.wearsic.app.R
 import com.wearsic.app.data.model.Track
+import com.wearsic.app.ui.navigation.Screen
 
 private val Accent = Color(0xFFB7F397)
 
@@ -51,6 +52,7 @@ private fun formatTime(ms: Long): String {
 fun NowPlayingScreen(
     currentTrack: Track?,
     isPlaying: Boolean,
+    playbackError: String? = null,
     progress: Float,
     shuffleEnabled: Boolean,
     repeatEnabled: Boolean,
@@ -61,9 +63,27 @@ fun NowPlayingScreen(
     onRepeatToggle: () -> Unit,
     onFavoriteToggle: () -> Unit,
     isFavorite: Boolean,
+    onNavigate: (Screen) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     ScreenScaffold(modifier = modifier) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            // Keep the watch GPU cool: use a static gradient instead of a
+            // full-screen blur. Artwork is decoded only once below.
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        Brush.verticalGradient(
+                            colors = if (currentTrack != null) {
+                                listOf(Color(0xFF202A32), Color(0xFF0C0D10), Color(0xFF080909))
+                            } else {
+                                listOf(Color(0xFF15171B), Color(0xFF080909))
+                            }
+                        )
+                    )
+            )
         val listState = rememberScalingLazyListState()
         val rotaryBehavior = RotaryScrollableDefaults.behavior(listState)
         ScalingLazyColumn(
@@ -111,6 +131,19 @@ fun NowPlayingScreen(
                     }
 
                     Spacer(modifier = Modifier.height(8.dp))
+                    if (!playbackError.isNullOrBlank()) {
+                        Text(
+                            text = playbackError,
+                            style = MaterialTheme.typography.labelSmall,
+                            color = Color(0xFFFFB4AB),
+                            textAlign = TextAlign.Center,
+                            maxLines = 3,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 6.dp)
+                        )
+                    }
                     Text(
                         text = currentTrack?.title ?: stringResource(R.string.no_tracks),
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
@@ -131,6 +164,20 @@ fun NowPlayingScreen(
                             .fillMaxWidth()
                             .padding(top = 3.dp)
                     )
+
+                    // In-screen navigation: reach the other screens from here
+                    // instead of a permanent bottom bar that eats the screen.
+                    Spacer(modifier = Modifier.height(7.dp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(0.82f),
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        MiniNavButton(R.drawable.ic_search, "Search", { onNavigate(Screen.Search) })
+                        MiniNavButton(R.drawable.ic_favorite_outline, "Favorites", { onNavigate(Screen.Favorites) })
+                        MiniNavButton(R.drawable.ic_queue, "Queue", { onNavigate(Screen.Queue) })
+                        MiniNavButton(R.drawable.ic_settings, "Settings", { onNavigate(Screen.Settings) })
+                    }
 
                     Spacer(modifier = Modifier.height(9.dp))
                     Column(modifier = Modifier.fillMaxWidth()) {
@@ -212,6 +259,29 @@ fun NowPlayingScreen(
                 }
             }
         }
+        }
+    }
+}
+
+@Composable
+private fun MiniNavButton(
+    icon: Int,
+    label: String,
+    onClick: () -> Unit
+) {
+    IconButton(
+        onClick = onClick,
+        modifier = Modifier.size(40.dp),
+        colors = IconButtonDefaults.iconButtonColors(
+            containerColor = Color.White.copy(alpha = 0.12f),
+            contentColor = Color.White.copy(alpha = 0.9f)
+        )
+    ) {
+        Icon(
+            painter = painterResource(icon),
+            contentDescription = label,
+            modifier = Modifier.size(20.dp)
+        )
     }
 }
 
@@ -249,6 +319,7 @@ fun NowPlayingScreenPreview() {
             thumbnailUrl = "https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg"
         ),
         isPlaying = true,
+        playbackError = null,
         progress = 0.45f,
         shuffleEnabled = false,
         repeatEnabled = true,
