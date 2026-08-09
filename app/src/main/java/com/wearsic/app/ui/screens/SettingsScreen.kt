@@ -27,6 +27,8 @@ import androidx.wear.compose.foundation.rotary.RotaryScrollableDefaults
 import androidx.wear.compose.material3.*
 import com.wearsic.app.R
 import com.wearsic.app.data.preferences.SettingsManager
+import com.wearsic.app.ui.components.BackButton
+import com.wearsic.app.ui.components.ErrorBanner
 import java.util.Locale
 
 private val Accent = Color(0xFFB7F397)
@@ -61,7 +63,9 @@ fun SettingsScreen(
     cacheUsageBytes: Long = 0L,
     onClearCache: () -> Unit = {},
     autoCacheEnabled: Boolean = SettingsManager.DEFAULT_AUTO_CACHE_ENABLED,
-    onAutoCacheEnabledChange: (Boolean) -> Unit = {}
+    onAutoCacheEnabledChange: (Boolean) -> Unit = {},
+    errorMessage: String? = null,
+    onDismissError: () -> Unit = {}
 ) {
     var editingUrl by remember(serverUrl) { mutableStateOf(serverUrl) }
     var showApiKey by remember(apiKey) { mutableStateOf(apiKey.isNotBlank()) }
@@ -101,6 +105,13 @@ fun SettingsScreen(
                 }
             }
             
+            // Error banner (e.g. failed connection test).
+            if (!errorMessage.isNullOrBlank()) {
+                item {
+                    ErrorBanner(message = errorMessage, onDismiss = onDismissError)
+                }
+            }
+
             // Server Configuration Section
             item {
                 Text(
@@ -561,27 +572,6 @@ private fun SizeChip(
             style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp),
             maxLines = 1,
             overflow = TextOverflow.Clip
-        )
-    }
-}
-
-/**
- * Compact back button used at the top of secondary screens.
- */
-@Composable
-private fun BackButton(onBack: () -> Unit) {
-    IconButton(
-        onClick = onBack,
-        modifier = Modifier.size(36.dp),
-        colors = IconButtonDefaults.iconButtonColors(
-            containerColor = Color.White.copy(alpha = 0.08f),
-            contentColor = Color.White.copy(alpha = 0.85f)
-        )
-    ) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_back),
-            contentDescription = "Back",
-            modifier = Modifier.size(20.dp)
         )
     }
 }

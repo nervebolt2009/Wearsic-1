@@ -80,6 +80,7 @@ class MediaPlaybackService : MediaSessionService() {
         const val ACTION_ADD_TO_QUEUE = "com.wearsic.app.action.ADD_TO_QUEUE"
         const val ACTION_REMOVE_FROM_QUEUE = "com.wearsic.app.action.REMOVE_FROM_QUEUE"
         const val ACTION_CLEAR_QUEUE = "com.wearsic.app.action.CLEAR_QUEUE"
+        const val ACTION_MOVE_QUEUE_ITEM = "com.wearsic.app.action.MOVE_QUEUE_ITEM"
         const val ACTION_CLEAR_CACHE = "com.wearsic.app.action.CLEAR_CACHE"
         const val ACTION_DOWNLOAD_TRACK = "com.wearsic.app.action.DOWNLOAD_TRACK"
 
@@ -96,6 +97,8 @@ class MediaPlaybackService : MediaSessionService() {
         const val EXTRA_REMOVE_INDEX = "extra_remove_index"
         const val EXTRA_DOWNLOAD_TRACK_JSON = "extra_download_track_json"
         const val EXTRA_AUTO_DOWNLOAD = "extra_auto_download"
+        const val EXTRA_MOVE_FROM_INDEX = "extra_move_from_index"
+        const val EXTRA_MOVE_TO_INDEX = "extra_move_to_index"
 
         private const val TAG = "WearsicPlayback"
         private const val NOTIFICATION_CHANNEL_ID = "wearsic_playback"
@@ -282,6 +285,10 @@ class MediaPlaybackService : MediaSessionService() {
                     ?.let(::decodeTrack)
                     ?.let(::addToQueue)
                 ACTION_REMOVE_FROM_QUEUE -> removeAt(intent.getIntExtra(EXTRA_REMOVE_INDEX, -1))
+                ACTION_MOVE_QUEUE_ITEM -> moveItem(
+                    intent.getIntExtra(EXTRA_MOVE_FROM_INDEX, -1),
+                    intent.getIntExtra(EXTRA_MOVE_TO_INDEX, -1)
+                )
                 ACTION_CLEAR_QUEUE -> clearQueueInternal()
                 ACTION_CLEAR_CACHE -> clearCache()
                 ACTION_DOWNLOAD_TRACK -> intent.getStringExtra(EXTRA_DOWNLOAD_TRACK_JSON)
@@ -323,6 +330,33 @@ class MediaPlaybackService : MediaSessionService() {
             player.removeMediaItem(index)
             emitQueueState(player)
         }
+    }
+
+    /**
+     * Move a queue item to a new position while playback stays pinned to the
+     * same track (matched by media id) at the same position. Uses remove/add so
+     * the currently prepared items are not re-resolved.
+     */
+    fun moveItem(from: Int, to: Int) {
+        val player = mediaSession?.player ?: return
+        val count = player.mediaItemCount
+        if (from !in 0 until count || to !in 0 until count || from == to) return
+        val currentId = player.currentMediaItem?.mediaId
+        val positionMs = player.currentPosition.coerceAtLeast(0L)
+        val item = player.getMediaItemAt(from)
+        if (from < to) {
+            player.addMediaItem(to + 1, item)
+            player.removeMediaItem(from)
+        } else {
+            player.removeMediaItem(from)
+            player.addMediaItem(to, item)
+        }
+        val newIndex = (0 until player.mediaItemCount)
+            .indexOfFirst { player.getMediaItemAt(it).mediaId == currentId }
+        if (newIndex >= 0 && newIndex != player.currentMediaItemIndex) {
+            player.seekTo(newIndex, positionMs)
+        }
+        emitQueueState(player)
     }
 
     fun setServerUrl(url: String) {

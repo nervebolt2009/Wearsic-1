@@ -3,8 +3,10 @@ package com.wearsic.server
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.schabi.newpipe.extractor.InfoItem
+import org.schabi.newpipe.extractor.Page
 import org.schabi.newpipe.extractor.ServiceList
 import org.schabi.newpipe.extractor.channel.ChannelExtractor
+import org.schabi.newpipe.extractor.channel.tabs.ChannelTabExtractor
 import org.schabi.newpipe.extractor.exceptions.ContentNotAvailableException
 import org.schabi.newpipe.extractor.exceptions.ExtractionException
 import org.schabi.newpipe.extractor.playlist.PlaylistExtractor
@@ -24,6 +26,10 @@ class ExtractorService {
     private val logger = LoggerFactory.getLogger(ExtractorService::class.java)
     private val searchCache = BoundedCache<String, List<TrackDto>>(64)
     private val streamCache = BoundedCache<String, CachedStreamTarget>(64)
+    // Pagination sessions for /playlist and /channel: the extractor must stay
+    // alive between requests so ?page=N can continue where page N-1 stopped.
+    private val playlistSessions = BoundedCache<String, PlaylistSession>(8)
+    private val channelSessions = BoundedCache<String, ChannelSession>(8)
     private val locks = ConcurrentHashMap<String, Any>()
     // Stream extraction is guarded by a single lock because the iOS-client
     // fallback toggles a static extractor flag; a global lock keeps concurrent
@@ -172,30 +178,79 @@ class ExtractorService {
         }
     }
 
-    suspend fun playlist(url: String): PlaylistWithTracksDto = withContext(Dispatchers.IO) {
-        val extractor: PlaylistExtractor = ServiceList.YouTube.getPlaylistExtractor(url)
-        extractor.fetchPage()
-        PlaylistWithTracksDto(
-            id = extractor.getId(),
-            name = extractor.getName(),
-            tracks = extractor.getInitialPage().getItems().asSequence()
-                .mapNotNull(::toTrack).take(MAX_RESULTS).toList()
-        )
+    /**
+     * Extract an external YouTube playlist. [page] == 1 starts a fresh session;
+     * higher pages continue from the previous page's continuation token. The
+     * returned [PlaylistWithTracksDto.nextPage] tells the client when more
+     * tracks exist.
+     */
+    suspend fun playlist(url: String, page: Int = 1): PlaylistWithTracksDto = withContext(Dispatchers.IO) {
+        require(page >= 1) { "page must be >= 1" }
+        if (page == 1) playlistSessions.remove(url)
+        synchronized(lockFor("playlist:$url")) {
+            var session = playlistSessions[url]
+            if (page > 1 && session == null) {
+                // Session was evicted/restarted; the client should re-fetch.
+                return@withContext PlaylistWithTracksDto("", "", emptyList(), null)
+            }
+            if (session == null) {
+                val extractor: PlaylistExtractor = ServiceList.YouTube.getPlaylistExtractor(url)
+                extractor.fetchPage()
+                session = PlaylistSession(extractor, null)
+                playlistSessions[url] = session
+            }
+            val infoPage = if (page == 1 || session.cursor == null) {
+                session.extractor.getInitialPage()
+            } else {
+                session.extractor.getPage(session.cursor)
+            }
+            session.cursor = infoPage.getNextPage()
+            PlaylistWithTracksDto(
+                id = session.extractor.getId(),
+                name = session.extractor.getName(),
+                tracks = infoPage.getItems().asSequence()
+                    .mapNotNull(::toTrack).take(MAX_RESULTS).toList(),
+                nextPage = if (session.cursor != null) page + 1 else null
+            )
+        }
     }
 
-    suspend fun channel(url: String): PlaylistWithTracksDto = withContext(Dispatchers.IO) {
-        val extractor: ChannelExtractor = ServiceList.YouTube.getChannelExtractor(url)
-        extractor.fetchPage()
-        PlaylistWithTracksDto(
-            id = extractor.getId(),
-            name = extractor.getName(),
-            tracks = extractor.getTabs().firstOrNull()?.let { tab ->
-                val tabExtractor = ServiceList.YouTube.getChannelTabExtractor(tab)
+    /**
+     * Extract a channel's uploads ("discography") with the same continuation
+     * pagination as [playlist]. Uses the channel's first tab.
+     */
+    suspend fun channel(url: String, page: Int = 1): PlaylistWithTracksDto = withContext(Dispatchers.IO) {
+        require(page >= 1) { "page must be >= 1" }
+        if (page == 1) channelSessions.remove(url)
+        synchronized(lockFor("channel:$url")) {
+            var session = channelSessions[url]
+            if (page > 1 && session == null) {
+                return@withContext PlaylistWithTracksDto("", "", emptyList(), null)
+            }
+            if (session == null) {
+                val extractor: ChannelExtractor = ServiceList.YouTube.getChannelExtractor(url)
+                extractor.fetchPage()
+                val tab = extractor.getTabs().firstOrNull()
+                    ?: return@withContext PlaylistWithTracksDto(extractor.getId(), extractor.getName(), emptyList(), null)
+                val tabExtractor: ChannelTabExtractor = ServiceList.YouTube.getChannelTabExtractor(tab)
                 tabExtractor.fetchPage()
-                tabExtractor.getInitialPage().getItems().asSequence()
-                    .mapNotNull(::toTrack).take(MAX_RESULTS).toList()
-            }.orEmpty()
-        )
+                session = ChannelSession(tabExtractor, null)
+                channelSessions[url] = session
+            }
+            val infoPage = if (page == 1 || session.cursor == null) {
+                session.extractor.getInitialPage()
+            } else {
+                session.extractor.getPage(session.cursor)
+            }
+            session.cursor = infoPage.getNextPage()
+            PlaylistWithTracksDto(
+                id = session.extractor.getId(),
+                name = session.extractor.getName(),
+                tracks = infoPage.getItems().asSequence()
+                    .mapNotNull(::toTrack).take(MAX_RESULTS).toList(),
+                nextPage = if (session.cursor != null) page + 1 else null
+            )
+        }
     }
 
     private fun streamExtractor(videoId: String): StreamExtractor =
@@ -260,6 +315,12 @@ class ExtractorService {
 data class CachedStreamTarget(val target: StreamTarget, val expiresAtMillis: Long)
 
 data class StreamTarget(val url: String, val contentType: String)
+
+/** In-memory paging session for /playlist; keeps the extractor's next Page. */
+private class PlaylistSession(val extractor: PlaylistExtractor, var cursor: Page?)
+
+/** In-memory paging session for /channel; keeps the tab extractor's next Page. */
+private class ChannelSession(val extractor: ChannelTabExtractor, var cursor: Page?)
 
 private class BoundedCache<K, V>(private val maxSize: Int) {
     private val values = Collections.synchronizedMap(object : LinkedHashMap<K, V>(maxSize, 0.75f, true) {

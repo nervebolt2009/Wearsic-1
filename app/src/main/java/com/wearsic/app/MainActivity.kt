@@ -1,14 +1,20 @@
 package com.wearsic.app
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.wear.ambient.AmbientLifecycleObserver
+import com.wearsic.app.ui.ambient.AmbientState
 import com.wearsic.app.ui.navigation.NavigationManager
 import com.wearsic.app.ui.navigation.Screen
 import com.wearsic.app.ui.screens.*
@@ -16,12 +22,55 @@ import com.wearsic.app.ui.theme.WearsicTheme
 import com.wearsic.app.ui.viewmodel.MainViewModel
 
 class MainActivity : ComponentActivity() {
+
+    private val notificationPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            // MediaPlaybackService checks the grant itself before showing its
+            // notification, so nothing else needs to happen here.
+        }
+    private var notificationPermissionRequested = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Opt into ambient (always-on display) mode: the system keeps this
+        // activity's UI visible and dimmed when the watch screen times out,
+        // and the observer flips the app into its low-power rendering.
+        lifecycle.addObserver(
+            AmbientLifecycleObserver(this, object : AmbientLifecycleObserver.AmbientLifecycleCallback {
+                override fun onEnterAmbient(ambientDetails: AmbientLifecycleObserver.AmbientDetails) {
+                    AmbientState.enterAmbient(
+                        burnInProtectionRequired = ambientDetails.burnInProtectionRequired,
+                        lowBitAmbient = ambientDetails.deviceHasLowBitAmbient
+                    )
+                }
+
+                override fun onUpdateAmbient() {
+                    AmbientState.updateAmbient()
+                }
+
+                override fun onExitAmbient() {
+                    AmbientState.exitAmbient()
+                }
+            })
+        )
         setContent {
             WearsicTheme {
                 WearsicApp()
             }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // Android 13+ requires a runtime grant before a media notification can
+        // be shown. Request it once; the service degrades gracefully without it.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) !=
+            PackageManager.PERMISSION_GRANTED &&
+            !notificationPermissionRequested
+        ) {
+            notificationPermissionRequested = true
+            notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
         }
     }
 }
@@ -65,6 +114,8 @@ fun WearsicApp(
     val albumTracks by viewModel.albumTracks.collectAsState()
     val isLoadingAlbum by viewModel.isLoadingAlbum.collectAsState()
     val albumError by viewModel.albumError.collectAsState()
+    val albumNextPage by viewModel.albumNextPage.collectAsState()
+    val isLoadingMoreAlbum by viewModel.isLoadingMoreAlbum.collectAsState()
 
     // System back gesture navigates back through the in-app history.
     BackHandler(enabled = navigationManager.canNavigateBack()) {
@@ -119,6 +170,8 @@ fun WearsicApp(
                 downloadedIds = downloadedIds,
                 downloadProgress = downloadProgress,
                 downloadErrors = downloadErrors,
+                errorMessage = playbackError,
+                onDismissError = viewModel::clearError,
                 onBack = { navigationManager.navigateBack() }
             )
 
@@ -129,6 +182,9 @@ fun WearsicApp(
                     isLoading = isLoadingAlbum,
                     errorMessage = albumError,
                     onRetry = { viewModel.loadAlbum(album) },
+                    hasMore = albumNextPage != null,
+                    isLoadingMore = isLoadingMoreAlbum,
+                    onLoadMore = viewModel::loadMoreAlbumTracks,
                     onTrackClick = { track ->
                         // Queue the whole album, starting from the tapped track.
                         val index = albumTracks.indexOfFirst { it.videoId == track.videoId }
@@ -163,6 +219,8 @@ fun WearsicApp(
                 downloadedIds = downloadedIds,
                 downloadProgress = downloadProgress,
                 downloadErrors = downloadErrors,
+                errorMessage = playbackError,
+                onDismissError = viewModel::clearError,
                 onBack = { navigationManager.navigateBack() }
             )
 
@@ -176,6 +234,8 @@ fun WearsicApp(
                         navigationManager.navigateTo(Screen.NowPlaying)
                     }
                 },
+                onMoveUp = { index -> viewModel.moveQueueItem(index, index - 1) },
+                onMoveDown = { index -> viewModel.moveQueueItem(index, index + 1) },
                 onRemoveFromQueue = viewModel::removeFromQueue,
                 onClearQueue = viewModel::clearQueue,
                 onBack = { navigationManager.navigateBack() }
@@ -197,7 +257,9 @@ fun WearsicApp(
                 cacheUsageBytes = cacheUsageBytes,
                 onClearCache = viewModel::clearPlaybackCache,
                 autoCacheEnabled = autoCacheEnabled,
-                onAutoCacheEnabledChange = viewModel::setAutoCacheEnabled
+                onAutoCacheEnabledChange = viewModel::setAutoCacheEnabled,
+                errorMessage = playbackError,
+                onDismissError = viewModel::clearError
             )
         }
     }

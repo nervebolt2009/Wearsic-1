@@ -192,9 +192,11 @@ class RobolectricCoverageTest {
     }
 
     @Test
-    fun queueClearAndTrackActionsWorkInsideSafeBounds() {
+    fun queueClearReorderAndTrackActionsWorkInsideSafeBounds() {
         var clickedIndex = -1
         var removedIndex = -1
+        var moveUpIndex = -1
+        var moveDownIndex = -1
         var cleared = false
         composeTestRule.setContent {
             WearsicTheme {
@@ -204,6 +206,8 @@ class RobolectricCoverageTest {
                     queue = listOf(track),
                     currentIndex = 0,
                     onTrackClick = { clickedIndex = it },
+                    onMoveUp = { moveUpIndex = it },
+                    onMoveDown = { moveDownIndex = it },
                     onRemoveFromQueue = { removedIndex = it },
                     onClearQueue = { cleared = true }
                     )
@@ -213,7 +217,15 @@ class RobolectricCoverageTest {
 
         composeTestRule.onNodeWithText("Coverage Song").performScrollTo().performClick()
         assertEquals(0, clickedIndex)
-        composeTestRule.onNodeWithContentDescription("Remove from queue").performScrollTo().performClick()
+        // Reorder: move up/down controls reorder the row.
+        composeTestRule.onNodeWithContentDescription("Move down").performScrollTo().performClick()
+        assertEquals(0, moveDownIndex)
+        composeTestRule.onNodeWithContentDescription("Move up").performScrollTo().performClick()
+        assertEquals(0, moveUpIndex)
+        // Removal: swipe the row away (Spotify-style).
+        composeTestRule.onNodeWithTag("queue_item_0")
+            .performScrollTo()
+            .performTouchInput { swipeLeft() }
         assertEquals(0, removedIndex)
         composeTestRule.onNodeWithText("Clear Queue").performScrollTo().performClick()
         assertTrue(cleared)

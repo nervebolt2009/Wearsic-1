@@ -58,6 +58,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     
     private val _repeatEnabled = MutableStateFlow(false)
     val repeatEnabled: StateFlow<Boolean> = _repeatEnabled.asStateFlow()
+
+    // Original queue order kept while shuffle is on, so turning shuffle off
+    // restores the order the user had before.
+    private var preShuffleQueue: List<Track>? = null
     
     // Favorites
     private val _favorites = MutableStateFlow<List<Track>>(emptyList())
@@ -90,6 +94,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val isLoadingAlbum: StateFlow<Boolean> = _isLoadingAlbum.asStateFlow()
     private val _albumError = MutableStateFlow<String?>(null)
     val albumError: StateFlow<String?> = _albumError.asStateFlow()
+    private val _isLoadingMoreAlbum = MutableStateFlow(false)
+    val isLoadingMoreAlbum: StateFlow<Boolean> = _isLoadingMoreAlbum.asStateFlow()
+    private val _albumNextPage = MutableStateFlow<Int?>(null)
+    val albumNextPage: StateFlow<Int?> = _albumNextPage.asStateFlow()
     private var albumLoadJob: Job? = null
     
     private val _isSearching = MutableStateFlow(false)
@@ -409,6 +417,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             return
         }
         autoPlayedVideoId = null
+        preShuffleQueue = null
         _currentTrack.value = track
         _isPlaying.value = true
         _progress.value = 0f
@@ -429,16 +438,30 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun playTracks(tracks: List<Track>, startIndex: Int = 0) {
         PlaybackEvents.clearError()
         autoPlayedVideoId = null
+        preShuffleQueue = null
         // The same song can appear several times in search/playlist results
         // (different channels mirroring it); keep only the first occurrence.
         val deduped = tracks.distinctBy { it.videoId }
         if (deduped.isEmpty()) return
-        val start = tracks.getOrNull(startIndex)?.let { tapped ->
+        var order = deduped
+        var start = tracks.getOrNull(startIndex)?.let { tapped ->
             deduped.indexOfFirst { it.videoId == tapped.videoId }.coerceAtLeast(0)
         } ?: 0
-        _queue.value = deduped
+        // Real shuffle: keep the tapped track first, randomize the rest. The
+        // foreground service plays the pushed order, so this actually shuffles.
+        if (_shuffleEnabled.value && order.size > 1) {
+            val tapped = order.getOrNull(start)
+            val rest = order.toMutableList()
+                .apply { removeAt(start) }
+                .shuffled()
+                .toMutableList()
+            if (tapped != null) rest.add(0, tapped)
+            order = rest
+            start = 0
+        }
+        _queue.value = order
         _currentIndex.value = start
-        _currentTrack.value = deduped.getOrNull(start)
+        _currentTrack.value = order.getOrNull(start)
         _isPlaying.value = true
         _progress.value = 0f
         pushQueueToService()
@@ -450,6 +473,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      * seeded from the song's related/album tracks — the Spotify-style "up next".
      */
     fun playSearchResult(track: Track) {
+        preShuffleQueue = null
         playTrack(track)
         viewModelScope.launch {
             repository.getRelatedTracks(track.videoId).onSuccess { response ->
@@ -532,10 +556,77 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
     
     /**
-     * Toggle shuffle
+     * Toggle shuffle. When enabled, the queued tracks are reordered so the
+     * current track keeps its position and the rest play in random order; the
+     * previous order is remembered and restored when shuffle is turned off.
      */
     fun toggleShuffle() {
-        _shuffleEnabled.value = !_shuffleEnabled.value
+        if (_shuffleEnabled.value) {
+            _shuffleEnabled.value = false
+            val restore = preShuffleQueue
+            preShuffleQueue = null
+            if (restore != null && restore.isNotEmpty() && _queue.value.isNotEmpty()) {
+                val current = _currentTrack.value
+                val index = current?.let { c ->
+                    restore.indexOfFirst { it.videoId == c.videoId }
+                } ?: -1
+                _queue.value = restore
+                _currentIndex.value = index.coerceAtLeast(0)
+                _currentTrack.value = if (index >= 0) restore[index] else restore.firstOrNull()
+                _isPlaying.value = true
+                _progress.value = 0f
+                pushQueueToService()
+            }
+        } else {
+            _shuffleEnabled.value = true
+            val queue = _queue.value
+            if (queue.size > 1) {
+                preShuffleQueue = queue
+                val currentIndex = _currentIndex.value.coerceIn(0, queue.lastIndex)
+                val current = queue[currentIndex]
+                val rest = queue.toMutableList()
+                    .apply { removeAt(currentIndex) }
+                    .shuffled()
+                    .toMutableList()
+                rest.add(currentIndex, current)
+                _queue.value = rest
+                _currentIndex.value = currentIndex
+                _currentTrack.value = current
+                _isPlaying.value = true
+                _progress.value = 0f
+                pushQueueToService()
+            }
+        }
+    }
+
+    /**
+     * Move a queue item to a new position (up/down reorder in the Queue
+     * screen). The foreground service mirrors the reorder in its own timeline
+     * so the currently playing track keeps playing at the same position.
+     */
+    fun moveQueueItem(from: Int, to: Int) {
+        val queue = _queue.value
+        if (from !in queue.indices || to !in queue.indices || from == to) return
+        val mutable = queue.toMutableList()
+        val item = mutable.removeAt(from)
+        mutable.add(to, item)
+        val oldIndex = _currentIndex.value
+        val newIndex = when {
+            oldIndex == from -> to
+            oldIndex > from && oldIndex <= to -> oldIndex - 1
+            oldIndex >= to && oldIndex < from -> oldIndex + 1
+            else -> oldIndex
+        }
+        _queue.value = mutable
+        _currentIndex.value = newIndex
+        if (_currentTrack.value?.videoId == item.videoId) {
+            _currentTrack.value = item
+        }
+        preShuffleQueue = null
+        sendServiceIntent(MediaPlaybackService.ACTION_MOVE_QUEUE_ITEM) {
+            putExtra(MediaPlaybackService.EXTRA_MOVE_FROM_INDEX, from)
+            putExtra(MediaPlaybackService.EXTRA_MOVE_TO_INDEX, to)
+        }
     }
     
     /**
@@ -639,16 +730,44 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         _selectedAlbum.value = album
         _albumTracks.value = emptyList()
         _albumError.value = null
+        _albumNextPage.value = null
         albumLoadJob = viewModelScope.launch {
             _isLoadingAlbum.value = true
             repository.getExternalPlaylist(album.url)
                 .onSuccess { loaded ->
-                    if (_selectedAlbum.value?.url == album.url) _albumTracks.value = loaded.tracks
+                    if (_selectedAlbum.value?.url == album.url) {
+                        _albumTracks.value = loaded.tracks
+                        _albumNextPage.value = loaded.nextPage
+                    }
                 }
                 .onFailure { error ->
                     if (_selectedAlbum.value?.url == album.url) _albumError.value = error.message
                 }
             if (_selectedAlbum.value?.url == album.url) _isLoadingAlbum.value = false
+        }
+    }
+
+    /**
+     * Load the next page of a long album/playlist using the server's
+     * continuation tokens. Appends the extra tracks to the current list.
+     */
+    fun loadMoreAlbumTracks() {
+        val album = _selectedAlbum.value ?: return
+        val page = _albumNextPage.value ?: return
+        if (albumLoadJob?.isActive == true) return
+        albumLoadJob = viewModelScope.launch {
+            _isLoadingMoreAlbum.value = true
+            repository.getExternalPlaylist(album.url, page = page)
+                .onSuccess { loaded ->
+                    if (_selectedAlbum.value?.url == album.url) {
+                        _albumTracks.value = (_albumTracks.value + loaded.tracks).distinctBy { it.videoId }
+                        _albumNextPage.value = loaded.nextPage
+                    }
+                }
+                .onFailure { error ->
+                    if (_selectedAlbum.value?.url == album.url) _albumError.value = error.message
+                }
+            _isLoadingMoreAlbum.value = false
         }
     }
 
@@ -682,6 +801,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      * Remove track from queue
      */
     fun removeFromQueue(index: Int) {
+        preShuffleQueue = null
         if (index in _queue.value.indices) {
             _queue.value = _queue.value.toMutableList().apply { removeAt(index) }
 
@@ -714,6 +834,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      * Clear queue
      */
     fun clearQueue() {
+        preShuffleQueue = null
         _queue.value = emptyList()
         _currentIndex.value = -1
         _currentTrack.value = null
@@ -753,6 +874,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     .distinctBy { it.videoId }
                 if (related.isNotEmpty() && autoPlayedVideoId != track.videoId) {
                     autoPlayedVideoId = track.videoId
+                    preShuffleQueue = null
                     _queue.value = related
                     _currentIndex.value = 0
                     _currentTrack.value = related.first()

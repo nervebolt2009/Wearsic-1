@@ -26,9 +26,11 @@ import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TextButton
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import com.wearsic.app.R
 import com.wearsic.app.data.model.Album
 import com.wearsic.app.data.model.Track
+import com.wearsic.app.ui.components.BackButton
 
 @Composable
 fun AlbumDetailScreen(
@@ -37,6 +39,9 @@ fun AlbumDetailScreen(
     isLoading: Boolean,
     errorMessage: String? = null,
     onRetry: () -> Unit = {},
+    hasMore: Boolean = false,
+    isLoadingMore: Boolean = false,
+    onLoadMore: () -> Unit = {},
     onTrackClick: (Track) -> Unit,
     onDownload: (Track) -> Unit = {},
     downloadedIds: Set<String> = emptySet(),
@@ -143,26 +148,34 @@ fun AlbumDetailScreen(
                         modifier = Modifier.fillMaxWidth(0.9f)
                     )
                 }
+                // Continuation-token pagination: long playlists/channels load
+                // more tracks on demand from the server.
+                if (hasMore) {
+                    item {
+                        TextButton(
+                            onClick = onLoadMore,
+                            enabled = !isLoadingMore,
+                            modifier = Modifier
+                                .fillMaxWidth(0.9f)
+                                .padding(top = 10.dp)
+                        ) {
+                            if (isLoadingMore) {
+                                CircularProgressIndicator(
+                                    modifier = Modifier.size(16.dp),
+                                    strokeWidth = 2.dp
+                                )
+                                Spacer(modifier = Modifier.width(8.dp))
+                            }
+                            Text(
+                                text = stringResource(R.string.load_more),
+                                style = MaterialTheme.typography.labelSmall,
+                                color = Color.White.copy(alpha = 0.75f)
+                            )
+                        }
+                    }
+                }
             }
         }
-    }
-}
-
-@Composable
-private fun BackButton(onBack: () -> Unit) {
-    IconButton(
-        onClick = onBack,
-        modifier = Modifier.size(36.dp),
-        colors = IconButtonDefaults.iconButtonColors(
-            containerColor = Color.White.copy(alpha = 0.08f),
-            contentColor = Color.White.copy(alpha = 0.85f)
-        )
-    ) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_back),
-            contentDescription = "Back",
-            modifier = Modifier.size(20.dp)
-        )
     }
 }
 

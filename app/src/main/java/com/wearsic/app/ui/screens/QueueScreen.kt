@@ -9,7 +9,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -26,6 +28,7 @@ import androidx.wear.compose.material3.*
 import coil.compose.AsyncImage
 import com.wearsic.app.R
 import com.wearsic.app.data.model.Track
+import com.wearsic.app.ui.components.BackButton
 
 /**
  * Queue screen with up-next list and controls
@@ -37,6 +40,8 @@ fun QueueScreen(
     currentIndex: Int,
     onTrackClick: (Int) -> Unit,
     onRemoveFromQueue: (Int) -> Unit,
+    onMoveUp: (Int) -> Unit = {},
+    onMoveDown: (Int) -> Unit = {},
     onClearQueue: () -> Unit,
     onBack: () -> Unit = {},
     modifier: Modifier = Modifier
@@ -120,6 +125,8 @@ fun QueueScreen(
                         index = index,
                         isCurrentTrack = index == currentIndex,
                         onClick = { onTrackClick(index) },
+                        onMoveUp = { onMoveUp(index) },
+                        onMoveDown = { onMoveDown(index) },
                         onRemove = { onRemoveFromQueue(index) },
                         modifier = Modifier.fillMaxWidth(0.9f)
                     )
@@ -175,27 +182,6 @@ fun QueueScreen(
                 }
             }
         }
-    }
-}
-
-/**
- * Compact back button used at the top of secondary screens.
- */
-@Composable
-private fun BackButton(onBack: () -> Unit) {
-    IconButton(
-        onClick = onBack,
-        modifier = Modifier.size(36.dp),
-        colors = IconButtonDefaults.iconButtonColors(
-            containerColor = Color.White.copy(alpha = 0.08f),
-            contentColor = Color.White.copy(alpha = 0.85f)
-        )
-    ) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_back),
-            contentDescription = "Back",
-            modifier = Modifier.size(20.dp)
-        )
     }
 }
 
@@ -283,6 +269,8 @@ private fun QueueItem(
     index: Int,
     isCurrentTrack: Boolean,
     onClick: () -> Unit,
+    onMoveUp: () -> Unit = {},
+    onMoveDown: () -> Unit = {},
     onRemove: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -291,7 +279,7 @@ private fun QueueItem(
     SwipeToDismissBox(
         onDismissed = { onRemove() },
         state = dismissState,
-        modifier = modifier,
+        modifier = modifier.testTag("queue_item_$index"),
         backgroundScrimColor = Color(0xFFE91E63).copy(alpha = 0.25f),
         content = { isBackground ->
         if (isBackground) {
@@ -383,31 +371,39 @@ private fun QueueItem(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
+            Text(
+                text = track.formatDuration(),
+                style = MaterialTheme.typography.labelSmall.copy(
+                    fontSize = 10.sp
+                ),
+                color = Color.White.copy(alpha = 0.45f)
+            )
         }
         
-        // Duration
-        Text(
-            text = track.formatDuration(),
-            style = MaterialTheme.typography.labelSmall.copy(
-                fontSize = 11.sp
-            ),
-            color = Color.White.copy(alpha = 0.5f),
-            modifier = Modifier.padding(start = 8.dp)
-        )
-        
-        // Remove from queue button
-        IconButton(
-            onClick = onRemove,
-            modifier = Modifier
-                .size(44.dp)
-                .padding(start = 2.dp)
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_close),
-                contentDescription = "Remove from queue",
-                tint = Color.White.copy(alpha = 0.5f),
-                modifier = Modifier.size(16.dp)
-            )
+        // Move up/down reorder controls (swipe away still removes the row).
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            IconButton(
+                onClick = onMoveUp,
+                modifier = Modifier.size(40.dp)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_back),
+                    contentDescription = stringResource(R.string.move_up),
+                    tint = Color.White.copy(alpha = 0.55f),
+                    modifier = Modifier.size(16.dp).rotate(90f)
+                )
+            }
+            IconButton(
+                onClick = onMoveDown,
+                modifier = Modifier.size(40.dp)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_back),
+                    contentDescription = stringResource(R.string.move_down),
+                    tint = Color.White.copy(alpha = 0.55f),
+                    modifier = Modifier.size(16.dp).rotate(-90f)
+                )
+            }
         }
     }
         }

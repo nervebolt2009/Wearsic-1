@@ -29,6 +29,8 @@ import coil.compose.AsyncImage
 import com.wearsic.app.R
 import com.wearsic.app.data.model.Album
 import com.wearsic.app.data.model.Track
+import com.wearsic.app.ui.components.BackButton
+import com.wearsic.app.ui.components.ErrorBanner
 
 /**
  * Search screen with text input, live suggestions, and results list
@@ -52,6 +54,8 @@ fun SearchScreen(
     albumsMode: Boolean = false,
     onAlbumsModeChange: (Boolean) -> Unit = {},
     onAlbumClick: (Album) -> Unit = {},
+    errorMessage: String? = null,
+    onDismissError: () -> Unit = {},
     onBack: () -> Unit = {}
 ) {
     ScreenScaffold(
@@ -89,6 +93,14 @@ fun SearchScreen(
                 }
             }
             
+            // Error banner: search/connection failures are visible right here
+            // instead of only on the Now Playing screen.
+            if (!errorMessage.isNullOrBlank()) {
+                item {
+                    ErrorBanner(message = errorMessage, onDismiss = onDismissError)
+                }
+            }
+
             // Search Input Field
             item {
                 Text(
@@ -327,27 +339,6 @@ private fun AlbumResultItem(
             Text("${album.uploader} • ${album.trackCount} tracks", style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp), color = Color.White.copy(alpha = 0.6f), maxLines = 1, overflow = TextOverflow.Ellipsis)
         }
         Icon(painter = painterResource(R.drawable.ic_skip_next), contentDescription = "Open album", tint = Color.White.copy(alpha = 0.6f), modifier = Modifier.size(20.dp))
-    }
-}
-
-/**
- * Compact back button used at the top of secondary screens.
- */
-@Composable
-private fun BackButton(onBack: () -> Unit) {
-    IconButton(
-        onClick = onBack,
-        modifier = Modifier.size(36.dp),
-        colors = IconButtonDefaults.iconButtonColors(
-            containerColor = Color.White.copy(alpha = 0.08f),
-            contentColor = Color.White.copy(alpha = 0.85f)
-        )
-    ) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_back),
-            contentDescription = "Back",
-            modifier = Modifier.size(20.dp)
-        )
     }
 }
 

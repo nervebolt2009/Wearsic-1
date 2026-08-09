@@ -30,6 +30,8 @@ import coil.compose.AsyncImage
 import com.wearsic.app.R
 import com.wearsic.app.data.model.Track
 import com.wearsic.app.data.model.Playlist
+import com.wearsic.app.ui.components.BackButton
+import com.wearsic.app.ui.components.ErrorBanner
 
 /**
  * Favorites/Playlists screen with tabs for favorites and playlists
@@ -46,6 +48,8 @@ fun FavoritesPlaylistsScreen(
     downloadedIds: Set<String> = emptySet(),
     downloadProgress: Map<String, Float> = emptyMap(),
     downloadErrors: Map<String, String> = emptyMap(),
+    errorMessage: String? = null,
+    onDismissError: () -> Unit = {},
     onBack: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
@@ -86,6 +90,13 @@ fun FavoritesPlaylistsScreen(
                 }
             }
             
+            // Error banner (e.g. favorites failed to load from the server).
+            if (!errorMessage.isNullOrBlank()) {
+                item {
+                    ErrorBanner(message = errorMessage, onDismiss = onDismissError)
+                }
+            }
+
             // Tab Selector
             item {
                 Row(
@@ -240,27 +251,6 @@ fun FavoritesPlaylistsScreen(
                 }
             }
         }
-    }
-}
-
-/**
- * Compact back button used at the top of secondary screens.
- */
-@Composable
-private fun BackButton(onBack: () -> Unit) {
-    IconButton(
-        onClick = onBack,
-        modifier = Modifier.size(36.dp),
-        colors = IconButtonDefaults.iconButtonColors(
-            containerColor = Color.White.copy(alpha = 0.08f),
-            contentColor = Color.White.copy(alpha = 0.85f)
-        )
-    ) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_back),
-            contentDescription = "Back",
-            modifier = Modifier.size(20.dp)
-        )
     }
 }
 

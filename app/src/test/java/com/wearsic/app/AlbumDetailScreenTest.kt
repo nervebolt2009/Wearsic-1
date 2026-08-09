@@ -49,7 +49,14 @@ class AlbumDetailScreenTest {
         var retried = false
         composeTestRule.setContent {
             WearsicTheme {
-                AlbumDetailScreen(album, emptyList(), false, "network failed", { retried = true }, {})
+                AlbumDetailScreen(
+                    album = album,
+                    tracks = emptyList(),
+                    isLoading = false,
+                    errorMessage = "network failed",
+                    onRetry = { retried = true },
+                    onTrackClick = {}
+                )
             }
         }
         composeTestRule.onNodeWithText("Album could not be loaded").performScrollTo().assertIsDisplayed()

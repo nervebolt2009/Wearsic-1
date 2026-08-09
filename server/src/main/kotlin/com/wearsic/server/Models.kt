@@ -46,7 +46,8 @@ data class AlbumDto(
 data class PlaylistWithTracksDto(
     val id: String,
     val name: String,
-    val tracks: List<TrackDto>
+    val tracks: List<TrackDto>,
+    val nextPage: Int? = null
 )
 
 @Serializable

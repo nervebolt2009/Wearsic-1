@@ -170,7 +170,7 @@ class QueueScreenTest {
     }
     
     @Test
-    fun testRemoveFromQueueButtonExists() {
+    fun testQueueScreenExposesReorderControls() {
         composeTestRule.setContent {
             WearsicTheme {
                 QueueScreen(
@@ -178,14 +178,18 @@ class QueueScreenTest {
                     queue = testTracks,
                     currentIndex = 0,
                     onTrackClick = {},
+                    onMoveUp = {},
+                    onMoveDown = {},
                     onRemoveFromQueue = {},
                     onClearQueue = {}
                 )
             }
         }
         
-        // Verify remove button exists for tracks (may need to scroll to see all)
-        composeTestRule.onAllNodesWithContentDescription("Remove from queue")
+        // Rows expose move up/down controls (removal happens by swiping the row).
+        composeTestRule.onAllNodesWithContentDescription("Move up")
+            .onFirst().assertExists()
+        composeTestRule.onAllNodesWithContentDescription("Move down")
             .onFirst().assertExists()
     }
 }

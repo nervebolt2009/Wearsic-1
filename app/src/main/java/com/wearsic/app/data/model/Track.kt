@@ -69,11 +69,14 @@ data class Playlist(
 )
 
 /**
- * Playlist with tracks
+ * Playlist with tracks. [nextPage] is a continuation token: when non-null,
+ * requesting `/playlist?page=<nextPage>` (or `/channel?page=`) returns the next
+ * batch of tracks.
  */
 @Serializable
 data class PlaylistWithTracks(
     val id: String,
     val name: String,
-    val tracks: List<Track>
+    val tracks: List<Track>,
+    val nextPage: Int? = null
 )

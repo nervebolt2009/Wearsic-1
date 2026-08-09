@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,6 +37,7 @@ import androidx.wear.compose.material3.Text
 import coil.compose.AsyncImage
 import com.wearsic.app.R
 import com.wearsic.app.data.model.Track
+import com.wearsic.app.ui.ambient.AmbientState
 import com.wearsic.app.ui.navigation.Screen
 
 private val Accent = Color(0xFFB7F397)
@@ -66,6 +69,13 @@ fun NowPlayingScreen(
     onNavigate: (Screen) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
+    // Ambient (always-on) mode: render a static, monochrome, low-power screen
+    // instead of the full artwork/controls UI. No animations, no image loads.
+    val isAmbient by AmbientState.isAmbient.collectAsState()
+    if (isAmbient) {
+        AmbientNowPlaying(currentTrack = currentTrack, isPlaying = isPlaying)
+        return
+    }
     ScreenScaffold(modifier = modifier) {
         Box(modifier = Modifier.fillMaxSize()) {
             // Keep the watch GPU cool: use a static gradient instead of a
@@ -259,6 +269,51 @@ fun NowPlayingScreen(
                 }
             }
         }
+        }
+    }
+}
+
+@Composable
+private fun AmbientNowPlaying(
+    currentTrack: Track?,
+    isPlaying: Boolean
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            modifier = Modifier.padding(horizontal = 28.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(
+                painter = painterResource(if (isPlaying) R.drawable.ic_pause else R.drawable.ic_play),
+                contentDescription = null,
+                tint = Color.White.copy(alpha = 0.9f),
+                modifier = Modifier.size(20.dp)
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(
+                text = currentTrack?.title ?: stringResource(R.string.no_tracks),
+                style = MaterialTheme.typography.titleSmall,
+                color = Color.White,
+                textAlign = TextAlign.Center,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+            if (!currentTrack?.uploader.isNullOrBlank()) {
+                Text(
+                    text = currentTrack?.uploader.orEmpty(),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = Color.White.copy(alpha = 0.55f),
+                    textAlign = TextAlign.Center,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.padding(top = 4.dp)
+                )
+            }
         }
     }
 }

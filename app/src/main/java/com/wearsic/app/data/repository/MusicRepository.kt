@@ -352,12 +352,14 @@ class MusicRepository {
     }
     
     /**
-     * Get playlist from external URL (YouTube playlist)
+     * Get playlist from external URL (YouTube playlist). Pass [page] > 1 to
+     * fetch the next batch of tracks when [PlaylistWithTracks.nextPage] is set.
      */
-    suspend fun getExternalPlaylist(url: String): Result<PlaylistWithTracks> {
+    suspend fun getExternalPlaylist(url: String, page: Int = 1): Result<PlaylistWithTracks> {
         return try {
             val response = getApiOrRoot<PlaylistWithTracks>("/playlist") {
                 parameter("url", url)
+                parameter("page", page)
             }
             Result.success(response)
         } catch (e: CancellationException) {

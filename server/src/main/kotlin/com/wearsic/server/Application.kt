@@ -139,11 +139,13 @@ private fun Route.registerApiRoutes(database: Database, extractor: ExtractorServ
     }
     get("/playlist") {
         val url = call.request.queryParameters["url"] ?: return@get call.respond(HttpStatusCode.BadRequest, ErrorResponse("Missing playlist URL"))
-        call.respondExtracted { extractor.playlist(url) }
+        val page = call.request.queryParameters["page"]?.toIntOrNull()?.coerceAtLeast(1) ?: 1
+        call.respondExtracted { extractor.playlist(url, page) }
     }
     get("/channel") {
         val url = call.request.queryParameters["url"] ?: return@get call.respond(HttpStatusCode.BadRequest, ErrorResponse("Missing channel URL"))
-        call.respondExtracted { extractor.channel(url) }
+        val page = call.request.queryParameters["page"]?.toIntOrNull()?.coerceAtLeast(1) ?: 1
+        call.respondExtracted { extractor.channel(url, page) }
     }
     get("/config/youtube-cookie") {
         call.respond(YoutubeCookieStatus(database.getSetting(SETTING_YOUTUBE_COOKIE).orEmpty().isNotBlank()))
