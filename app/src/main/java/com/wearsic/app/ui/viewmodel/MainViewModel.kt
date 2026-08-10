@@ -965,13 +965,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
     
     /**
-     * Update progress
-     */
-    fun updateProgress(progress: Float) {
-        _progress.value = progress.coerceIn(0f, 1f)
-    }
-    
-    /**
      * Ship the whole queue (with the current index) to the foreground service.
      * The service owns playback, so music keeps playing and auto-advancing even
      * after this activity is destroyed.

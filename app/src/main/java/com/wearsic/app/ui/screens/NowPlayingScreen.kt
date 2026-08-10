@@ -267,9 +267,11 @@ private fun PlaybackProgressSection(currentTrack: Track?, isPlaying: Boolean) {
     var displayedPositionMs by remember(currentTrack?.videoId) { mutableStateOf(0L) }
 
     // Resync to the real stream position whenever the service reports one
-    // (initial load, seek, pause, track transition).
+    // (initial load, seek, pause, track transition — including back to 0 for
+    // seek-to-start or a repeated track, where the audio restarts but the
+    // track id does not change).
     LaunchedEffect(positionMs) {
-        if (positionMs > 0L) displayedPositionMs = positionMs
+        displayedPositionMs = positionMs
     }
 
     // Self-driving 1Hz tick while playing; freezes the moment playback stops.
