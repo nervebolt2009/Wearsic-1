@@ -200,7 +200,7 @@ fun SearchScreen(
                     )
                 }
                 
-                items(suggestions.take(5).size) { index ->
+                items(suggestions.take(5).size, key = { "${it}-${suggestions[it]}" }) { index ->
                     SuggestionItem(
                         suggestion = suggestions[index],
                         onClick = { onSearchQueryChange(suggestions[index]) },
@@ -219,7 +219,7 @@ fun SearchScreen(
                         modifier = Modifier.fillMaxWidth(0.9f).padding(top = 16.dp, bottom = 8.dp)
                     )
                 }
-                items(albums.size) { index ->
+                items(albums.size, key = { albums[it].id }) { index ->
                     AlbumResultItem(
                         album = albums[index],
                         onClick = { onAlbumClick(albums[index]) },
@@ -243,7 +243,7 @@ fun SearchScreen(
                     )
                 }
                 
-                items(searchResults.size) { index ->
+                items(searchResults.size, key = { searchResults[it].videoId }) { index ->
                     SearchResultItem(
                         track = searchResults[index],
                         onClick = { onTrackClick(searchResults[index]) },

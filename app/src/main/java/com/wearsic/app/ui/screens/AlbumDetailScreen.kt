@@ -136,7 +136,7 @@ fun AlbumDetailScreen(
                         modifier = Modifier.fillMaxWidth(0.9f).padding(top = 8.dp, bottom = 6.dp)
                     )
                 }
-                items(tracks) { track ->
+                items(tracks, key = { it.videoId }) { track ->
                     AlbumTrackRow(
                         track = track,
                         onClick = { onTrackClick(track) },

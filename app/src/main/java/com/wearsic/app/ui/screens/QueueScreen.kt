@@ -132,7 +132,7 @@ fun QueueScreen(
                     )
                 }
                 
-                items(queue.size) { index ->
+                items(queue.size, key = { "$it-${queue[it].videoId}" }) { index ->
                     QueueItem(
                         track = queue[index],
                         index = index,

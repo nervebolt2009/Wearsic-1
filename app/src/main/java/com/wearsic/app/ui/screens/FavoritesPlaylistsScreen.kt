@@ -199,7 +199,7 @@ fun FavoritesPlaylistsScreen(
                         }
                     }
                 } else {
-                    items(favorites.size) { index ->
+                    items(favorites.size, key = { favorites[it].videoId }) { index ->
                         FavoriteItem(
                             track = favorites[index],
                             onClick = { onTrackClick(favorites[index]) },
@@ -242,7 +242,7 @@ fun FavoritesPlaylistsScreen(
                         }
                     }
                 } else {
-                    items(playlists.size) { index ->
+                    items(playlists.size, key = { playlists[it].id }) { index ->
                         PlaylistItem(
                             playlist = playlists[index],
                             onClick = { onPlaylistClick(playlists[index]) },

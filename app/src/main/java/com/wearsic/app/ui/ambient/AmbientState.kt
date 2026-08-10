@@ -6,8 +6,8 @@ import kotlinx.coroutines.flow.asStateFlow
 
 /**
  * Process-wide ambient (always-on display) state, reported by MainActivity via
- * AmbientModeSupport callbacks and consumed by the Now Playing screen to switch
- * to its low-power, monochrome rendering.
+ * AmbientLifecycleObserver callbacks and consumed by the app shell to render a
+ * single low-power, monochrome overlay instead of full-color screens.
  */
 object AmbientState {
     private val _isAmbient = MutableStateFlow(false)
@@ -19,6 +19,12 @@ object AmbientState {
     private val _lowBitAmbient = MutableStateFlow(false)
     val lowBitAmbient: StateFlow<Boolean> = _lowBitAmbient.asStateFlow()
 
+    // Incremented on every periodic ambient update (roughly once a minute).
+    // The ambient overlay shifts its static content by a few pixels per tick
+    // when the system requests burn-in protection, with no timers of its own.
+    private val _ambientTick = MutableStateFlow(0)
+    val ambientTick: StateFlow<Int> = _ambientTick.asStateFlow()
+
     fun enterAmbient(burnInProtectionRequired: Boolean, lowBitAmbient: Boolean) {
         _burnInProtectionRequired.value = burnInProtectionRequired
         _lowBitAmbient.value = lowBitAmbient
@@ -29,6 +35,8 @@ object AmbientState {
         _isAmbient.value = false
     }
 
-    /** Called periodically while ambient; a hook for burn-in shifting if needed. */
-    fun updateAmbient() = Unit
+    /** Called periodically while ambient; drives the burn-in pixel shift. */
+    fun updateAmbient() {
+        _ambientTick.value += 1
+    }
 }

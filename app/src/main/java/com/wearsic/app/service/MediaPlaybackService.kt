@@ -645,9 +645,12 @@ class MediaPlaybackService : MediaSessionService() {
         progressPollJob = serviceScope.launch {
             while (isActive) {
                 reportProgress(player)
-                // One update per second is smooth enough for a watch progress
-                // indicator and avoids waking the CPU twice as often.
-                delay(1_000)
+                // The Now Playing UI runs its own 1Hz tick while playing, so the
+                // service only needs to resync the true position occasionally.
+                // Seeks/track changes still report instantly via Player.Events;
+                // this slow poll just corrects drift without waking the main
+                // thread every second (a real battery win on a watch).
+                delay(5_000)
             }
         }
     }

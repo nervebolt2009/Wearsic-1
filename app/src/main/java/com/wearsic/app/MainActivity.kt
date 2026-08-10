@@ -8,12 +8,31 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.wear.ambient.AmbientLifecycleObserver
+import androidx.wear.compose.material3.Icon
+import androidx.wear.compose.material3.MaterialTheme
+import androidx.wear.compose.material3.Text
+import com.wearsic.app.R
+import com.wearsic.app.data.model.Track
 import com.wearsic.app.ui.ambient.AmbientState
 import com.wearsic.app.ui.navigation.NavigationManager
 import com.wearsic.app.ui.navigation.Screen
@@ -87,6 +106,18 @@ fun WearsicApp(
 ) {
     val navigationManager = remember { NavigationManager() }
     val currentScreen by navigationManager.currentScreen
+
+    // Ambient (always-on display): every screen drops to a single low-power,
+    // monochrome overlay. Full-color UI (artwork, images, gradient fills)
+    // would otherwise stay lit on the OLED for the whole dimmed period — the
+    // biggest battery drain in ambient mode.
+    val isAmbient by AmbientState.isAmbient.collectAsState()
+    if (isAmbient) {
+        val ambientTrack by viewModel.currentTrack.collectAsState()
+        val ambientPlaying by viewModel.isPlaying.collectAsState()
+        AmbientOverlay(currentTrack = ambientTrack, isPlaying = ambientPlaying)
+        return
+    }
 
     // System back gesture navigates back through the in-app history.
     BackHandler(enabled = navigationManager.canNavigateBack()) {
@@ -287,6 +318,66 @@ fun WearsicApp(
                     onAutoCacheEnabledChange = viewModel::setAutoCacheEnabled,
                     errorMessage = playbackError,
                     onDismissError = viewModel::clearError
+                )
+            }
+        }
+    }
+}
+
+/**
+ * The only thing drawn while the watch is in ambient (always-on) mode: a
+ * black, monochrome screen with the current track and play state. No images,
+ * no gradients, no animation. When the system requests burn-in protection the
+ * static content shifts a few pixels on each periodic ambient update.
+ */
+@Composable
+private fun AmbientOverlay(currentTrack: Track?, isPlaying: Boolean) {
+    val burnInProtection by AmbientState.burnInProtectionRequired.collectAsState()
+    val tick by AmbientState.ambientTick.collectAsState()
+    val shiftX = if (burnInProtection) {
+        when (tick % 3) {
+            0 -> 0.dp
+            1 -> (-3).dp
+            else -> 3.dp
+        }
+    } else {
+        0.dp
+    }
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black)
+            .offset(x = shiftX),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            modifier = Modifier.padding(horizontal = 28.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(
+                painter = painterResource(if (isPlaying) R.drawable.ic_pause else R.drawable.ic_play),
+                contentDescription = null,
+                tint = Color.White.copy(alpha = 0.9f),
+                modifier = Modifier.size(20.dp)
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(
+                text = currentTrack?.title ?: stringResource(R.string.no_tracks),
+                style = MaterialTheme.typography.titleSmall,
+                color = Color.White,
+                textAlign = TextAlign.Center,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+            if (!currentTrack?.uploader.isNullOrBlank()) {
+                Text(
+                    text = currentTrack?.uploader.orEmpty(),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = Color.White.copy(alpha = 0.55f),
+                    textAlign = TextAlign.Center,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.padding(top = 4.dp)
                 )
             }
         }
