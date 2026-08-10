@@ -803,7 +803,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             repository.getExternalPlaylist(album.url)
                 .onSuccess { loaded ->
                     if (_selectedAlbum.value?.url == album.url) {
-                        _albumTracks.value = loaded.tracks
+                        // Dedupe like loadMoreAlbumTracks does: the lazy list
+                        // keys rows by videoId, so duplicates would crash it.
+                        _albumTracks.value = loaded.tracks.distinctBy { it.videoId }
                         _albumNextPage.value = loaded.nextPage
                     }
                 }

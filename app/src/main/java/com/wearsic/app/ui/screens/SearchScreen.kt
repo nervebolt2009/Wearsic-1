@@ -219,7 +219,7 @@ fun SearchScreen(
                         modifier = Modifier.fillMaxWidth(0.9f).padding(top = 16.dp, bottom = 8.dp)
                     )
                 }
-                items(albums.size, key = { albums[it].id }) { index ->
+                items(albums.size, key = { "${it}-${albums[it].id}" }) { index ->
                     AlbumResultItem(
                         album = albums[index],
                         onClick = { onAlbumClick(albums[index]) },
