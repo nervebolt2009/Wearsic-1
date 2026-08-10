@@ -150,8 +150,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     
     init {
         // Configure the repository before any server-backed request is started.
+        // Debounced like the cookie pipeline: typing a URL in Settings writes a
+        // new value per keystroke, and only the settled URL should trigger a
+        // connection test and favorites/playlists reload.
         viewModelScope.launch {
-            settingsManager.serverUrl.distinctUntilChanged().collectLatest { url ->
+            @OptIn(FlowPreview::class)
+            settingsManager.serverUrl.distinctUntilChanged()
+                .debounce(500)
+                .collectLatest { url ->
                 repository.setServerUrl(url)
                 if (url.isNotBlank()) {
                     testConnection()
@@ -910,6 +916,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      * position so the song does not restart from zero.
      */
     fun retryPlayback() {
+        if (serverUrl.value.isBlank()) {
+            _error.value = "Configure your server URL in Settings first."
+            return
+        }
         val track = _currentTrack.value ?: return
         PlaybackEvents.clearError()
         if (_queue.value.isEmpty()) {

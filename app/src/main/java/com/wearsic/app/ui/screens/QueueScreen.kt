@@ -348,26 +348,9 @@ private fun QueueItem(
             .padding(horizontal = 12.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Track number
-        Box(
-            modifier = Modifier
-                .size(28.dp)
-                .clip(CircleShape)
-                .background(Color.White.copy(alpha = 0.1f)),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = "${index + 1}",
-                style = MaterialTheme.typography.labelSmall.copy(
-                    fontSize = 10.sp
-                ),
-                color = Color.White.copy(alpha = 0.7f)
-            )
-        }
-        
-        Spacer(modifier = Modifier.width(10.dp))
-        
-        // Track thumbnail
+        // Track thumbnail (no number badge: the row also carries 48dp reorder
+        // buttons, and every fixed element steals width from the title on a
+        // 44mm round face).
         Box(
             modifier = Modifier
                 .size(40.dp)
