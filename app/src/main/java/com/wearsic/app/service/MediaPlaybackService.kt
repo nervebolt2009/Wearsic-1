@@ -10,6 +10,8 @@ import android.net.NetworkCapabilities
 import android.os.BatteryManager
 import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
+import kotlin.math.abs
 import androidx.annotation.OptIn
 import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
@@ -445,6 +447,11 @@ class MediaPlaybackService : MediaSessionService() {
         PlaybackEvents.reportDownloadProgress(track.videoId, 0f)
         downloadJobs[track.videoId] = serviceScope.launch(Dispatchers.IO) {
             try {
+                // The cache reports progress on every buffer; throttle so an
+                // active download cannot churn the UI at tens of frames per
+                // second (each report rebuilds a StateFlow map).
+                var lastReportMs = 0L
+                var lastFraction = -1f
                 val writer = CacheWriter(
                     cacheFactory.createDataSource(),
                     DataSpec.Builder()
@@ -457,11 +464,13 @@ class MediaPlaybackService : MediaSessionService() {
                             if (automatic && !isChargingOrWifi()) {
                                 throw CancellationException("Automatic download constraints lost")
                             }
-                            if (requestLength > 0L) {
-                                PlaybackEvents.reportDownloadProgress(
-                                    track.videoId,
-                                    bytesCached.toFloat() / requestLength.toFloat()
-                                )
+                            if (requestLength <= 0L) return
+                            val fraction = bytesCached.toFloat() / requestLength.toFloat()
+                            val now = SystemClock.elapsedRealtime()
+                            if (now - lastReportMs >= 500L && abs(fraction - lastFraction) >= 0.01f) {
+                                lastReportMs = now
+                                lastFraction = fraction
+                                PlaybackEvents.reportDownloadProgress(track.videoId, fraction)
                             }
                         }
                     }
