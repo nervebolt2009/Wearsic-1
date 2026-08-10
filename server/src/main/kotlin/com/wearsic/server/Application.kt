@@ -137,6 +137,20 @@ private fun Route.registerApiRoutes(database: Database, extractor: ExtractorServ
         database.deletePlaylistTrack(call.parameters["id"].orEmpty(), call.parameters["videoId"].orEmpty())
         call.respond(HttpStatusCode.NoContent)
     }
+    post("/playlists/{id}/like") {
+        val id = call.parameters["id"].orEmpty()
+        if (!database.setPlaylistLiked(id, true)) {
+            return@post call.respond(HttpStatusCode.NotFound, ErrorResponse("Playlist not found"))
+        }
+        call.respond(HttpStatusCode.NoContent)
+    }
+    delete("/playlists/{id}/like") {
+        val id = call.parameters["id"].orEmpty()
+        if (!database.setPlaylistLiked(id, false)) {
+            return@delete call.respond(HttpStatusCode.NotFound, ErrorResponse("Playlist not found"))
+        }
+        call.respond(HttpStatusCode.NoContent)
+    }
     get("/playlist") {
         val url = call.request.queryParameters["url"] ?: return@get call.respond(HttpStatusCode.BadRequest, ErrorResponse("Missing playlist URL"))
         val page = call.request.queryParameters["page"]?.toIntOrNull()?.coerceAtLeast(1) ?: 1

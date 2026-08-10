@@ -25,8 +25,8 @@ android {
         applicationId = "com.wearsic.app"
         minSdk = 30
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -82,6 +82,15 @@ android {
     }
 }
 
+// Robolectric Compose tests (createComposeRule) launch the ComponentActivity
+// provided by compose ui-test-manifest, which is merged into the debug APK
+// only. Release unit tests cannot resolve that launcher activity, so run the
+// unit tests on the debug variant only (the release APK is covered by the R8
+// assembleRelease build instead).
+tasks.configureEach {
+    if (name == "testReleaseUnitTest") enabled = false
+}
+
 dependencies {
     // Core Android
     implementation(libs.androidx.core.ktx)
@@ -90,6 +99,8 @@ dependencies {
 
     // Ambient (always-on display) support.
     implementation(libs.androidx.wear)
+    // Overrides wear's ancient fragment 1.2.4 (needed by ActivityResult APIs).
+    implementation(libs.androidx.fragment.ktx)
 
     // Compose
     implementation(platform(libs.androidx.compose.bom))

@@ -44,6 +44,7 @@ fun FavoritesPlaylistsScreen(
     onTrackClick: (Track) -> Unit,
     onRemoveFromFavorites: (Track) -> Unit,
     onPlaylistClick: (Playlist) -> Unit,
+    onTogglePlaylistLiked: (Playlist) -> Unit = {},
     onDownload: (Track) -> Unit = {},
     downloadedIds: Set<String> = emptySet(),
     downloadProgress: Map<String, Float> = emptyMap(),
@@ -245,6 +246,7 @@ fun FavoritesPlaylistsScreen(
                         PlaylistItem(
                             playlist = playlists[index],
                             onClick = { onPlaylistClick(playlists[index]) },
+                            onToggleLiked = { onTogglePlaylistLiked(playlists[index]) },
                             modifier = Modifier.fillMaxWidth(0.9f)
                         )
                     }
@@ -379,12 +381,13 @@ private fun FavoriteItem(
 }
 
 /**
- * Playlist item with playlist info
+ * Playlist item with playlist info and a like (heart) action.
  */
 @Composable
 private fun PlaylistItem(
     playlist: Playlist,
     onClick: () -> Unit,
+    onToggleLiked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -436,6 +439,24 @@ private fun PlaylistItem(
                     fontSize = 11.sp
                 ),
                 color = Color.White.copy(alpha = 0.6f)
+            )
+        }
+        
+        // Like/unlike the playlist. Kept as a separate 48dp control so the
+        // whole row is still tappable for playback.
+        IconButton(
+            onClick = onToggleLiked,
+            modifier = Modifier.size(48.dp)
+        ) {
+            Icon(
+                painter = painterResource(
+                    id = if (playlist.liked) R.drawable.ic_favorite_filled else R.drawable.ic_favorite_outline
+                ),
+                contentDescription = stringResource(
+                    if (playlist.liked) R.string.unlike_playlist else R.string.like_playlist
+                ),
+                tint = if (playlist.liked) Color(0xFFE91E63) else Color.White.copy(alpha = 0.5f),
+                modifier = Modifier.size(18.dp)
             )
         }
     }

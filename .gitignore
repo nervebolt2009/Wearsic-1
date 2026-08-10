@@ -1,5 +1,6 @@
 # Gradle
 .gradle/
+.kotlin/
 build/
 !gradle/wrapper/gradle-wrapper.jar
 
@@ -17,3 +18,4 @@ captures/
 # Signing secrets — NEVER commit keystores or passwords
 *.jks
 keystore.properties
+wearsic-server-termux.zip

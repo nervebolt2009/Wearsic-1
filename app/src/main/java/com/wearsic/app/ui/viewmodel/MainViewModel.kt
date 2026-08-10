@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
@@ -138,8 +139,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val downloadProgress: StateFlow<Map<String, Float>> = PlaybackEvents.downloadProgress
     val downloadErrors: StateFlow<Map<String, String>> = PlaybackEvents.downloadErrors
 
-    // Kotlinx JSON used to ship the queue to the foreground service.
-    private val queueJson = Json { ignoreUnknownKeys = true }
+    // Kotlinx JSON used to ship the queue to the foreground service and to
+    // snapshot favorites/playlists for offline use. encodeDefaults keeps
+    // default-valued fields (e.g. Playlist.liked=false) in the snapshot so the
+    // flag round-trips through the cache unambiguously.
+    private val queueJson = Json { ignoreUnknownKeys = true; encodeDefaults = true }
     
     // Server URL
     val serverUrl: StateFlow<String> = settingsManager.serverUrl
@@ -559,6 +563,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      * Toggle shuffle. When enabled, the queued tracks are reordered so the
      * current track keeps its position and the rest play in random order; the
      * previous order is remembered and restored when shuffle is turned off.
+     * The reordered queue is pushed with the current playback position so the
+     * playing song does not restart.
      */
     fun toggleShuffle() {
         if (_shuffleEnabled.value) {
@@ -574,8 +580,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 _currentIndex.value = index.coerceAtLeast(0)
                 _currentTrack.value = if (index >= 0) restore[index] else restore.firstOrNull()
                 _isPlaying.value = true
-                _progress.value = 0f
-                pushQueueToService()
+                pushQueueToService(startPositionMs = currentPlaybackPositionMs())
             }
         } else {
             _shuffleEnabled.value = true
@@ -593,10 +598,16 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 _currentIndex.value = currentIndex
                 _currentTrack.value = current
                 _isPlaying.value = true
-                _progress.value = 0f
-                pushQueueToService()
+                pushQueueToService(startPositionMs = currentPlaybackPositionMs())
             }
         }
+    }
+
+    /** Approximate the current stream position from the mirrored progress. */
+    private fun currentPlaybackPositionMs(): Long {
+        val duration = _currentTrack.value?.durationMs ?: 0L
+        if (duration <= 0L) return -1L
+        return (_progress.value.coerceIn(0f, 1f) * duration).toLong()
     }
 
     /**
@@ -656,6 +667,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 } else if (_favorites.value.none { it.videoId == track.videoId }) {
                     _favorites.value = _favorites.value + track
                 }
+                persistFavoritesCache()
             } else {
                 _error.value = result.exceptionOrNull()?.message ?: "Could not update favorites"
             }
@@ -676,8 +688,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun addToFavorites(track: Track) {
         viewModelScope.launch {
             if (_favorites.value.none { it.videoId == track.videoId }) {
-                repository.addToFavorites(track)
-                _favorites.value = _favorites.value + track
+                val result = repository.addToFavorites(track)
+                if (result.isSuccess) {
+                    _favorites.value = _favorites.value + track
+                    persistFavoritesCache()
+                } else {
+                    _error.value = result.exceptionOrNull()?.message ?: "Could not add to favorites"
+                }
             }
         }
     }
@@ -687,13 +704,20 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      */
     fun removeFromFavorites(track: Track) {
         viewModelScope.launch {
-            repository.removeFromFavorites(track.videoId)
-            _favorites.value = _favorites.value.filter { it.videoId != track.videoId }
+            val result = repository.removeFromFavorites(track.videoId)
+            if (result.isSuccess) {
+                _favorites.value = _favorites.value.filter { it.videoId != track.videoId }
+                persistFavoritesCache()
+            } else {
+                _error.value = result.exceptionOrNull()?.message ?: "Could not remove from favorites"
+            }
         }
     }
     
     /**
-     * Load favorites from server
+     * Load favorites from the server. The last-known-good list is cached in
+     * DataStore, so favorites stay visible when the server is unreachable
+     * (offline) instead of silently vanishing.
      */
     fun loadFavorites() {
         viewModelScope.launch {
@@ -703,23 +727,74 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             
             result.onSuccess { tracks ->
                 _favorites.value = tracks
+                persistFavoritesCache()
             }.onFailure { e ->
-                _error.value = e.message
+                val cached = settingsManager.favoritesCache()
+                if (cached.isNullOrBlank()) {
+                    _error.value = e.message
+                } else {
+                    // Offline: show the cached snapshot; no error banner — the
+                    // list is still meaningful.
+                    _favorites.value = runCatching {
+                        queueJson.decodeFromString<List<Track>>(cached)
+                    }.getOrElse { emptyList() }
+                }
             }
         }
     }
     
     /**
-     * Load playlists from the server.
+     * Load playlists from the server, with the same offline fallback as
+     * favorites.
      */
     fun loadPlaylists() {
         viewModelScope.launch {
             repository.getPlaylists().onSuccess { loaded ->
                 _playlists.value = loaded
+                persistPlaylistsCache()
             }.onFailure { error ->
-                _error.value = error.message
+                val cached = settingsManager.playlistsCache()
+                if (cached.isNullOrBlank()) {
+                    _error.value = error.message
+                } else {
+                    _playlists.value = runCatching {
+                        queueJson.decodeFromString<List<com.wearsic.app.data.model.Playlist>>(cached)
+                    }.getOrElse { emptyList() }
+                }
             }
         }
+    }
+
+    /**
+     * Toggle the liked state of a playlist. Updates optimistically, persists
+     * the server call, and reverts the heart if the server rejects it.
+     */
+    fun togglePlaylistLiked(playlist: com.wearsic.app.data.model.Playlist) {
+        val wasLiked = playlist.liked
+        _playlists.value = _playlists.value.map {
+            if (it.id == playlist.id) it.copy(liked = !wasLiked) else it
+        }
+        viewModelScope.launch {
+            val result = repository.setPlaylistLiked(playlist.id, !wasLiked)
+            if (result.isSuccess) {
+                persistPlaylistsCache()
+            } else {
+                _playlists.value = _playlists.value.map {
+                    if (it.id == playlist.id) it.copy(liked = wasLiked) else it
+                }
+                _error.value = result.exceptionOrNull()?.message ?: "Could not update playlist"
+            }
+        }
+    }
+
+    /** Store the current favorites snapshot for offline use. */
+    private suspend fun persistFavoritesCache() {
+        settingsManager.saveFavoritesCache(queueJson.encodeToString(_favorites.value))
+    }
+
+    /** Store the current playlists snapshot for offline use. */
+    private suspend fun persistPlaylistsCache() {
+        settingsManager.savePlaylistsCache(queueJson.encodeToString(_playlists.value))
     }
 
     /**
@@ -789,6 +864,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      * Add track to queue
      */
     fun addToQueue(track: Track) {
+        preShuffleQueue = null
         if (_queue.value.none { it.videoId == track.videoId }) {
             _queue.value = _queue.value + track
             sendServiceIntent(MediaPlaybackService.ACTION_ADD_TO_QUEUE) {
@@ -900,7 +976,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      * The service owns playback, so music keeps playing and auto-advancing even
      * after this activity is destroyed.
      */
-    private fun pushQueueToService() {
+    private fun pushQueueToService(startPositionMs: Long = -1L) {
         if (serverUrl.value.isBlank()) return
         val queue = _queue.value
         if (queue.isEmpty()) return
@@ -910,6 +986,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             putExtra(MediaPlaybackService.EXTRA_API_KEY, apiKey.value)
             putExtra(MediaPlaybackService.EXTRA_QUEUE_JSON, queueJson.encodeToString(queue))
             putExtra(MediaPlaybackService.EXTRA_START_INDEX, _currentIndex.value.coerceAtLeast(0))
+            // -1 means "keep the default start position" (i.e. from 0). A real
+            // position (e.g. shuffle reorder) is honored by the service.
+            putExtra(MediaPlaybackService.EXTRA_START_POSITION_MS, startPositionMs)
         }
         try {
             // Playback is initiated by a visible user tap. Start as a foreground

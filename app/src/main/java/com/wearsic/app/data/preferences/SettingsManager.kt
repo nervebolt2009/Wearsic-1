@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 /**
@@ -26,6 +27,10 @@ class SettingsManager(private val context: Context) {
         private val YOUTUBE_COOKIE = stringPreferencesKey("youtube_cookie")
         private val CACHE_SIZE_MB = intPreferencesKey("cache_size_mb")
         private val AUTO_CACHE_ENABLED = androidx.datastore.preferences.core.booleanPreferencesKey("auto_cache_enabled")
+        // Last-known-good JSON snapshots so favorites/playlists stay visible
+        // when the server is unreachable (offline fallback).
+        private val FAVORITES_CACHE = stringPreferencesKey("favorites_cache")
+        private val PLAYLISTS_CACHE = stringPreferencesKey("playlists_cache")
 
         const val DEFAULT_CACHE_SIZE_MB = 256
         const val DEFAULT_AUTO_CACHE_ENABLED = false
@@ -112,6 +117,28 @@ class SettingsManager(private val context: Context) {
     suspend fun clearAll() {
         context.dataStore.edit { preferences ->
             preferences.clear()
+        }
+    }
+
+    /**
+     * Last-known-good favorites snapshot (JSON-encoded list of tracks).
+     */
+    suspend fun favoritesCache(): String? = context.dataStore.data.first()[FAVORITES_CACHE]
+
+    suspend fun saveFavoritesCache(json: String) {
+        context.dataStore.edit { preferences ->
+            preferences[FAVORITES_CACHE] = json
+        }
+    }
+
+    /**
+     * Last-known-good playlists snapshot (JSON-encoded list of playlists).
+     */
+    suspend fun playlistsCache(): String? = context.dataStore.data.first()[PLAYLISTS_CACHE]
+
+    suspend fun savePlaylistsCache(json: String) {
+        context.dataStore.edit { preferences ->
+            preferences[PLAYLISTS_CACHE] = json
         }
     }
 }

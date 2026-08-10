@@ -93,6 +93,7 @@ class MediaPlaybackService : MediaSessionService() {
         const val EXTRA_THUMBNAIL_URL = "extra_thumbnail_url"
         const val EXTRA_QUEUE_JSON = "extra_queue_json"
         const val EXTRA_START_INDEX = "extra_start_index"
+        const val EXTRA_START_POSITION_MS = "extra_start_position_ms"
         const val EXTRA_ADD_TRACK_JSON = "extra_add_track_json"
         const val EXTRA_REMOVE_INDEX = "extra_remove_index"
         const val EXTRA_DOWNLOAD_TRACK_JSON = "extra_download_track_json"
@@ -267,7 +268,14 @@ class MediaPlaybackService : MediaSessionService() {
                         ?.let(::decodeTracks)
                         .orEmpty()
                     if (tracks.isNotEmpty()) {
-                        playTracks(tracks, intent.getIntExtra(EXTRA_START_INDEX, 0))
+                        // The app uses -1 as "no explicit position"; normalize any
+                        // negative value to TIME_UNSET so setMediaItems stays safe.
+                        val positionMs = intent.getLongExtra(EXTRA_START_POSITION_MS, C.TIME_UNSET)
+                        playTracks(
+                            tracks,
+                            intent.getIntExtra(EXTRA_START_INDEX, 0),
+                            if (positionMs < 0L) C.TIME_UNSET else positionMs
+                        )
                     }
                 }
                 ACTION_TOGGLE_PLAYBACK -> mediaSession?.player?.let { player ->
@@ -302,12 +310,21 @@ class MediaPlaybackService : MediaSessionService() {
         return super.onStartCommand(intent, flags, startId)
     }
 
-    /** Replace the whole queue and start playing at [startIndex]. */
-    fun playTracks(tracks: List<Track>, startIndex: Int = 0) {
+    /**
+     * Replace the whole queue and start playing at [startIndex]. When
+     * [startPositionMs] is not [C.TIME_UNSET], playback resumes at that
+     * position (used by queue reorders like shuffle so the song does not
+     * restart).
+     */
+    fun playTracks(
+        tracks: List<Track>,
+        startIndex: Int = 0,
+        startPositionMs: Long = C.TIME_UNSET
+    ) {
         val player = mediaSession?.player ?: return
         if (repository.getServerUrl().isBlank() || tracks.isEmpty()) return
         val index = startIndex.coerceIn(0, tracks.size - 1)
-        player.setMediaItems(tracks.map(::mediaItemFor), index, C.TIME_UNSET)
+        player.setMediaItems(tracks.map(::mediaItemFor), index, startPositionMs)
         player.prepare()
         player.playWhenReady = true
         emitQueueState(player)

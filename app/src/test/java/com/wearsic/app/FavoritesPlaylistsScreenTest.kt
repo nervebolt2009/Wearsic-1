@@ -161,4 +161,47 @@ class FavoritesPlaylistsScreenTest {
         composeTestRule.onAllNodesWithContentDescription("Remove from favorites")
             .assertCountEquals(2)
     }
+
+    @Test
+    fun testPlaylistCanBeLiked() {
+        var toggled: Playlist? = null
+        composeTestRule.setContent {
+            WearsicTheme {
+                FavoritesPlaylistsScreen(
+                    favorites = emptyList(),
+                    playlists = listOf(Playlist(id = "p1", name = "Mix", trackCount = 5)),
+                    isLoading = false,
+                    onTrackClick = {},
+                    onRemoveFromFavorites = {},
+                    onPlaylistClick = {},
+                    onTogglePlaylistLiked = { toggled = it }
+                )
+            }
+        }
+
+        // Switch to the playlists tab, then tap the heart on the row.
+        composeTestRule.onNodeWithText("Playlists").performClick()
+        composeTestRule.onNodeWithContentDescription("Like playlist").performClick()
+
+        assert(toggled?.id == "p1") { "Like toggle should receive the playlist" }
+    }
+
+    @Test
+    fun testLikedPlaylistShowsFilledHeart() {
+        composeTestRule.setContent {
+            WearsicTheme {
+                FavoritesPlaylistsScreen(
+                    favorites = emptyList(),
+                    playlists = listOf(Playlist(id = "p1", name = "Mix", trackCount = 5, liked = true)),
+                    isLoading = false,
+                    onTrackClick = {},
+                    onRemoveFromFavorites = {},
+                    onPlaylistClick = {}
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithText("Playlists").performClick()
+        composeTestRule.onNodeWithContentDescription("Unlike playlist").assertIsDisplayed()
+    }
 }

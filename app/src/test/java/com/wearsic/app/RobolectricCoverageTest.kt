@@ -28,6 +28,7 @@ import org.robolectric.annotation.Config
 @RunWith(AndroidJUnit4::class)
 // Robolectric 4.14.1 supports API 35 in this project; the app itself targets API 36.
 @Config(sdk = [35])
+@OptIn(ExperimentalTestApi::class)
 class RobolectricCoverageTest {
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -109,7 +110,6 @@ class RobolectricCoverageTest {
                     NowPlayingScreen(
                     currentTrack = track,
                     isPlaying = false,
-                    progress = 0.35f,
                     shuffleEnabled = false,
                     repeatEnabled = false,
                     onPlayPause = {},
@@ -222,10 +222,12 @@ class RobolectricCoverageTest {
         assertEquals(0, moveDownIndex)
         composeTestRule.onNodeWithContentDescription("Move up").performScrollTo().performClick()
         assertEquals(0, moveUpIndex)
-        // Removal: swipe the row away (Spotify-style).
+        // Removal: swipe the row away (Spotify-style); the row also exposes the
+        // same action to accessibility and tests via a custom semantics action.
         composeTestRule.onNodeWithTag("queue_item_0")
             .performScrollTo()
-            .performTouchInput { swipeLeft() }
+            .performCustomAccessibilityActionWithLabel("Remove from queue")
+        composeTestRule.waitForIdle()
         assertEquals(0, removedIndex)
         composeTestRule.onNodeWithText("Clear Queue").performScrollTo().performClick()
         assertTrue(cleared)

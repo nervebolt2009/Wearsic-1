@@ -29,7 +29,8 @@ data class PlaylistDto(
     val id: String,
     val name: String,
     val trackCount: Int,
-    val thumbnailUrl: String? = null
+    val thumbnailUrl: String? = null,
+    val liked: Boolean = false
 )
 
 @Serializable

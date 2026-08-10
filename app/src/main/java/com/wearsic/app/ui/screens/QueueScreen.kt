@@ -12,6 +12,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.CustomAccessibilityAction
+import androidx.compose.ui.semantics.customActions
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -279,7 +282,18 @@ private fun QueueItem(
     SwipeToDismissBox(
         onDismissed = { onRemove() },
         state = dismissState,
-        modifier = modifier.testTag("queue_item_$index"),
+        modifier = modifier
+            .testTag("queue_item_$index")
+            // Screen readers cannot swipe; expose removal as an accessibility
+            // action (also used by UI tests to exercise the callback).
+            .semantics {
+                customActions = listOf(
+                    CustomAccessibilityAction("Remove from queue") {
+                        onRemove()
+                        true
+                    }
+                )
+            },
         backgroundScrimColor = Color(0xFFE91E63).copy(alpha = 0.25f),
         content = { isBackground ->
         if (isBackground) {

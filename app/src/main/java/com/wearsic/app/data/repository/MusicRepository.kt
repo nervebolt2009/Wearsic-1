@@ -443,6 +443,25 @@ class MusicRepository {
     }
     
     /**
+     * Mark a playlist as liked or unliked. The like state is stored server-side
+     * and returned with every playlist listing.
+     */
+    suspend fun setPlaylistLiked(playlistId: String, liked: Boolean): Result<Unit> {
+        return try {
+            if (liked) {
+                postApiOrRoot("/playlists/$playlistId/like")
+            } else {
+                deleteApiOrRoot("/playlists/$playlistId/like")
+            }
+            Result.success(Unit)
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+    
+    /**
      * Close the HTTP client
      */
     fun close() {

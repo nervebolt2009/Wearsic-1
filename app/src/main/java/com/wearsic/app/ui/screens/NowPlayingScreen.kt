@@ -6,8 +6,13 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import kotlinx.coroutines.delay
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,6 +42,8 @@ import androidx.wear.compose.material3.Text
 import coil.compose.AsyncImage
 import com.wearsic.app.R
 import com.wearsic.app.data.model.Track
+import com.wearsic.app.service.PlaybackEvents
+import com.wearsic.app.service.progressFraction
 import com.wearsic.app.ui.ambient.AmbientState
 import com.wearsic.app.ui.navigation.Screen
 
@@ -56,7 +63,6 @@ fun NowPlayingScreen(
     currentTrack: Track?,
     isPlaying: Boolean,
     playbackError: String? = null,
-    progress: Float,
     shuffleEnabled: Boolean,
     repeatEnabled: Boolean,
     onPlayPause: () -> Unit,
@@ -190,34 +196,10 @@ fun NowPlayingScreen(
                     }
 
                     Spacer(modifier = Modifier.height(9.dp))
-                    Column(modifier = Modifier.fillMaxWidth()) {
-                        LinearProgressIndicator(
-                            progress = { progress.coerceIn(0f, 1f) },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(5.dp)
-                                .clip(RoundedCornerShape(3.dp))
-                        )
-                        if (currentTrack != null) {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(top = 5.dp),
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                Text(
-                                    text = formatTime((progress * currentTrack.durationMs).toLong()),
-                                    style = MaterialTheme.typography.labelSmall,
-                                    color = Color.White.copy(alpha = 0.55f)
-                                )
-                                Text(
-                                    text = formatTime(currentTrack.durationMs),
-                                    style = MaterialTheme.typography.labelSmall,
-                                    color = Color.White.copy(alpha = 0.55f)
-                                )
-                            }
-                        }
-                    }
+                    // Isolated subtree: only this reads the playback position, so
+                    // the rest of the screen (and the app) never recomposes on
+                    // every progress tick — keeps the watch UI smooth.
+                    PlaybackProgressSection(currentTrack = currentTrack, isPlaying = isPlaying)
 
                     Spacer(modifier = Modifier.height(2.dp))
                     val playDescription = if (isPlaying) {
@@ -269,6 +251,69 @@ fun NowPlayingScreen(
                 }
             }
         }
+        }
+    }
+}
+
+@Composable
+private fun PlaybackProgressSection(currentTrack: Track?, isPlaying: Boolean) {
+    val positionMs by PlaybackEvents.positionMs.collectAsState()
+    val durationMs by PlaybackEvents.durationMs.collectAsState()
+
+    // The bar runs on its own clock: a local position that advances every
+    // second while playing, continuously resynced to the position reported by
+    // the playback service. Even if a service poll is delayed or the stream
+    // reports no duration, the indicator still moves smoothly.
+    var displayedPositionMs by remember(currentTrack?.videoId) { mutableStateOf(0L) }
+
+    // Resync to the real stream position whenever the service reports one
+    // (initial load, seek, pause, track transition).
+    LaunchedEffect(positionMs) {
+        if (positionMs > 0L) displayedPositionMs = positionMs
+    }
+
+    // Self-driving 1Hz tick while playing; freezes the moment playback stops.
+    LaunchedEffect(isPlaying, currentTrack?.videoId) {
+        if (isPlaying) {
+            while (true) {
+                delay(1_000)
+                val duration = if (durationMs > 0L) durationMs else currentTrack?.durationMs ?: 0L
+                displayedPositionMs = if (duration > 0L) {
+                    (displayedPositionMs + 1_000L).coerceAtMost(duration)
+                } else {
+                    displayedPositionMs + 1_000L
+                }
+            }
+        }
+    }
+
+    val fraction = progressFraction(displayedPositionMs, durationMs, currentTrack?.durationMs ?: 0L)
+    Column(modifier = Modifier.fillMaxWidth()) {
+        LinearProgressIndicator(
+            progress = { fraction },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(5.dp)
+                .clip(RoundedCornerShape(3.dp))
+        )
+        if (currentTrack != null) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 5.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = formatTime(if (durationMs > 0L) displayedPositionMs else (fraction * currentTrack.durationMs).toLong()),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = Color.White.copy(alpha = 0.55f)
+                )
+                Text(
+                    text = formatTime(currentTrack.durationMs),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = Color.White.copy(alpha = 0.55f)
+                )
+            }
         }
     }
 }
@@ -375,7 +420,6 @@ fun NowPlayingScreenPreview() {
         ),
         isPlaying = true,
         playbackError = null,
-        progress = 0.45f,
         shuffleEnabled = false,
         repeatEnabled = true,
         onPlayPause = {},

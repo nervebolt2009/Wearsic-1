@@ -58,14 +58,16 @@ data class HealthResponse(
 )
 
 /**
- * Playlist data class
+ * Playlist data class. [liked] mirrors the server's "like this playlist"
+ * flag so the heart on a playlist row survives list refreshes.
  */
 @Serializable
 data class Playlist(
     val id: String,
     val name: String,
     val trackCount: Int,
-    val thumbnailUrl: String? = null
+    val thumbnailUrl: String? = null,
+    val liked: Boolean = false
 )
 
 /**

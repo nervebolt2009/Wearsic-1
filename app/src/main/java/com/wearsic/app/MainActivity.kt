@@ -85,7 +85,6 @@ fun WearsicApp(
     val currentTrack by viewModel.currentTrack.collectAsState()
     val isPlaying by viewModel.isPlaying.collectAsState()
     val playbackError by viewModel.error.collectAsState()
-    val progress by viewModel.progress.collectAsState()
     val shuffleEnabled by viewModel.shuffleEnabled.collectAsState()
     val repeatEnabled by viewModel.repeatEnabled.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
@@ -131,7 +130,6 @@ fun WearsicApp(
                 currentTrack = currentTrack,
                 isPlaying = isPlaying,
                 playbackError = playbackError,
-                progress = progress,
                 shuffleEnabled = shuffleEnabled,
                 repeatEnabled = repeatEnabled,
                 onPlayPause = { viewModel.togglePlayPause() },
@@ -215,6 +213,7 @@ fun WearsicApp(
                     viewModel.playPlaylist(playlist)
                     navigationManager.navigateTo(Screen.NowPlaying)
                 },
+                onTogglePlaylistLiked = viewModel::togglePlaylistLiked,
                 onDownload = viewModel::downloadTrack,
                 downloadedIds = downloadedIds,
                 downloadProgress = downloadProgress,

@@ -48,6 +48,18 @@ class Database(databasePath: String) : AutoCloseable {
                 )
             """.trimIndent())
         }
+        // Databases created before liked playlists existed lack the column;
+        // SQLite ALTER TABLE is cheap, so migrate in place.
+        val playlistColumns = connection.createStatement().use { st ->
+            st.executeQuery("PRAGMA table_info(playlists)").use { rows ->
+                buildSet { while (rows.next()) add(rows.getString(1)) }
+            }
+        }
+        if ("liked" !in playlistColumns) {
+            connection.createStatement().use { st ->
+                st.executeUpdate("ALTER TABLE playlists ADD COLUMN liked INTEGER NOT NULL DEFAULT 0")
+            }
+        }
     }
 
     @Synchronized
@@ -111,17 +123,38 @@ class Database(databasePath: String) : AutoCloseable {
 
     @Synchronized
     fun getPlaylists(): List<PlaylistDto> = connection.prepareStatement("""
-        SELECT p.id, p.name, p.thumbnail_url, COUNT(t.video_id)
+        SELECT p.id, p.name, p.thumbnail_url, COUNT(t.video_id), p.liked
         FROM playlists p LEFT JOIN playlist_tracks t ON p.id = t.playlist_id
         GROUP BY p.id ORDER BY p.rowid DESC
     """.trimIndent()).use { statement ->
         statement.executeQuery().use { rows ->
             buildList {
                 while (rows.next()) {
-                    add(PlaylistDto(rows.getString(1), rows.getString(2), rows.getInt(4), rows.getString(3)))
+                    add(
+                        PlaylistDto(
+                            id = rows.getString(1),
+                            name = rows.getString(2),
+                            trackCount = rows.getInt(4),
+                            thumbnailUrl = rows.getString(3),
+                            liked = rows.getInt(5) > 0
+                        )
+                    )
                 }
             }
         }
+    }
+
+    /**
+     * Mark a playlist as liked (true) or unliked (false). Returns false when
+     * the playlist does not exist.
+     */
+    @Synchronized
+    fun setPlaylistLiked(id: String, liked: Boolean): Boolean = connection.prepareStatement(
+        "UPDATE playlists SET liked = ? WHERE id = ?"
+    ).use { statement ->
+        statement.setInt(1, if (liked) 1 else 0)
+        statement.setString(2, id)
+        statement.executeUpdate() > 0
     }
 
     @Synchronized

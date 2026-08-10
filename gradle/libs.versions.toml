@@ -16,6 +16,9 @@ datastore = "1.1.1"
 coil = "2.6.0"
 kotlinxSerializationJson = "1.6.3"
 roborazzi = "1.42.0"
+# androidx.wear:wear still pins the ancient fragment 1.2.4; force a modern
+# fragment so ActivityResult APIs and lint are satisfied.
+fragment = "1.8.5"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -35,6 +38,8 @@ wear-compose-navigation = { group = "androidx.wear.compose", name = "compose-nav
 
 # Ambient (always-on display) support.
 androidx-wear = { group = "androidx.wear", name = "wear", version.ref = "wear" }
+# Modern fragment (overrides wear's ancient 1.2.4 pin).
+androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragment" }
 
 # Media3 (playback + offline cache). media3-database is used directly by
 # PlaybackCache for the SQLite-backed cache index.

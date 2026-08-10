@@ -54,7 +54,6 @@ class RobolectricScreenshotTest {
                     NowPlayingScreen(
                         currentTrack = track,
                         isPlaying = true,
-                        progress = 0.42f,
                         shuffleEnabled = false,
                         repeatEnabled = true,
                         onPlayPause = {},

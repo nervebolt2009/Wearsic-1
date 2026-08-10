@@ -132,4 +132,26 @@ class ServerTest {
 
         assertEquals(HttpStatusCode.NoContent, client.delete("/api/favorites/abc").status)
     }
+
+    @Test
+    fun playlistsCanBeLikedAndUnliked() = testApplication {
+        environment { config = MapApplicationConfig("ktor.deployment.port" to "0") }
+        application { module(createTempDirectory().resolve("test.db").toString()) }
+        val create = client.post("/api/playlists") {
+            contentType(ContentType.Application.Json)
+            setBody("{\"name\":\"Watch Mix\"}")
+        }
+        assertEquals(HttpStatusCode.Created, create.status)
+        val playlistId = Regex("\\\"id\\\":\\\"([^\\\"]+)").find(create.bodyAsText())!!.groupValues[1]
+
+        assertEquals(HttpStatusCode.NoContent, client.post("/api/playlists/$playlistId/like").status)
+        assertTrue(client.get("/api/playlists").bodyAsText().contains("\"liked\":true"))
+
+        assertEquals(HttpStatusCode.NoContent, client.delete("/api/playlists/$playlistId/like").status)
+        assertTrue(client.get("/api/playlists").bodyAsText().contains("\"liked\":false"))
+
+        // Liking a playlist that does not exist is a 404, not a silent success.
+        assertEquals(HttpStatusCode.NotFound, client.post("/api/playlists/missing/like").status)
+        assertEquals(HttpStatusCode.NotFound, client.delete("/api/playlists/missing/like").status)
+    }
 }
