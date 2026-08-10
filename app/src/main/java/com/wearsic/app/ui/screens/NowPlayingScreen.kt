@@ -39,6 +39,7 @@ import androidx.wear.compose.material3.LinearProgressIndicator
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
+import androidx.wear.compose.material3.TextButton
 import coil.compose.AsyncImage
 import com.wearsic.app.R
 import com.wearsic.app.data.model.Track
@@ -72,6 +73,7 @@ fun NowPlayingScreen(
     onRepeatToggle: () -> Unit,
     onFavoriteToggle: () -> Unit,
     isFavorite: Boolean,
+    onRetry: () -> Unit = {},
     onNavigate: (Screen) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
@@ -157,8 +159,18 @@ fun NowPlayingScreen(
                             overflow = TextOverflow.Ellipsis,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(bottom = 6.dp)
+                                .padding(bottom = 2.dp)
                         )
+                        TextButton(
+                            onClick = onRetry,
+                            modifier = Modifier.padding(bottom = 4.dp)
+                        ) {
+                            Text(
+                                text = stringResource(R.string.retry),
+                                style = MaterialTheme.typography.labelSmall,
+                                color = Accent
+                            )
+                        }
                     }
                     Text(
                         text = currentTrack?.title ?: stringResource(R.string.no_tracks),

@@ -32,6 +32,7 @@ import coil.compose.AsyncImage
 import com.wearsic.app.R
 import com.wearsic.app.data.model.Track
 import com.wearsic.app.ui.components.BackButton
+import kotlinx.coroutines.delay
 
 /**
  * Queue screen with up-next list and controls
@@ -49,6 +50,15 @@ fun QueueScreen(
     onBack: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
+    // Clearing the whole queue is destructive: first tap arms the button, a
+    // second tap within 3s executes (watch-friendly, no dialog).
+    var confirmClearQueue by remember { mutableStateOf(false) }
+    LaunchedEffect(confirmClearQueue) {
+        if (confirmClearQueue) {
+            delay(3_000)
+            confirmClearQueue = false
+        }
+    }
     ScreenScaffold(
         modifier = modifier
     ) {
@@ -165,18 +175,33 @@ fun QueueScreen(
             if (queue.isNotEmpty()) {
                 item {
                     Button(
-                        onClick = onClearQueue,
+                        onClick = {
+                            if (confirmClearQueue) {
+                                confirmClearQueue = false
+                                onClearQueue()
+                            } else {
+                                confirmClearQueue = true
+                            }
+                        },
                         modifier = Modifier
                             .fillMaxWidth(0.9f)
                             .padding(top = 16.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFFE91E63).copy(alpha = 0.2f),
+                            containerColor = if (confirmClearQueue) {
+                                Color(0xFFE91E63).copy(alpha = 0.35f)
+                            } else {
+                                Color(0xFFE91E63).copy(alpha = 0.2f)
+                            },
                             contentColor = Color(0xFFE91E63)
                         ),
                         shape = RoundedCornerShape(20.dp)
                     ) {
                         Text(
-                            text = "Clear Queue",
+                            text = if (confirmClearQueue) {
+                                stringResource(R.string.tap_again_to_confirm)
+                            } else {
+                                "Clear Queue"
+                            },
                             style = MaterialTheme.typography.bodyMedium.copy(
                                 fontWeight = FontWeight.Medium
                             )
@@ -398,24 +423,24 @@ private fun QueueItem(
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             IconButton(
                 onClick = onMoveUp,
-                modifier = Modifier.size(40.dp)
+                modifier = Modifier.size(48.dp)
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_back),
                     contentDescription = stringResource(R.string.move_up),
                     tint = Color.White.copy(alpha = 0.55f),
-                    modifier = Modifier.size(16.dp).rotate(90f)
+                    modifier = Modifier.size(18.dp).rotate(90f)
                 )
             }
             IconButton(
                 onClick = onMoveDown,
-                modifier = Modifier.size(40.dp)
+                modifier = Modifier.size(48.dp)
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_back),
                     contentDescription = stringResource(R.string.move_down),
                     tint = Color.White.copy(alpha = 0.55f),
-                    modifier = Modifier.size(16.dp).rotate(-90f)
+                    modifier = Modifier.size(18.dp).rotate(-90f)
                 )
             }
         }

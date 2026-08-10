@@ -139,6 +139,7 @@ fun WearsicApp(
                 onRepeatToggle = { viewModel.toggleRepeat() },
                 onFavoriteToggle = { viewModel.toggleFavorite() },
                 isFavorite = viewModel.isCurrentTrackFavorite(),
+                onRetry = { viewModel.retryPlayback() },
                 onNavigate = navigationManager::navigateTo
             )
 

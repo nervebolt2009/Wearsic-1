@@ -25,11 +25,13 @@ import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
 import androidx.wear.compose.foundation.rotary.RotaryScrollableDefaults
 import androidx.wear.compose.material3.*
+import com.wearsic.app.BuildConfig
 import com.wearsic.app.R
 import com.wearsic.app.data.preferences.SettingsManager
 import com.wearsic.app.ui.components.BackButton
 import com.wearsic.app.ui.components.ErrorBanner
 import java.util.Locale
+import kotlinx.coroutines.delay
 
 private val Accent = Color(0xFFB7F397)
 
@@ -70,6 +72,15 @@ fun SettingsScreen(
     var editingUrl by remember(serverUrl) { mutableStateOf(serverUrl) }
     var showApiKey by remember(apiKey) { mutableStateOf(apiKey.isNotBlank()) }
     var showYoutubeCookie by remember(youtubeCookie) { mutableStateOf(youtubeCookie.isNotBlank()) }
+    // Clearing the offline library is destructive: the first tap arms the
+    // button, a second tap within 3s executes (watch-friendly, no dialog).
+    var confirmClearCache by remember { mutableStateOf(false) }
+    LaunchedEffect(confirmClearCache) {
+        if (confirmClearCache) {
+            delay(3_000)
+            confirmClearCache = false
+        }
+    }
     ScreenScaffold(
         modifier = modifier
     ) {
@@ -470,7 +481,14 @@ fun SettingsScreen(
             // Clear cache
             item {
                 Button(
-                    onClick = onClearCache,
+                    onClick = {
+                        if (confirmClearCache) {
+                            confirmClearCache = false
+                            onClearCache()
+                        } else {
+                            confirmClearCache = true
+                        }
+                    },
                     enabled = cacheUsageBytes > 0L,
                     modifier = Modifier
                         .fillMaxWidth(0.9f)
@@ -490,7 +508,11 @@ fun SettingsScreen(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = if (cacheUsageBytes > 0L) "Clear Cache" else "Cache is empty",
+                        text = when {
+                            confirmClearCache -> stringResource(R.string.tap_again_to_confirm)
+                            cacheUsageBytes > 0L -> "Clear Cache"
+                            else -> "Cache is empty"
+                        },
                         style = MaterialTheme.typography.bodyMedium.copy(fontSize = 13.sp)
                     )
                 }
@@ -527,7 +549,7 @@ fun SettingsScreen(
                     Spacer(modifier = Modifier.height(4.dp))
                     
                     Text(
-                        text = "v1.0.0",
+                        text = "v${BuildConfig.VERSION_NAME}",
                         style = MaterialTheme.typography.labelSmall.copy(
                             fontSize = 11.sp
                         ),
@@ -559,7 +581,7 @@ private fun SizeChip(
 ) {
     Button(
         onClick = onClick,
-        modifier = modifier.height(36.dp),
+        modifier = modifier.height(48.dp),
         contentPadding = PaddingValues(0.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = if (selected) Accent.copy(alpha = 0.22f) else Color.White.copy(alpha = 0.1f),

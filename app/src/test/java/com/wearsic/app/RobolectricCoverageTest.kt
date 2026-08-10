@@ -230,6 +230,8 @@ class RobolectricCoverageTest {
         composeTestRule.waitForIdle()
         assertEquals(0, removedIndex)
         composeTestRule.onNodeWithText("Clear Queue").performScrollTo().performClick()
+        // First tap arms the confirmation; a second tap executes.
+        composeTestRule.onNodeWithText("Tap again to confirm").performClick()
         assertTrue(cleared)
         assertInteractiveNodesFitInsideRoot()
     }
@@ -296,6 +298,8 @@ class RobolectricCoverageTest {
         composeTestRule.onNode(hasScrollAction())
             .performScrollToNode(hasText("Clear Cache"))
         composeTestRule.onNodeWithText("Clear Cache").performClick()
+        // First tap arms the confirmation; a second tap executes.
+        composeTestRule.onNodeWithText("Tap again to confirm").performClick()
         assertTrue(cleared)
     }
 

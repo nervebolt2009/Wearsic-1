@@ -12,7 +12,6 @@ import com.wearsic.app.data.preferences.SettingsManager
 import com.wearsic.app.data.repository.MusicRepository
 import com.wearsic.app.service.MediaPlaybackService
 import com.wearsic.app.service.PlaybackEvents
-import com.wearsic.app.service.progressFraction
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
@@ -40,10 +39,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     // Playback state
     private val _isPlaying = MutableStateFlow(false)
     val isPlaying: StateFlow<Boolean> = _isPlaying.asStateFlow()
-    
-    // Progress (0.0 to 1.0)
-    private val _progress = MutableStateFlow(0f)
-    val progress: StateFlow<Float> = _progress.asStateFlow()
     
     // Queue
     private val _queue = MutableStateFlow<List<Track>>(emptyList())
@@ -156,7 +151,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     init {
         // Configure the repository before any server-backed request is started.
         viewModelScope.launch {
-            settingsManager.serverUrl.collectLatest { url ->
+            settingsManager.serverUrl.distinctUntilChanged().collectLatest { url ->
                 repository.setServerUrl(url)
                 if (url.isNotBlank()) {
                     testConnection()
@@ -201,18 +196,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
 
-        // Live playback state reported by the foreground service. The fraction
-        // falls back to the track's metadata duration when the stream itself
-        // reports none (proxied audio often has no Content-Length).
-        viewModelScope.launch {
-            combine(
-                PlaybackEvents.positionMs,
-                PlaybackEvents.durationMs,
-                _currentTrack
-            ) { position, duration, track ->
-                progressFraction(position, duration, track?.durationMs ?: 0L)
-            }.collect { _progress.value = it }
-        }
         viewModelScope.launch {
             PlaybackEvents.isPlaying.collect { _isPlaying.value = it }
         }
@@ -424,7 +407,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         preShuffleQueue = null
         _currentTrack.value = track
         _isPlaying.value = true
-        _progress.value = 0f
         if (_queue.value.none { it.videoId == track.videoId }) {
             _queue.value = _queue.value + track
             _currentIndex.value = _queue.value.size - 1
@@ -467,7 +449,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         _currentIndex.value = start
         _currentTrack.value = order.getOrNull(start)
         _isPlaying.value = true
-        _progress.value = 0f
         pushQueueToService()
     }
 
@@ -518,7 +499,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             currentIndex < queue.size - 1 -> {
                 _currentIndex.value = currentIndex + 1
                 _currentTrack.value = queue[currentIndex + 1]
-                _progress.value = 0f
                 _isPlaying.value = true
                 pushQueueToService()
             }
@@ -526,7 +506,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 // Repeat from beginning
                 _currentIndex.value = 0
                 _currentTrack.value = queue[0]
-                _progress.value = 0f
                 _isPlaying.value = true
                 pushQueueToService()
             }
@@ -544,7 +523,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             currentIndex > 0 -> {
                 _currentIndex.value = currentIndex - 1
                 _currentTrack.value = _queue.value[currentIndex - 1]
-                _progress.value = 0f
                 _isPlaying.value = true
                 pushQueueToService()
             }
@@ -552,7 +530,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 // Repeat from end
                 _currentIndex.value = _queue.value.size - 1
                 _currentTrack.value = _queue.value.last()
-                _progress.value = 0f
                 _isPlaying.value = true
                 pushQueueToService()
             }
@@ -603,11 +580,20 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    /** Approximate the current stream position from the mirrored progress. */
+    /**
+     * Approximate the current stream position from the playback events bus,
+     * falling back to the track's metadata duration when the stream reports
+     * none (proxied audio often has no Content-Length).
+     */
     private fun currentPlaybackPositionMs(): Long {
         val duration = _currentTrack.value?.durationMs ?: 0L
         if (duration <= 0L) return -1L
-        return (_progress.value.coerceIn(0f, 1f) * duration).toLong()
+        val position = PlaybackEvents.positionMs.value.coerceAtLeast(0L)
+        val streamDuration = PlaybackEvents.durationMs.value.coerceAtLeast(0L)
+        val effectiveDuration = if (streamDuration > 0L) streamDuration else duration
+        if (effectiveDuration <= 0L) return -1L
+        val fraction = (position.toFloat() / effectiveDuration).coerceIn(0f, 1f)
+        return (fraction * duration).toLong()
     }
 
     /**
@@ -915,8 +901,23 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         _currentIndex.value = -1
         _currentTrack.value = null
         _isPlaying.value = false
-        _progress.value = 0f
         sendServiceIntent(MediaPlaybackService.ACTION_CLEAR_QUEUE)
+    }
+
+    /**
+     * Retry playback after a stream failure: re-push the current track (or the
+     * whole queue) to the foreground service, resuming at the last known
+     * position so the song does not restart from zero.
+     */
+    fun retryPlayback() {
+        val track = _currentTrack.value ?: return
+        PlaybackEvents.clearError()
+        if (_queue.value.isEmpty()) {
+            _queue.value = listOf(track)
+            _currentIndex.value = 0
+        }
+        _isPlaying.value = true
+        pushQueueToService(startPositionMs = PlaybackEvents.positionMs.value)
     }
 
     /**
@@ -932,7 +933,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             _repeatEnabled.value && queue.isNotEmpty() -> {
                 _currentIndex.value = 0
                 _currentTrack.value = queue[0]
-                _progress.value = 0f
                 _isPlaying.value = true
                 pushQueueToService()
             }
@@ -955,7 +955,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     _currentIndex.value = 0
                     _currentTrack.value = related.first()
                     _isPlaying.value = true
-                    _progress.value = 0f
                     pushQueueToService()
                 }
             }.onFailure {

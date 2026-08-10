@@ -108,6 +108,35 @@ class NowPlayingScreenTest {
     }
 
     @Test
+    fun testPlaybackErrorRetryButtonCallable() {
+        var retried = false
+
+        composeTestRule.setContent {
+            WearsicTheme {
+                NowPlayingScreen(
+                    currentTrack = testTrack,
+                    isPlaying = false,
+                    playbackError = "Audio playback failed: server returned 503",
+                    shuffleEnabled = false,
+                    repeatEnabled = false,
+                    onPlayPause = {},
+                    onNext = {},
+                    onPrevious = {},
+                    onShuffleToggle = {},
+                    onRepeatToggle = {},
+                    onFavoriteToggle = {},
+                    isFavorite = false,
+                    onRetry = { retried = true }
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithText("Retry").performScrollTo().performClick()
+
+        assert(retried) { "Retry callback should be called" }
+    }
+
+    @Test
     fun testPlayPauseButtonClickable() {
         var playPauseClicked = false
         
