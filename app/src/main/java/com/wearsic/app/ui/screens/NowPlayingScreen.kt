@@ -299,6 +299,15 @@ private fun PlaybackProgressSection(currentTrack: Track?, isPlaying: Boolean) {
                 .clip(RoundedCornerShape(3.dp))
         )
         if (currentTrack != null) {
+            // Left label shows time remaining (Spotify-style "-M:SS"); the
+            // total duration stays on the right for context.
+            val effectiveDuration = if (durationMs > 0L) durationMs else currentTrack.durationMs
+            val effectivePosition = if (durationMs > 0L) {
+                displayedPositionMs
+            } else {
+                (fraction * currentTrack.durationMs).toLong()
+            }
+            val remainingMs = (effectiveDuration - effectivePosition).coerceAtLeast(0L)
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -306,7 +315,7 @@ private fun PlaybackProgressSection(currentTrack: Track?, isPlaying: Boolean) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = formatTime(if (durationMs > 0L) displayedPositionMs else (fraction * currentTrack.durationMs).toLong()),
+                    text = "-${formatTime(remainingMs)}",
                     style = MaterialTheme.typography.labelSmall,
                     color = Color.White.copy(alpha = 0.55f)
                 )
