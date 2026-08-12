@@ -29,46 +29,37 @@ import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
 import androidx.wear.compose.foundation.rotary.RotaryScrollableDefaults
-import androidx.wear.compose.material.ToggleButtonDefaults
+import androidx.wear.compose.material.ButtonDefaults
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.IconButton
 import androidx.wear.compose.material3.IconButtonDefaults
-import androidx.wear.compose.material3.LinearProgressIndicator
+import androidx.wear.compose.material3.IconButtonShapes
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TextButton
 import coil.compose.AsyncImage
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
-import com.google.android.horologist.media.ui.components.MediaControlButtons
+import com.google.android.horologist.media.ui.components.PlayPauseProgressButton
 import com.google.android.horologist.media.ui.components.controls.MediaButtonDefaults
-import com.google.android.horologist.media.ui.components.controls.ShuffleToggleButton
-import com.google.android.horologist.media.ui.screens.player.PlayerScreen
+import com.google.android.horologist.media.ui.components.controls.SeekToNextButton
+import com.google.android.horologist.media.ui.components.controls.SeekToPreviousButton
 import com.google.android.horologist.media.ui.state.model.TrackPositionUiModel
 import com.wearsic.app.R
 import com.wearsic.app.data.model.Track
 import com.wearsic.app.service.PlaybackEvents
-import com.wearsic.app.service.progressFraction
 import com.wearsic.app.ui.components.WearsicScreenScaffold
 import com.wearsic.app.ui.navigation.Screen
-import com.wearsic.app.ui.theme.WearsicAccent
 import kotlin.time.Duration.Companion.milliseconds
 
 private val Accent = Color(0xFFB7F397)
 
-private fun formatTime(ms: Long): String {
-    val totalSeconds = (ms / 1000).coerceAtLeast(0)
-    val hours = totalSeconds / 3600
-    val minutes = (totalSeconds % 3600) / 60
-    val seconds = totalSeconds % 60
-    return if (hours > 0) "%d:%02d:%02d".format(hours, minutes, seconds)
-    else "%d:%02d".format(minutes, seconds)
-}
-
 /**
- * Now Playing, structured as the Horologist [PlayerScreen]: a full-bleed album
- * artwork background, track info in the top section, the media controls in the
- * middle and the toggles + navigation in the bottom section — the standard Wear
- * OS media player layout used by Google's own media apps.
+ * Now Playing, modelled on Google's Wear OS media player: full-bleed album
+ * artwork behind a scrim, the title and artist at the top, a dominant circular
+ * play/pause button wrapped in a progress ring with next beside it in the
+ * middle, and two pill-shaped actions (favorite + queue) at the bottom. A
+ * compact secondary row keeps shuffle/repeat and the screen navigation
+ * reachable without cluttering the player.
  */
 @OptIn(ExperimentalHorologistApi::class)
 @Composable
@@ -92,8 +83,8 @@ fun NowPlayingScreen(
     // Ambient (always-on) mode is handled app-wide in the shell: every screen
     // is replaced by a single low-power monochrome overlay.
     WearsicScreenScaffold(modifier = modifier) {
-        // Scrollable so small displays (and screen-reader navigation) can still
-        // reach every control; on a full watch face the player fills it.
+        // Scrollable so screen-reader navigation can still reach every control;
+        // on a full watch face the player item fills the viewport.
         val listState = rememberScalingLazyListState()
         val rotaryBehavior = RotaryScrollableDefaults.behavior(listState)
         ScalingLazyColumn(
@@ -105,162 +96,199 @@ fun NowPlayingScreen(
             contentPadding = PaddingValues(0.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // fillParentMaxHeight gives the ConstraintLayout-based PlayerScreen a
-            // bounded height inside the lazy column; otherwise its fillToConstraints
-            // sections (title + bottom buttons) collapse to zero height.
             item {
-                PlayerScreen(
-                    modifier = Modifier.fillParentMaxHeight(),
-                    mediaDisplay = {
-                        Column(
-                            modifier = Modifier.padding(horizontal = 10.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            if (!playbackError.isNullOrBlank()) {
-                                Text(
-                                    text = playbackError,
-                                    style = MaterialTheme.typography.labelSmall,
-                                    color = Color(0xFFFFB4AB),
-                                    textAlign = TextAlign.Center,
-                                    maxLines = 3,
-                                    overflow = TextOverflow.Ellipsis
-                                )
-                                TextButton(onClick = onRetry) {
-                                    Text(
-                                        text = stringResource(R.string.retry),
-                                        style = MaterialTheme.typography.labelSmall,
-                                        color = Accent
-                                    )
-                                }
-                            } else {
-                                Text(
-                                    text = currentTrack?.title ?: stringResource(R.string.no_tracks),
-                                    style = MaterialTheme.typography.titleMedium.copy(
-                                        fontWeight = FontWeight.Bold,
-                                        shadow = Shadow(Color.Black.copy(alpha = 0.85f), blurRadius = 8f)
-                                    ),
-                                    color = Color.White,
-                                    textAlign = TextAlign.Center,
-                                    maxLines = 2,
-                                    overflow = TextOverflow.Ellipsis
-                                )
-                                Text(
-                                    text = currentTrack?.uploader.orEmpty()
-                                        .ifBlank { "Choose a song to start listening" },
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = Color.White.copy(alpha = 0.7f),
-                                    textAlign = TextAlign.Center,
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis,
-                                    modifier = Modifier.padding(top = 3.dp)
-                                )
-                            }
-                        }
-                    },
-                    controlButtons = {
-                        Column(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            // Linear progress + times, isolated from the rest of
-                            // the player (only this subtree ticks every second).
-                            PlaybackProgressSection(currentTrack = currentTrack, isPlaying = isPlaying)
-                            Spacer(modifier = Modifier.height(4.dp))
-                            HorologistMediaControls(
-                                currentTrack = currentTrack,
-                                isPlaying = isPlaying,
-                                onPlayPause = onPlayPause,
-                                onPrevious = onPrevious,
-                                onNext = onNext
-                            )
-                        }
-                    },
-                    buttons = {
-                        Column(
-                            modifier = Modifier.fillMaxSize(),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Row(
-                                modifier = Modifier.width(160.dp),
-                                horizontalArrangement = Arrangement.SpaceEvenly,
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                ShuffleToggleButton(
-                                    shuffleOn = shuffleEnabled,
-                                    onToggle = { onShuffleToggle() },
-                                    modifier = Modifier.size(40.dp),
-                                    colors = ToggleButtonDefaults.toggleButtonColors(
-                                        checkedBackgroundColor = Color.Transparent,
-                                        checkedContentColor = WearsicAccent,
-                                        uncheckedBackgroundColor = Color.Transparent,
-                                        uncheckedContentColor = Color.White.copy(alpha = 0.62f)
-                                    )
-                                )
-                                SmallControl(
-                                    R.drawable.ic_repeat,
-                                    stringResource(R.string.repeat),
-                                    repeatEnabled,
-                                    onRepeatToggle
-                                )
-                                SmallControl(
-                                    if (isFavorite) R.drawable.ic_favorite_filled else R.drawable.ic_favorite_outline,
-                                    if (isFavorite) stringResource(R.string.remove_from_favorites)
-                                    else stringResource(R.string.add_to_favorites),
-                                    isFavorite,
-                                    onFavoriteToggle
-                                )
-                            }
-                            Spacer(modifier = Modifier.height(2.dp))
-                            Row(
-                                modifier = Modifier.width(160.dp),
-                                horizontalArrangement = Arrangement.SpaceEvenly,
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                MiniNavButton(R.drawable.ic_search, "Search", { onNavigate(Screen.Search) })
-                                MiniNavButton(R.drawable.ic_favorite_outline, "Favorites", { onNavigate(Screen.Favorites) })
-                                MiniNavButton(R.drawable.ic_queue, "Queue", { onNavigate(Screen.Queue) })
-                                MiniNavButton(R.drawable.ic_settings, "Settings", { onNavigate(Screen.Settings) })
-                            }
-                        }
-                    },
-                    background = {
-                        if (currentTrack != null) {
-                            AsyncImage(
-                                model = currentTrack.thumbnailUrl,
-                                contentDescription = null,
-                                contentScale = ContentScale.Crop,
-                                modifier = Modifier.fillMaxSize()
-                            )
-                        }
-                        // Scrim keeps the text and controls readable on any
-                        // artwork, and doubles as the empty-state background.
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .background(
-                                    Brush.verticalGradient(
-                                        0f to Color(0x99080A0C),
-                                        0.45f to Color(0x66080909),
-                                        1f to Color(0xE6080909)
-                                    )
-                                )
+                Box(modifier = Modifier.fillParentMaxHeight()) {
+                    // Full-bleed album artwork.
+                    if (currentTrack != null) {
+                        AsyncImage(
+                            model = currentTrack.thumbnailUrl,
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier.fillMaxSize()
                         )
                     }
-                )
+                    // Scrim keeps the text and controls readable on any artwork,
+                    // and doubles as the empty-state background.
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(
+                                Brush.verticalGradient(
+                                    0f to Color(0x99080A0C),
+                                    0.45f to Color(0x66080909),
+                                    1f to Color(0xE6080909)
+                                )
+                            )
+                    )
+
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Spacer(modifier = Modifier.height(2.dp))
+
+                        // Title + artist (or the error/empty state) up top.
+                        if (!playbackError.isNullOrBlank()) {
+                            Text(
+                                text = playbackError,
+                                style = MaterialTheme.typography.labelSmall,
+                                color = Color(0xFFFFB4AB),
+                                textAlign = TextAlign.Center,
+                                maxLines = 3,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                            TextButton(onClick = onRetry) {
+                                Text(
+                                    text = stringResource(R.string.retry),
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = Accent
+                                )
+                            }
+                        } else {
+                            Text(
+                                text = currentTrack?.title ?: stringResource(R.string.no_tracks),
+                                style = MaterialTheme.typography.titleMedium.copy(
+                                    fontWeight = FontWeight.Bold,
+                                    shadow = Shadow(Color.Black.copy(alpha = 0.85f), blurRadius = 8f)
+                                ),
+                                color = Color.White,
+                                textAlign = TextAlign.Center,
+                                maxLines = 2,
+                                overflow = TextOverflow.Ellipsis,
+                                modifier = Modifier.padding(horizontal = 16.dp)
+                            )
+                            Text(
+                                text = currentTrack?.uploader.orEmpty()
+                                    .ifBlank { "Choose a song to start listening" },
+                                style = MaterialTheme.typography.bodySmall,
+                                color = Color.White.copy(alpha = 0.7f),
+                                textAlign = TextAlign.Center,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                modifier = Modifier.padding(top = 3.dp, start = 20.dp, end = 20.dp)
+                            )
+                        }
+
+                        // Controls sit mid-screen, like Google's player.
+                        Spacer(modifier = Modifier.weight(1f))
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            SeekToPreviousButton(
+                                onClick = onPrevious,
+                                enabled = currentTrack != null,
+                                modifier = Modifier.size(34.dp),
+                                iconSize = 20.dp,
+                                colors = MediaButtonDefaults.mediaButtonDefaultColors
+                            )
+                            Spacer(modifier = Modifier.width(4.dp))
+                            PlayPauseProgressButton(
+                                onPlayClick = onPlayPause,
+                                onPauseClick = onPlayPause,
+                                playing = isPlaying,
+                                trackPositionUiModel = rememberPositionModel(
+                                    currentTrack = currentTrack,
+                                    isPlaying = isPlaying
+                                ),
+                                modifier = Modifier.size(62.dp),
+                                iconSize = 30.dp,
+                                progressStrokeWidth = 4.dp,
+                                progressColor = Accent,
+                                trackColor = Color.White.copy(alpha = 0.14f),
+                                backgroundColor = Color.White.copy(alpha = 0.16f),
+                                colors = ButtonDefaults.iconButtonColors(contentColor = Color.White)
+                            )
+                            Spacer(modifier = Modifier.width(4.dp))
+                            SeekToNextButton(
+                                onClick = onNext,
+                                enabled = currentTrack != null,
+                                modifier = Modifier.size(46.dp),
+                                iconSize = 26.dp,
+                                colors = MediaButtonDefaults.mediaButtonDefaultColors
+                            )
+                        }
+
+                        // The two pill actions at the bottom, like the reference.
+                        Spacer(modifier = Modifier.weight(1f))
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            PillButton(
+                                icon = if (isFavorite) R.drawable.ic_favorite_filled
+                                else R.drawable.ic_favorite_outline,
+                                description = if (isFavorite) stringResource(R.string.remove_from_favorites)
+                                else stringResource(R.string.add_to_favorites),
+                                selected = isFavorite,
+                                onClick = onFavoriteToggle
+                            )
+                            Spacer(modifier = Modifier.width(10.dp))
+                            PillButton(
+                                icon = R.drawable.ic_queue,
+                                description = stringResource(R.string.queue),
+                                selected = false,
+                                onClick = { onNavigate(Screen.Queue) }
+                            )
+                        }
+
+                        // Compact secondary row: playback toggles + navigation.
+                        Spacer(modifier = Modifier.height(2.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            SmallToggle(
+                                icon = R.drawable.ic_shuffle,
+                                description = stringResource(R.string.shuffle),
+                                selected = shuffleEnabled,
+                                onClick = onShuffleToggle
+                            )
+                            Spacer(modifier = Modifier.width(2.dp))
+                            SmallToggle(
+                                icon = R.drawable.ic_repeat,
+                                description = stringResource(R.string.repeat),
+                                selected = repeatEnabled,
+                                onClick = onRepeatToggle
+                            )
+                            Spacer(modifier = Modifier.width(2.dp))
+                            SmallNav(
+                                icon = R.drawable.ic_search,
+                                label = stringResource(R.string.search),
+                                onClick = { onNavigate(Screen.Search) }
+                            )
+                            Spacer(modifier = Modifier.width(2.dp))
+                            SmallNav(
+                                icon = R.drawable.ic_favorite_outline,
+                                label = stringResource(R.string.favorites),
+                                onClick = { onNavigate(Screen.Favorites) }
+                            )
+                            Spacer(modifier = Modifier.width(2.dp))
+                            SmallNav(
+                                icon = R.drawable.ic_settings,
+                                label = stringResource(R.string.settings),
+                                onClick = { onNavigate(Screen.Settings) }
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(4.dp))
+                    }
+                }
             }
         }
     }
 }
 
 /**
- * Single 1Hz playback clock shared by the linear progress bar and the
- * Horologist progress ring. Advances a local position every second while
- * playing and resyncs to the service position whenever the service reports one
- * (initial load, seek, pause, track change — including back to 0 for a
- * repeated track, where the audio restarts but the id does not change). Both
- * callers run it inside their own isolated subtree, so a tick only recomposes
- * the small progress UI.
+ * Single 1Hz playback clock shared by the progress ring. Advances a local
+ * position every second while playing and resyncs to the service position
+ * whenever the service reports one (initial load, seek, pause, track change —
+ * including back to 0 for a repeated track, where the audio restarts but the
+ * id does not change). Only the small ring subtree recomposes on each tick.
  */
 @Composable
 private fun rememberTickingPositionMs(
@@ -297,19 +325,16 @@ private fun rememberTickingPositionMs(
 }
 
 /**
- * Horologist [MediaControlButtons] with the play/pause button wrapped in a
- * circular progress ring driven by the shared playback clock. Only this small
- * subtree recomposes on each tick.
+ * Builds the Horologist ring model for the play button from the shared 1Hz
+ * clock. When the stream reports a duration that wins; otherwise the track's
+ * own duration is used as the fallback.
  */
 @OptIn(ExperimentalHorologistApi::class)
 @Composable
-private fun HorologistMediaControls(
+private fun rememberPositionModel(
     currentTrack: Track?,
-    isPlaying: Boolean,
-    onPlayPause: () -> Unit,
-    onPrevious: () -> Unit,
-    onNext: () -> Unit
-) {
+    isPlaying: Boolean
+): TrackPositionUiModel {
     val durationMs by PlaybackEvents.durationMs.collectAsState()
     val displayedPositionMs by rememberTickingPositionMs(
         videoId = currentTrack?.videoId,
@@ -318,113 +343,21 @@ private fun HorologistMediaControls(
     )
 
     val effectiveDuration = if (durationMs > 0L) durationMs else currentTrack?.durationMs ?: 0L
-    val percent = if (effectiveDuration > 0L) {
-        (displayedPositionMs.toFloat() / effectiveDuration).coerceIn(0f, 1f)
-    } else {
-        0f
-    }
-    val positionModel = if (currentTrack != null) {
-        TrackPositionUiModel.Actual(
-            percent = percent,
-            duration = effectiveDuration.milliseconds,
-            position = displayedPositionMs.milliseconds
-        )
-    } else {
-        TrackPositionUiModel.Hidden
-    }
-
-    MediaControlButtons(
-        onPlayButtonClick = onPlayPause,
-        onPauseButtonClick = onPlayPause,
-        playPauseButtonEnabled = true,
-        playing = isPlaying,
-        onSeekToPreviousButtonClick = onPrevious,
-        seekToPreviousButtonEnabled = currentTrack != null,
-        onSeekToNextButtonClick = onNext,
-        seekToNextButtonEnabled = currentTrack != null,
-        modifier = Modifier.fillMaxWidth(0.94f),
-        trackPositionUiModel = positionModel,
-        colors = MediaButtonDefaults.mediaButtonDefaultColors
+    if (currentTrack == null || effectiveDuration <= 0L) return TrackPositionUiModel.Hidden
+    val percent = (displayedPositionMs.toFloat() / effectiveDuration).coerceIn(0f, 1f)
+    return TrackPositionUiModel.Actual(
+        percent = percent,
+        duration = effectiveDuration.milliseconds,
+        position = displayedPositionMs.milliseconds
     )
 }
 
+/**
+ * The reference's bottom pill buttons: rounded-rectangle icon actions, the
+ * favorite pill tinted when selected.
+ */
 @Composable
-private fun PlaybackProgressSection(currentTrack: Track?, isPlaying: Boolean) {
-    val durationMs by PlaybackEvents.durationMs.collectAsState()
-    // The bar runs on the same 1Hz clock as the Horologist progress ring (kept
-    // in sync by construction), resynced to the service position whenever it
-    // reports one. Even if a service poll is delayed or the stream reports no
-    // duration, the indicator still moves smoothly.
-    val displayedPositionMs by rememberTickingPositionMs(
-        videoId = currentTrack?.videoId,
-        isPlaying = isPlaying,
-        fallbackDurationMs = currentTrack?.durationMs ?: 0L
-    )
-
-    val fraction = progressFraction(displayedPositionMs, durationMs, currentTrack?.durationMs ?: 0L)
-    Column(modifier = Modifier.fillMaxWidth()) {
-        LinearProgressIndicator(
-            progress = { fraction },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(5.dp)
-                .clip(RoundedCornerShape(3.dp))
-        )
-        if (currentTrack != null) {
-            // Left label shows time remaining (Spotify-style "-M:SS"); the
-            // total duration stays on the right for context.
-            val effectiveDuration = if (durationMs > 0L) durationMs else currentTrack.durationMs
-            val effectivePosition = if (durationMs > 0L) {
-                displayedPositionMs
-            } else {
-                (fraction * currentTrack.durationMs).toLong()
-            }
-            val remainingMs = (effectiveDuration - effectivePosition).coerceAtLeast(0L)
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 5.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = "-${formatTime(remainingMs)}",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = Color.White.copy(alpha = 0.55f)
-                )
-                Text(
-                    text = formatTime(currentTrack.durationMs),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = Color.White.copy(alpha = 0.55f)
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun MiniNavButton(
-    icon: Int,
-    label: String,
-    onClick: () -> Unit
-) {
-    IconButton(
-        onClick = onClick,
-        modifier = Modifier.size(38.dp),
-        colors = IconButtonDefaults.iconButtonColors(
-            containerColor = Color.White.copy(alpha = 0.14f),
-            contentColor = Color.White.copy(alpha = 0.92f)
-        )
-    ) {
-        Icon(
-            painter = painterResource(icon),
-            contentDescription = label,
-            modifier = Modifier.size(19.dp)
-        )
-    }
-}
-
-@Composable
-private fun SmallControl(
+private fun PillButton(
     icon: Int,
     description: String,
     selected: Boolean,
@@ -432,16 +365,72 @@ private fun SmallControl(
 ) {
     IconButton(
         onClick = onClick,
-        modifier = Modifier.size(40.dp),
+        modifier = Modifier.size(width = 46.dp, height = 42.dp),
+        shapes = IconButtonShapes(
+            shape = RoundedCornerShape(percent = 50),
+            pressedShape = RoundedCornerShape(percent = 50)
+        ),
         colors = IconButtonDefaults.iconButtonColors(
-            containerColor = if (selected) Accent.copy(alpha = 0.2f) else Color.White.copy(alpha = 0.1f),
-            contentColor = if (selected) Accent else Color.White.copy(alpha = 0.72f)
+            containerColor = if (selected) Accent.copy(alpha = 0.22f)
+            else Color.White.copy(alpha = 0.14f),
+            contentColor = if (selected) Accent else Color.White.copy(alpha = 0.92f)
         )
     ) {
         Icon(
             painter = painterResource(icon),
             contentDescription = description,
             modifier = Modifier.size(20.dp)
+        )
+    }
+}
+
+/**
+ * Compact shuffle/repeat toggle in the secondary row.
+ */
+@Composable
+private fun SmallToggle(
+    icon: Int,
+    description: String,
+    selected: Boolean,
+    onClick: () -> Unit
+) {
+    IconButton(
+        onClick = onClick,
+        modifier = Modifier.size(30.dp),
+        colors = IconButtonDefaults.iconButtonColors(
+            containerColor = if (selected) Accent.copy(alpha = 0.2f) else Color.White.copy(alpha = 0.08f),
+            contentColor = if (selected) Accent else Color.White.copy(alpha = 0.6f)
+        )
+    ) {
+        Icon(
+            painter = painterResource(icon),
+            contentDescription = description,
+            modifier = Modifier.size(16.dp)
+        )
+    }
+}
+
+/**
+ * Compact navigation icon in the secondary row.
+ */
+@Composable
+private fun SmallNav(
+    icon: Int,
+    label: String,
+    onClick: () -> Unit
+) {
+    IconButton(
+        onClick = onClick,
+        modifier = Modifier.size(30.dp),
+        colors = IconButtonDefaults.iconButtonColors(
+            containerColor = Color.White.copy(alpha = 0.08f),
+            contentColor = Color.White.copy(alpha = 0.6f)
+        )
+    ) {
+        Icon(
+            painter = painterResource(icon),
+            contentDescription = label,
+            modifier = Modifier.size(16.dp)
         )
     }
 }
