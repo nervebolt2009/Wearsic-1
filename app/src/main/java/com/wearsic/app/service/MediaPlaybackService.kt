@@ -600,7 +600,10 @@ class MediaPlaybackService : MediaSessionService() {
             try {
                 // Await the cancelled writer before deleting spans, so the
                 // CacheWriter cannot hold a locked span while we remove it.
-                downloadJobs.remove(track.videoId)?.cancel()?.join()
+                downloadJobs.remove(track.videoId)?.let { job ->
+                    job.cancel()
+                    job.join()
+                }
                 // cacheKeyFor needs a configured server URL; when the URL was
                 // cleared after the download, still forget the marker so the
                 // Downloads list stays truthful. Note: if the server URL changed
