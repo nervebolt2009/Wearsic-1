@@ -249,6 +249,7 @@ fun WearsicApp(
                 val downloadedIds by viewModel.downloadedIds.collectAsState()
                 val downloadProgress by viewModel.downloadProgress.collectAsState()
                 val downloadErrors by viewModel.downloadErrors.collectAsState()
+                val downloadedTracks by viewModel.downloadedTracks.collectAsState()
                 val playbackError by viewModel.error.collectAsState()
                 FavoritesPlaylistsScreen(
                     favorites = favorites,
@@ -272,7 +273,15 @@ fun WearsicApp(
                     downloadErrors = downloadErrors,
                     errorMessage = playbackError,
                     onDismissError = viewModel::clearError,
-                    onBack = { navigationManager.navigateBack() }
+                    onBack = { navigationManager.navigateBack() },
+                    downloadedTracks = downloadedTracks,
+                    onDownloadedTrackClick = { track ->
+                        // Play the offline copy: the queue is seeded with the
+                        // downloaded song and Media3 serves it from the cache.
+                        viewModel.playTrack(track)
+                        navigationManager.navigateTo(Screen.NowPlaying)
+                    },
+                    onRemoveDownload = viewModel::removeDownload
                 )
             }
 

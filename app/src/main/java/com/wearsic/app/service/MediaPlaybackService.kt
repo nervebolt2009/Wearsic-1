@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
 import android.content.pm.ServiceInfo
+import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.BatteryManager
@@ -27,7 +28,10 @@ import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.datasource.cache.CacheDataSource
 import androidx.media3.datasource.cache.CacheWriter
+import androidx.media3.exoplayer.DefaultLoadControl
+import androidx.media3.exoplayer.DefaultRenderersFactory
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.audio.DefaultAudioSink
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
@@ -73,6 +77,12 @@ class MediaPlaybackService : MediaSessionService() {
     private val downloadJobs = ConcurrentHashMap<String, Job>()
     @Volatile private var clearingCache = false
 
+    /**
+     * Partial wake lock held only while a network fetch (download) is in
+     * flight. The CPU and radio go back to sleep the instant data is on disk.
+     */
+    private lateinit var fetchWakeLock: FetchWakeLock
+
     companion object {
         const val ACTION_PLAY = "com.wearsic.app.action.PLAY"
         const val ACTION_PLAY_TRACKS = "com.wearsic.app.action.PLAY_TRACKS"
@@ -85,6 +95,7 @@ class MediaPlaybackService : MediaSessionService() {
         const val ACTION_MOVE_QUEUE_ITEM = "com.wearsic.app.action.MOVE_QUEUE_ITEM"
         const val ACTION_CLEAR_CACHE = "com.wearsic.app.action.CLEAR_CACHE"
         const val ACTION_DOWNLOAD_TRACK = "com.wearsic.app.action.DOWNLOAD_TRACK"
+        const val ACTION_REMOVE_DOWNLOAD = "com.wearsic.app.action.REMOVE_DOWNLOAD"
 
         const val EXTRA_SERVER_URL = "extra_server_url"
         const val EXTRA_API_KEY = "extra_api_key"
@@ -114,6 +125,30 @@ class MediaPlaybackService : MediaSessionService() {
     override fun onCreate() {
         super.onCreate()
         createNotificationChannel()
+        fetchWakeLock = FetchWakeLock(applicationContext)
+
+        // Offload to the watch's audio DSP whenever the stream format allows:
+        // the DSP decodes for near-zero power and the CPU can then sleep for
+        // the whole song (Media3 reports that via the AudioOffloadListener).
+        val offloadSupportProvider = WearsicAudioOffloadSupportProvider()
+
+        // Aggressive chunked buffering: fetch a large chunk of audio into the
+        // cache ahead of time, then let the radio go back to sleep until the
+        // buffer drains back down to minBufferMs. Long maxBufferMs = one radio
+        // wake-up per several minutes of playback instead of constant trickle.
+        // See DefaultLoadControl docs: loading stops at maxBufferMs/target
+        // bytes and only resumes below minBufferMs.
+        val loadControl = DefaultLoadControl.Builder()
+            .setBufferDurationsMs(
+                /* minBufferMs = */ 45_000,
+                /* maxBufferMs = */ 300_000, // 5 minutes of audio per radio wake-up
+                /* bufferForPlaybackMs = */ 3_000, // start quickly
+                /* bufferForPlaybackAfterRebufferMs = */ 20_000
+            )
+            .setTargetBufferBytes(24 * 1024 * 1024) // hard cap watch memory
+            .setPrioritizeTimeOverSizeThresholds(true)
+            .build()
+
         val httpDataSource = DefaultHttpDataSource.Factory()
             .setAllowCrossProtocolRedirects(true)
             .setConnectTimeoutMs(15_000)
@@ -139,8 +174,26 @@ class MediaPlaybackService : MediaSessionService() {
                 DefaultDataSource.Factory(this, httpDataSource)
             }
 
-        val player = ExoPlayer.Builder(this)
+        // Media3 1.5.1 has no ExoPlayer.Builder.setAudioSink (added in 1.6); the
+        // offload-capable audio sink is injected through a RenderersFactory.
+        // The sink is built here so the renderers factory's own flags (float
+        // output, AudioTrack playback params) are honoured as usual.
+        val renderersFactory = object : DefaultRenderersFactory(this) {
+            override fun buildAudioSink(
+                context: Context,
+                enableFloatOutput: Boolean,
+                enableAudioTrackPlaybackParams: Boolean
+            ): androidx.media3.exoplayer.audio.AudioSink =
+                DefaultAudioSink.Builder(context)
+                    .setEnableFloatOutput(enableFloatOutput)
+                    .setEnableAudioTrackPlaybackParams(enableAudioTrackPlaybackParams)
+                    .setAudioOffloadSupportProvider(offloadSupportProvider)
+                    .build()
+        }
+
+        val player = ExoPlayer.Builder(this, renderersFactory)
             .setMediaSourceFactory(DefaultMediaSourceFactory(dataSourceFactory))
+            .setLoadControl(loadControl)
             .setAudioAttributes(
                 AudioAttributes.Builder()
                     .setContentType(C.AUDIO_CONTENT_TYPE_MUSIC)
@@ -149,8 +202,24 @@ class MediaPlaybackService : MediaSessionService() {
                 true
             )
             .setHandleAudioBecomingNoisy(true)
+            // Wake lock held only while the player does network I/O; released
+            // automatically when buffering completes (radio sleep).
             .setWakeMode(C.WAKE_MODE_NETWORK)
             .build()
+
+        // Monitor offload status: when the DSP takes over, the CPU can sleep
+        // for the whole song; when the player starts sleeping for offload,
+        // Media3 has finished draining its buffers and we can log/measure it.
+        player.addAudioOffloadListener(object : ExoPlayer.AudioOffloadListener {
+            override fun onOffloadedPlayback(offloaded: Boolean) {
+                Log.i(TAG, if (offloaded) "Audio offloaded to DSP (CPU can sleep)" else "Audio playing via software decoder")
+            }
+
+            override fun onSleepingForOffloadChanged(isSleepingForOffload: Boolean) {
+                Log.i(TAG, if (isSleepingForOffload) "Sleeping for offload (no buffer work needed)" else "Woke from offload sleep")
+            }
+        })
+
         player.addListener(object : Player.Listener {
             override fun onPlayerError(error: PlaybackException) {
                 Log.e(TAG, "Playback failed", error)
@@ -304,6 +373,9 @@ class MediaPlaybackService : MediaSessionService() {
                 ACTION_DOWNLOAD_TRACK -> intent.getStringExtra(EXTRA_DOWNLOAD_TRACK_JSON)
                     ?.let(::decodeTrack)
                     ?.let { track -> startDownload(track, intent.getBooleanExtra(EXTRA_AUTO_DOWNLOAD, false)) }
+                ACTION_REMOVE_DOWNLOAD -> intent.getStringExtra(EXTRA_DOWNLOAD_TRACK_JSON)
+                    ?.let(::decodeTrack)
+                    ?.let(::removeDownload)
             }
         } catch (error: Exception) {
             Log.e(TAG, "Playback command failed", error)
@@ -475,7 +547,14 @@ class MediaPlaybackService : MediaSessionService() {
                         }
                     }
                 )
-                writer.cache()
+                // Keep the CPU + radio alive only while bytes are actually
+                // moving; the lock drops the instant the fetch finishes.
+                fetchWakeLock.acquire()
+                try {
+                    writer.cache()
+                } finally {
+                    fetchWakeLock.release()
+                }
                 val cachedLength = PlaybackCache.get()?.getContentMetadata(streamUrl)
                     ?.get(androidx.media3.datasource.cache.ContentMetadata.KEY_CONTENT_LENGTH, -1L)
                     ?: -1L
@@ -483,7 +562,12 @@ class MediaPlaybackService : MediaSessionService() {
                 // restart, so leave them as ordinary cache data rather than
                 // falsely advertising offline availability.
                 if (cachedLength > 0L) {
-                    OfflineDownloadStore.markDownloaded(applicationContext, track.videoId, cachedLength)
+                    OfflineDownloadStore.markDownloaded(
+                        applicationContext,
+                        track.videoId,
+                        cachedLength,
+                        track = track
+                    )
                 }
                 PlaybackEvents.reportDownloadedIds(OfflineDownloadStore.readIds(applicationContext))
                 PlaybackEvents.reportDownloadProgress(track.videoId, null)
@@ -496,6 +580,34 @@ class MediaPlaybackService : MediaSessionService() {
             } finally {
                 downloadJobs.remove(track.videoId)
                 if (!clearingCache) finishDownloadServiceIfIdle()
+            }
+        }
+    }
+
+    /**
+     * Remove one track's audio from the offline cache and forget its download
+     * marker. Safe while the player may hold the cache handle: spans are
+     * removed off the main thread (the cache locks per span internally).
+     */
+    private fun removeDownload(track: Track) {
+        if (track.videoId.isBlank()) return
+        serviceScope.launch(Dispatchers.IO) {
+            try {
+                downloadJobs[track.videoId]?.cancel()
+                downloadJobs.remove(track.videoId)
+                // cacheKeyFor needs a configured server URL; when the URL was
+                // cleared after the download, still forget the marker so the
+                // Downloads list stays truthful.
+                runCatching { cacheKeyFor(track.videoId) }.onSuccess { key ->
+                    PlaybackCache.get()?.let { cache ->
+                        runCatching { cache.removeResource(key) }
+                    }
+                }
+                OfflineDownloadStore.remove(applicationContext, track.videoId)
+                PlaybackEvents.reportDownloadedIds(OfflineDownloadStore.readIds(applicationContext))
+                PlaybackEvents.reportDownloadProgress(track.videoId, null)
+            } finally {
+                finishDownloadServiceIfIdle()
             }
         }
     }
@@ -665,6 +777,11 @@ class MediaPlaybackService : MediaSessionService() {
         downloadJobs.values.forEach { it.cancel() }
         downloadJobs.clear()
         serviceScope.cancel()
+        // Safety net: a download cancelled mid-flight must never leave the CPU
+        // pinned after the service is gone.
+        if (::fetchWakeLock.isInitialized && fetchWakeLock.isHeld) {
+            fetchWakeLock.release()
+        }
         mediaSession?.run {
             player.release()
             release()

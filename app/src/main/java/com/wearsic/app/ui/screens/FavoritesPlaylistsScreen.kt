@@ -32,6 +32,7 @@ import com.wearsic.app.data.model.Track
 import com.wearsic.app.data.model.Playlist
 import com.wearsic.app.ui.components.BackButton
 import com.wearsic.app.ui.components.ErrorBanner
+import com.wearsic.app.ui.components.ListSectionHeader
 import com.wearsic.app.ui.components.TrackThumbnail
 import com.wearsic.app.ui.components.WearsicListCard
 import com.wearsic.app.ui.components.WearsicScreenScaffold
@@ -55,7 +56,11 @@ fun FavoritesPlaylistsScreen(
     errorMessage: String? = null,
     onDismissError: () -> Unit = {},
     onBack: () -> Unit = {},
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    // Downloads section: the full list of tracks available offline.
+    downloadedTracks: List<Track> = emptyList(),
+    onDownloadedTrackClick: (Track) -> Unit = {},
+    onRemoveDownload: (Track) -> Unit = {}
 ) {
     var selectedTab by remember { mutableIntStateOf(0) }
     
@@ -155,6 +160,30 @@ fun FavoritesPlaylistsScreen(
                                    else Color.White.copy(alpha = 0.5f)
                         )
                     }
+                    
+                    // Downloads Tab
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .background(
+                                color = if (selectedTab == 2) Color(0xFF1DB954).copy(alpha = 0.3f) 
+                                       else Color.White.copy(alpha = 0.08f),
+                                shape = RoundedCornerShape(20.dp)
+                            )
+                            .clickable { selectedTab = 2 }
+                            .padding(horizontal = 12.dp, vertical = 10.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "Downloads",
+                            style = MaterialTheme.typography.labelMedium.copy(
+                                fontWeight = if (selectedTab == 2) FontWeight.Bold else FontWeight.Normal
+                            ),
+                            color = if (selectedTab == 2) Color.White 
+                                   else Color.White.copy(alpha = 0.5f),
+                            maxLines = 1
+                        )
+                    }
                 }
             }
             
@@ -251,6 +280,53 @@ fun FavoritesPlaylistsScreen(
                             playlist = playlists[index],
                             onClick = { onPlaylistClick(playlists[index]) },
                             onToggleLiked = { onTogglePlaylistLiked(playlists[index]) },
+                            modifier = Modifier.fillMaxWidth(0.9f)
+                        )
+                    }
+                }
+            }
+            
+            // Downloads Tab Content
+            if (selectedTab == 2) {
+                if (downloadedTracks.isEmpty()) {
+                    item {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(32.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_download),
+                                contentDescription = null,
+                                tint = Color.White.copy(alpha = 0.3f),
+                                modifier = Modifier.size(48.dp)
+                            )
+                            
+                            Spacer(modifier = Modifier.height(16.dp))
+                            
+                            Text(
+                                text = "No downloads yet",
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = Color.White.copy(alpha = 0.7f),
+                                textAlign = TextAlign.Center
+                            )
+                            Spacer(modifier = Modifier.height(6.dp))
+                            Text(
+                                text = "Tap the download icon on any track to save it offline",
+                                style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp),
+                                color = Color.White.copy(alpha = 0.5f),
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                    }
+                } else {
+                    item { ListSectionHeader("Offline (${downloadedTracks.size})") }
+                    items(downloadedTracks.size, key = { downloadedTracks[it].videoId }) { index ->
+                        DownloadItem(
+                            track = downloadedTracks[index],
+                            onClick = { onDownloadedTrackClick(downloadedTracks[index]) },
+                            onRemove = { onRemoveDownload(downloadedTracks[index]) },
                             modifier = Modifier.fillMaxWidth(0.9f)
                         )
                     }
@@ -438,6 +514,61 @@ private fun PlaylistItem(
                         if (playlist.liked) R.string.unlike_playlist else R.string.like_playlist
                     ),
                     tint = if (playlist.liked) Color(0xFFE91E63) else Color.White.copy(alpha = 0.5f),
+                    modifier = Modifier.size(18.dp)
+                )
+            }
+        }
+    }
+}
+
+/**
+ * A downloaded track row: tap to play the cached audio, or remove it from
+ * offline storage. The whole row plays; the remove control is a separate
+ * 48dp target on the right (same pattern as favorites/playlist rows).
+ */
+@Composable
+private fun DownloadItem(
+    track: Track,
+    onClick: () -> Unit,
+    onRemove: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    WearsicListCard(onClick = onClick, modifier = modifier) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            TrackThumbnail(url = track.thumbnailUrl)
+
+            Spacer(modifier = Modifier.width(10.dp))
+
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = track.title,
+                    style = MaterialTheme.typography.bodyMedium.copy(fontSize = 13.sp),
+                    color = Color.White,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Text(
+                    text = track.uploader,
+                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp),
+                    color = Color.White.copy(alpha = 0.6f),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+
+            IconButton(
+                onClick = onRemove,
+                modifier = Modifier.size(48.dp)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_download),
+                    contentDescription = "Remove download",
+                    tint = Color(0xFFB7F397),
                     modifier = Modifier.size(18.dp)
                 )
             }

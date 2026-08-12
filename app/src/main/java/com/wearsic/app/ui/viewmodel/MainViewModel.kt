@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.wearsic.app.data.cache.OfflineDownloadStore
 import com.wearsic.app.data.cache.PlaybackCache
 import com.wearsic.app.data.model.Album
 import com.wearsic.app.data.model.Track
@@ -134,6 +135,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val downloadProgress: StateFlow<Map<String, Float>> = PlaybackEvents.downloadProgress
     val downloadErrors: StateFlow<Map<String, String>> = PlaybackEvents.downloadErrors
 
+    // Downloaded tracks with metadata, for the Downloads section. Kept in sync
+    // whenever the service reports a change to the downloaded-id set (new
+    // download finished, removal, cache cleared).
+    private val _downloadedTracks = MutableStateFlow<List<Track>>(emptyList())
+    val downloadedTracks: StateFlow<List<Track>> = _downloadedTracks.asStateFlow()
+
     // Kotlinx JSON used to ship the queue to the foreground service and to
     // snapshot favorites/playlists for offline use. encodeDefaults keeps
     // default-valued fields (e.g. Playlist.liked=false) in the snapshot so the
@@ -224,6 +231,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             PlaybackEvents.cacheCleared.collect { refreshCacheUsage() }
         }
+
+        viewModelScope.launch {
+            PlaybackEvents.downloadedIds.collect { refreshDownloadedTracks() }
+        }
+        // Initial load for installs where downloads exist before the ViewModel
+        // ever starts (e.g. auto-downloads finished while the app was closed).
+        refreshDownloadedTracks()
 
         refreshCacheUsage()
 
@@ -1066,6 +1080,26 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 MediaPlaybackService.EXTRA_DOWNLOAD_TRACK_JSON,
                 queueJson.encodeToString(track)
             )
+        }
+    }
+
+    /**
+     * Remove one track from the offline Downloads (audio bytes + marker).
+     * Routed through the foreground service, which owns the cache handle.
+     */
+    fun removeDownload(track: Track) {
+        sendServiceIntent(MediaPlaybackService.ACTION_REMOVE_DOWNLOAD) {
+            putExtra(
+                MediaPlaybackService.EXTRA_DOWNLOAD_TRACK_JSON,
+                queueJson.encodeToString(track)
+            )
+        }
+    }
+
+    /** Re-read the offline download list from disk. */
+    private fun refreshDownloadedTracks() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _downloadedTracks.value = OfflineDownloadStore.readTracks(getApplication())
         }
     }
 

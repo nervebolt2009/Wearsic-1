@@ -192,6 +192,47 @@ class RobolectricCoverageTest {
     }
 
     @Test
+    fun downloadsTabShowsOfflineTracksAndRemovalWorks() {
+        var played: Track? = null
+        var removed: Track? = null
+        val downloaded = Track(
+            videoId = "offline-track",
+            title = "Offline Hit",
+            uploader = "Offline Band",
+            durationMs = 180_000,
+            thumbnailUrl = ""
+        )
+        composeTestRule.setContent {
+            WearsicTheme {
+                WatchRoot {
+                    FavoritesPlaylistsScreen(
+                        favorites = emptyList(),
+                        playlists = emptyList(),
+                        isLoading = false,
+                        onTrackClick = {},
+                        onRemoveFromFavorites = {},
+                        onPlaylistClick = {},
+                        downloadedTracks = listOf(downloaded),
+                        onDownloadedTrackClick = { played = it },
+                        onRemoveDownload = { removed = it }
+                    )
+                }
+            }
+        }
+
+        // Switch to the Downloads tab and verify the offline row renders.
+        composeTestRule.onNodeWithText("Downloads").performClick()
+        composeTestRule.onNodeWithText("Offline Hit").performScrollTo().performClick()
+        assertEquals(downloaded, played)
+
+        // Remove the download via its dedicated control.
+        composeTestRule.onNodeWithContentDescription("Remove download")
+            .performScrollTo()
+            .performClick()
+        assertEquals(downloaded, removed)
+    }
+
+    @Test
     fun queueClearReorderAndTrackActionsWorkInsideSafeBounds() {
         var clickedIndex = -1
         var removedIndex = -1
