@@ -32,6 +32,8 @@ import com.wearsic.app.data.model.Track
 import com.wearsic.app.data.model.Playlist
 import com.wearsic.app.ui.components.BackButton
 import com.wearsic.app.ui.components.ErrorBanner
+import com.wearsic.app.ui.components.TrackThumbnail
+import com.wearsic.app.ui.components.WearsicListCard
 import com.wearsic.app.ui.components.WearsicScreenScaffold
 
 /**
@@ -272,110 +274,92 @@ private fun FavoriteItem(
     downloadError: String? = null,
     modifier: Modifier = Modifier
 ) {
-    Row(
-        modifier = modifier
-            .padding(vertical = 3.dp)
-            .background(
-                color = Color.White.copy(alpha = 0.08f),
-                shape = RoundedCornerShape(20.dp)
-            )
-            .clickable(onClick = onClick)
-            .padding(horizontal = 12.dp, vertical = 10.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        // Track thumbnail
-        Box(
+    WearsicListCard(onClick = onClick, modifier = modifier) {
+        Row(
             modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape)
-                .background(Color.White.copy(alpha = 0.1f)),
-            contentAlignment = Alignment.Center
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            AsyncImage(
-                model = track.thumbnailUrl,
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clip(CircleShape)
-            )
-        }
-        
-        Spacer(modifier = Modifier.width(10.dp))
-        
-        // Track info
-        Column(
-            modifier = Modifier.weight(1f)
-        ) {
-            Text(
-                text = track.title,
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    fontSize = 13.sp
-                ),
-                color = Color.White,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-            
-            Text(
-                text = track.uploader,
-                style = MaterialTheme.typography.labelSmall.copy(
-                    fontSize = 11.sp
-                ),
-                color = Color.White.copy(alpha = 0.6f),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-        }
-        
-        // Keep the compact metadata row separate from actions. This prevents
-        // the two 48dp controls from pushing text beyond a round 44mm bezel.
-        Column(horizontalAlignment = Alignment.End) {
-            Text(
-                text = track.formatDuration(),
-                style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp),
-                color = Color.White.copy(alpha = 0.5f),
-                modifier = Modifier.padding(start = 8.dp)
-            )
-            Row {
-                if (downloadError != null) {
-                    Text(
-                        text = "Failed",
-                        style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp),
-                        color = Color(0xFFE91E63),
-                        modifier = Modifier.align(Alignment.CenterVertically).padding(end = 2.dp)
-                    )
-                }
-                IconButton(
-                    onClick = onDownload,
-                    enabled = !isDownloaded && downloadProgress == null,
-                    modifier = Modifier.size(48.dp)
-                ) {
-                    if (downloadProgress != null) {
-                        CircularProgressIndicator(
-                            progress = { downloadProgress },
-                            modifier = Modifier.size(17.dp),
-                            strokeWidth = 2.dp
-                        )
-                    } else {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_download),
-                            contentDescription = if (isDownloaded) "Available offline" else "Download for offline",
-                            tint = if (isDownloaded) Color(0xFFB7F397) else Color.White.copy(alpha = 0.8f),
-                            modifier = Modifier.size(17.dp)
+            // Track thumbnail
+            TrackThumbnail(url = track.thumbnailUrl)
+
+            Spacer(modifier = Modifier.width(10.dp))
+
+            // Track info
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    text = track.title,
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontSize = 13.sp
+                    ),
+                    color = Color.White,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+
+                Text(
+                    text = track.uploader,
+                    style = MaterialTheme.typography.labelSmall.copy(
+                        fontSize = 11.sp
+                    ),
+                    color = Color.White.copy(alpha = 0.6f),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+
+            // Keep the compact metadata row separate from actions. This prevents
+            // the two 48dp controls from pushing text beyond a round 44mm bezel.
+            Column(horizontalAlignment = Alignment.End) {
+                Text(
+                    text = track.formatDuration(),
+                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp),
+                    color = Color.White.copy(alpha = 0.5f),
+                    modifier = Modifier.padding(start = 8.dp)
+                )
+                Row {
+                    if (downloadError != null) {
+                        Text(
+                            text = "Failed",
+                            style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp),
+                            color = Color(0xFFE91E63),
+                            modifier = Modifier.align(Alignment.CenterVertically).padding(end = 2.dp)
                         )
                     }
-                }
-                IconButton(
-                    onClick = onRemove,
-                    modifier = Modifier.size(48.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_favorite_filled),
-                        contentDescription = stringResource(R.string.remove_from_favorites),
-                        tint = Color(0xFFE91E63),
-                        modifier = Modifier.size(18.dp)
-                    )
+                    IconButton(
+                        onClick = onDownload,
+                        enabled = !isDownloaded && downloadProgress == null,
+                        modifier = Modifier.size(48.dp)
+                    ) {
+                        if (downloadProgress != null) {
+                            CircularProgressIndicator(
+                                progress = { downloadProgress },
+                                modifier = Modifier.size(17.dp),
+                                strokeWidth = 2.dp
+                            )
+                        } else {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_download),
+                                contentDescription = if (isDownloaded) "Available offline" else "Download for offline",
+                                tint = if (isDownloaded) Color(0xFFB7F397) else Color.White.copy(alpha = 0.8f),
+                                modifier = Modifier.size(17.dp)
+                            )
+                        }
+                    }
+                    IconButton(
+                        onClick = onRemove,
+                        modifier = Modifier.size(48.dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_favorite_filled),
+                            contentDescription = stringResource(R.string.remove_from_favorites),
+                            tint = Color(0xFFE91E63),
+                            modifier = Modifier.size(18.dp)
+                        )
+                    }
                 }
             }
         }
@@ -392,74 +376,71 @@ private fun PlaylistItem(
     onToggleLiked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Row(
-        modifier = modifier
-            .padding(vertical = 3.dp)
-            .background(
-                color = Color.White.copy(alpha = 0.08f),
-                shape = RoundedCornerShape(20.dp)
-            )
-            .clickable(onClick = onClick)
-            .padding(horizontal = 12.dp, vertical = 10.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        // Playlist icon
-        Box(
+    WearsicListCard(onClick = onClick, modifier = modifier) {
+        Row(
             modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape)
-                .background(Color(0xFF1DB954).copy(alpha = 0.2f)),
-            contentAlignment = Alignment.Center
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_queue),
-                contentDescription = null,
-                tint = Color(0xFF1DB954),
-                modifier = Modifier.size(20.dp)
-            )
-        }
-        
-        Spacer(modifier = Modifier.width(10.dp))
-        
-        // Playlist info
-        Column(
-            modifier = Modifier.weight(1f)
-        ) {
-            Text(
-                text = playlist.name,
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    fontSize = 13.sp
-                ),
-                color = Color.White,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-            
-            Text(
-                text = "${playlist.trackCount} tracks",
-                style = MaterialTheme.typography.labelSmall.copy(
-                    fontSize = 11.sp
-                ),
-                color = Color.White.copy(alpha = 0.6f)
-            )
-        }
-        
-        // Like/unlike the playlist. Kept as a separate 48dp control so the
-        // whole row is still tappable for playback.
-        IconButton(
-            onClick = onToggleLiked,
-            modifier = Modifier.size(48.dp)
-        ) {
-            Icon(
-                painter = painterResource(
-                    id = if (playlist.liked) R.drawable.ic_favorite_filled else R.drawable.ic_favorite_outline
-                ),
-                contentDescription = stringResource(
-                    if (playlist.liked) R.string.unlike_playlist else R.string.like_playlist
-                ),
-                tint = if (playlist.liked) Color(0xFFE91E63) else Color.White.copy(alpha = 0.5f),
-                modifier = Modifier.size(18.dp)
-            )
+            // Playlist icon
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .background(Color(0xFF1DB954).copy(alpha = 0.2f)),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_queue),
+                    contentDescription = null,
+                    tint = Color(0xFF1DB954),
+                    modifier = Modifier.size(20.dp)
+                )
+            }
+
+            Spacer(modifier = Modifier.width(10.dp))
+
+            // Playlist info
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    text = playlist.name,
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontSize = 13.sp
+                    ),
+                    color = Color.White,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+
+                Text(
+                    text = "${playlist.trackCount} tracks",
+                    style = MaterialTheme.typography.labelSmall.copy(
+                        fontSize = 11.sp
+                    ),
+                    color = Color.White.copy(alpha = 0.6f)
+                )
+            }
+
+            // Like/unlike the playlist. Kept as a separate 48dp control so the
+            // whole row is still tappable for playback.
+            IconButton(
+                onClick = onToggleLiked,
+                modifier = Modifier.size(48.dp)
+            ) {
+                Icon(
+                    painter = painterResource(
+                        id = if (playlist.liked) R.drawable.ic_favorite_filled else R.drawable.ic_favorite_outline
+                    ),
+                    contentDescription = stringResource(
+                        if (playlist.liked) R.string.unlike_playlist else R.string.like_playlist
+                    ),
+                    tint = if (playlist.liked) Color(0xFFE91E63) else Color.White.copy(alpha = 0.5f),
+                    modifier = Modifier.size(18.dp)
+                )
+            }
         }
     }
 }

@@ -32,6 +32,9 @@ import coil.compose.AsyncImage
 import com.wearsic.app.R
 import com.wearsic.app.data.model.Track
 import com.wearsic.app.ui.components.BackButton
+import com.wearsic.app.ui.components.ListSectionHeader
+import com.wearsic.app.ui.components.TrackThumbnail
+import com.wearsic.app.ui.components.WearsicListCard
 import com.wearsic.app.ui.components.WearsicScreenScaffold
 import kotlinx.coroutines.delay
 
@@ -98,18 +101,7 @@ fun QueueScreen(
             
             // Current Track
             if (currentTrack != null) {
-                item {
-                    Text(
-                        text = "Now Playing",
-                        style = MaterialTheme.typography.labelMedium.copy(
-                            fontWeight = FontWeight.Medium
-                        ),
-                        color = Color(0xFF1DB954),
-                        modifier = Modifier
-                            .fillMaxWidth(0.9f)
-                            .padding(bottom = 8.dp)
-                    )
-                }
+                item { ListSectionHeader("Now Playing") }
                 
                 item {
                     CurrentTrackItem(
@@ -121,18 +113,7 @@ fun QueueScreen(
             
             // Up Next
             if (queue.isNotEmpty()) {
-                item {
-                    Text(
-                        text = "Up Next (${queue.size} tracks)",
-                        style = MaterialTheme.typography.labelMedium.copy(
-                            fontWeight = FontWeight.Medium
-                        ),
-                        color = Color.White.copy(alpha = 0.7f),
-                        modifier = Modifier
-                            .fillMaxWidth(0.9f)
-                            .padding(top = 16.dp, bottom = 8.dp)
-                    )
-                }
+                item { ListSectionHeader("Up Next (${queue.size} tracks)") }
                 
                 items(queue.size, key = { "$it-${queue[it].videoId}" }) { index ->
                     QueueItem(
@@ -225,31 +206,15 @@ private fun CurrentTrackItem(
 ) {
     Row(
         modifier = modifier
-            .padding(vertical = 3.dp)
             .background(
                 color = Color(0xFF1DB954).copy(alpha = 0.15f),
-                shape = RoundedCornerShape(20.dp)
+                shape = RoundedCornerShape(18.dp)
             )
             .padding(horizontal = 12.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         // Track thumbnail
-        Box(
-            modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape)
-                .background(Color.White.copy(alpha = 0.1f)),
-            contentAlignment = Alignment.Center
-        ) {
-            AsyncImage(
-                model = track.thumbnailUrl,
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clip(CircleShape)
-            )
-        }
+        TrackThumbnail(url = track.thumbnailUrl)
         
         Spacer(modifier = Modifier.width(10.dp))
         
@@ -338,37 +303,22 @@ private fun QueueItem(
                 )
             }
         } else {
-    Row(
-        modifier = Modifier
-            .padding(vertical = 3.dp)
-            .background(
-                color = if (isCurrentTrack) Color(0xFF1DB954).copy(alpha = 0.15f) 
-                       else Color.White.copy(alpha = 0.08f),
-                shape = RoundedCornerShape(20.dp)
-            )
-            .clickable(onClick = onClick)
-            .padding(horizontal = 12.dp, vertical = 10.dp),
-        verticalAlignment = Alignment.CenterVertically
+    WearsicListCard(
+        onClick = onClick,
+        modifier = Modifier.fillMaxSize(),
+        containerColor = if (isCurrentTrack) Color(0xFF1DB954).copy(alpha = 0.15f)
+                        else Color.White.copy(alpha = 0.06f)
     ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
         // Track thumbnail (no number badge: the row also carries 48dp reorder
         // buttons, and every fixed element steals width from the title on a
         // 44mm round face).
-        Box(
-            modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape)
-                .background(Color.White.copy(alpha = 0.1f)),
-            contentAlignment = Alignment.Center
-        ) {
-            AsyncImage(
-                model = track.thumbnailUrl,
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clip(CircleShape)
-            )
-        }
+        TrackThumbnail(url = track.thumbnailUrl)
         
         Spacer(modifier = Modifier.width(10.dp))
         
@@ -428,6 +378,7 @@ private fun QueueItem(
                     modifier = Modifier.size(18.dp).rotate(-90f)
                 )
             }
+        }
         }
     }
         }

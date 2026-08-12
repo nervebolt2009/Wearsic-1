@@ -29,6 +29,9 @@ import com.wearsic.app.R
 import com.wearsic.app.data.model.Album
 import com.wearsic.app.data.model.Track
 import com.wearsic.app.ui.components.BackButton
+import com.wearsic.app.ui.components.ListSectionHeader
+import com.wearsic.app.ui.components.TrackThumbnail
+import com.wearsic.app.ui.components.WearsicListCard
 import com.wearsic.app.ui.components.WearsicScreenScaffold
 
 @Composable
@@ -131,14 +134,7 @@ fun AlbumDetailScreen(
                     )
                 }
             } else {
-                item {
-                    Text(
-                        text = "Tracks (${tracks.size})",
-                        style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Medium),
-                        color = Color.White.copy(alpha = 0.7f),
-                        modifier = Modifier.fillMaxWidth(0.9f).padding(top = 8.dp, bottom = 6.dp)
-                    )
-                }
+                item { ListSectionHeader("Tracks (${tracks.size})") }
                 items(tracks, key = { it.videoId }) { track ->
                     AlbumTrackRow(
                         track = track,
@@ -191,62 +187,64 @@ private fun AlbumTrackRow(
     downloadError: String? = null,
     modifier: Modifier = Modifier
 ) {
-    Row(
-        modifier = modifier
-            .padding(vertical = 3.dp)
-            .background(Color.White.copy(alpha = 0.08f), RoundedCornerShape(18.dp))
-            .clickable(onClick = onClick)
-            .padding(horizontal = 14.dp, vertical = 11.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = track.title,
-                style = MaterialTheme.typography.bodyMedium.copy(fontSize = 13.sp),
-                color = Color.White,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-            Text(
-                text = track.uploader,
-                style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp),
-                color = Color.White.copy(alpha = 0.6f),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-        }
-        Column(horizontalAlignment = Alignment.End) {
-            Text(
-                text = track.formatDuration(),
-                style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp),
-                color = Color.White.copy(alpha = 0.55f),
-                modifier = Modifier.padding(start = 8.dp)
-            )
-            if (downloadError != null) {
+    WearsicListCard(onClick = onClick, modifier = modifier) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            TrackThumbnail(url = track.thumbnailUrl)
+            Spacer(modifier = Modifier.width(10.dp))
+            Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = "Failed",
-                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp),
-                    color = Color(0xFFE91E63)
+                    text = track.title,
+                    style = MaterialTheme.typography.bodyMedium.copy(fontSize = 13.sp),
+                    color = Color.White,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Text(
+                    text = track.uploader,
+                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp),
+                    color = Color.White.copy(alpha = 0.6f),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
-            IconButton(
-                onClick = onDownload,
-                enabled = !isDownloaded && downloadProgress == null,
-                modifier = Modifier.size(48.dp)
-            ) {
-                if (downloadProgress != null) {
-                    CircularProgressIndicator(
-                        progress = { downloadProgress },
-                        modifier = Modifier.size(17.dp),
-                        strokeWidth = 2.dp
+            Column(horizontalAlignment = Alignment.End) {
+                Text(
+                    text = track.formatDuration(),
+                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp),
+                    color = Color.White.copy(alpha = 0.55f),
+                    modifier = Modifier.padding(start = 8.dp)
+                )
+                if (downloadError != null) {
+                    Text(
+                        text = "Failed",
+                        style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp),
+                        color = Color(0xFFE91E63)
                     )
-                } else {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_download),
-                        contentDescription = if (isDownloaded) "Available offline" else "Download for offline",
-                        tint = if (isDownloaded) Color(0xFFB7F397) else Color.White.copy(alpha = 0.8f),
-                        modifier = Modifier.size(17.dp)
-                    )
+                }
+                IconButton(
+                    onClick = onDownload,
+                    enabled = !isDownloaded && downloadProgress == null,
+                    modifier = Modifier.size(48.dp)
+                ) {
+                    if (downloadProgress != null) {
+                        CircularProgressIndicator(
+                            progress = { downloadProgress },
+                            modifier = Modifier.size(17.dp),
+                            strokeWidth = 2.dp
+                        )
+                    } else {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_download),
+                            contentDescription = if (isDownloaded) "Available offline" else "Download for offline",
+                            tint = if (isDownloaded) Color(0xFFB7F397) else Color.White.copy(alpha = 0.8f),
+                            modifier = Modifier.size(17.dp)
+                        )
+                    }
                 }
             }
         }

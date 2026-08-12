@@ -31,6 +31,9 @@ import com.wearsic.app.data.model.Album
 import com.wearsic.app.data.model.Track
 import com.wearsic.app.ui.components.BackButton
 import com.wearsic.app.ui.components.ErrorBanner
+import com.wearsic.app.ui.components.ListSectionHeader
+import com.wearsic.app.ui.components.TrackThumbnail
+import com.wearsic.app.ui.components.WearsicListCard
 import com.wearsic.app.ui.components.WearsicScreenScaffold
 
 /**
@@ -189,18 +192,7 @@ fun SearchScreen(
             
             // Suggestions List
             if (!albumsMode && suggestions.isNotEmpty() && searchQuery.isNotEmpty()) {
-                item {
-                    Text(
-                        text = "Suggestions",
-                        style = MaterialTheme.typography.labelMedium.copy(
-                            fontWeight = FontWeight.Medium
-                        ),
-                        color = Color.White.copy(alpha = 0.7f),
-                        modifier = Modifier
-                            .fillMaxWidth(0.9f)
-                            .padding(top = 16.dp, bottom = 8.dp)
-                    )
-                }
+                item { ListSectionHeader("Suggestions") }
                 
                 items(suggestions.take(5).size, key = { "${it}-${suggestions[it]}" }) { index ->
                     SuggestionItem(
@@ -213,14 +205,7 @@ fun SearchScreen(
             
             // Album Results
             if (albumsMode && albums.isNotEmpty()) {
-                item {
-                    Text(
-                        text = "Albums / Playlists (${albums.size})",
-                        style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Medium),
-                        color = Color.White.copy(alpha = 0.7f),
-                        modifier = Modifier.fillMaxWidth(0.9f).padding(top = 16.dp, bottom = 8.dp)
-                    )
-                }
+                item { ListSectionHeader("Albums / Playlists (${albums.size})") }
                 items(albums.size, key = { "${it}-${albums[it].id}" }) { index ->
                     AlbumResultItem(
                         album = albums[index],
@@ -232,18 +217,7 @@ fun SearchScreen(
 
             // Search Results
             if (!albumsMode && searchResults.isNotEmpty()) {
-                item {
-                    Text(
-                        text = "Results (${searchResults.size})",
-                        style = MaterialTheme.typography.labelMedium.copy(
-                            fontWeight = FontWeight.Medium
-                        ),
-                        color = Color.White.copy(alpha = 0.7f),
-                        modifier = Modifier
-                            .fillMaxWidth(0.9f)
-                            .padding(top = 16.dp, bottom = 8.dp)
-                    )
-                }
+                item { ListSectionHeader("Results (${searchResults.size})") }
                 
                 items(searchResults.size, key = { searchResults[it].videoId }) { index ->
                     SearchResultItem(
@@ -317,30 +291,21 @@ private fun AlbumResultItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Row(
-        modifier = modifier
-            .padding(vertical = 3.dp)
-            .background(Color.White.copy(alpha = 0.08f), RoundedCornerShape(20.dp))
-            .clickable(onClick = onClick)
-            .padding(horizontal = 12.dp, vertical = 10.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Box(
-            modifier = Modifier.size(42.dp).clip(RoundedCornerShape(12.dp)).background(Color.White.copy(alpha = 0.1f))
+    WearsicListCard(onClick = onClick, modifier = modifier) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            AsyncImage(
-                model = album.thumbnailUrl,
-                contentDescription = album.name,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(12.dp))
-            )
+            TrackThumbnail(url = album.thumbnailUrl, size = 42.dp, shape = RoundedCornerShape(12.dp))
+            Spacer(modifier = Modifier.width(10.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                Text(album.name, style = MaterialTheme.typography.bodyMedium.copy(fontSize = 13.sp), color = Color.White, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text("${album.uploader} • ${album.trackCount} tracks", style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp), color = Color.White.copy(alpha = 0.6f), maxLines = 1, overflow = TextOverflow.Ellipsis)
+            }
+            Icon(painter = painterResource(R.drawable.ic_skip_next), contentDescription = "Open album", tint = Color.White.copy(alpha = 0.6f), modifier = Modifier.size(20.dp))
         }
-        Spacer(modifier = Modifier.width(10.dp))
-        Column(modifier = Modifier.weight(1f)) {
-            Text(album.name, style = MaterialTheme.typography.bodyMedium.copy(fontSize = 13.sp), color = Color.White, maxLines = 1, overflow = TextOverflow.Ellipsis)
-            Text("${album.uploader} • ${album.trackCount} tracks", style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp), color = Color.White.copy(alpha = 0.6f), maxLines = 1, overflow = TextOverflow.Ellipsis)
-        }
-        Icon(painter = painterResource(R.drawable.ic_skip_next), contentDescription = "Open album", tint = Color.White.copy(alpha = 0.6f), modifier = Modifier.size(20.dp))
     }
 }
 
@@ -353,35 +318,32 @@ private fun SuggestionItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Row(
-        modifier = modifier
-            .padding(vertical = 3.dp)
-            .background(
-                color = Color.White.copy(alpha = 0.08f),
-                shape = RoundedCornerShape(20.dp)
+    WearsicListCard(onClick = onClick, modifier = modifier) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 14.dp, vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_search),
+                contentDescription = null,
+                tint = Color.White.copy(alpha = 0.4f),
+                modifier = Modifier.size(14.dp)
             )
-            .clickable(onClick = onClick)
-            .padding(horizontal = 14.dp, vertical = 10.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_search),
-            contentDescription = null,
-            tint = Color.White.copy(alpha = 0.4f),
-            modifier = Modifier.size(14.dp)
-        )
-        
-        Spacer(modifier = Modifier.width(10.dp))
-        
-        Text(
-            text = suggestion,
-            style = MaterialTheme.typography.bodyMedium.copy(
-                fontSize = 13.sp
-            ),
-            color = Color.White,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-        )
+
+            Spacer(modifier = Modifier.width(10.dp))
+
+            Text(
+                text = suggestion,
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    fontSize = 13.sp
+                ),
+                color = Color.White,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
     }
 }
 
@@ -402,36 +364,19 @@ private fun SearchResultItem(
     downloadError: String? = null,
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier
-            .padding(vertical = 3.dp)
-            .background(
-                color = Color.White.copy(alpha = 0.08f),
-                shape = RoundedCornerShape(20.dp)
-            )
-            .padding(horizontal = 12.dp, vertical = 10.dp)
-    ) {
+    // The title/artist row carries the tap target (not the whole card): the
+    // action buttons below are separate controls, and keeping the clickable
+    // region to the info row keeps its semantics bounds compact.
+    WearsicListCard(onClick = null, modifier = modifier) {
         // Line 1: thumbnail + title/artist (full available width)
         Row(
-            modifier = Modifier.clickable(onClick = onClick),
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable(onClick = onClick)
+                .padding(start = 12.dp, end = 12.dp, top = 10.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Box(
-                modifier = Modifier
-                    .size(38.dp)
-                    .clip(CircleShape)
-                    .background(Color.White.copy(alpha = 0.1f)),
-                contentAlignment = Alignment.Center
-            ) {
-                AsyncImage(
-                    model = track.thumbnailUrl,
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clip(CircleShape)
-                )
-            }
+            TrackThumbnail(url = track.thumbnailUrl)
 
             Spacer(modifier = Modifier.width(10.dp))
 

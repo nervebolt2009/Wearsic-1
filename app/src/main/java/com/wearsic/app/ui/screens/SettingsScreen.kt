@@ -30,6 +30,7 @@ import com.wearsic.app.R
 import com.wearsic.app.data.preferences.SettingsManager
 import com.wearsic.app.ui.components.BackButton
 import com.wearsic.app.ui.components.ErrorBanner
+import com.wearsic.app.ui.components.ListSectionHeader
 import com.wearsic.app.ui.components.WearsicScreenScaffold
 import java.util.Locale
 import kotlinx.coroutines.delay
@@ -126,18 +127,7 @@ fun SettingsScreen(
             }
 
             // Server Configuration Section
-            item {
-                Text(
-                    text = "Server Configuration",
-                    style = MaterialTheme.typography.labelMedium.copy(
-                        fontWeight = FontWeight.Medium
-                    ),
-                    color = Color.White.copy(alpha = 0.7f),
-                    modifier = Modifier
-                        .fillMaxWidth(0.9f)
-                        .padding(bottom = 8.dp)
-                )
-            }
+            item { ListSectionHeader("Server Configuration") }
             
             // Editable Server URL
             item {
@@ -378,16 +368,7 @@ fun SettingsScreen(
             }
             
             // Offline Cache Section
-            item {
-                Text(
-                    text = "Offline Cache",
-                    style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Medium),
-                    color = Color.White.copy(alpha = 0.7f),
-                    modifier = Modifier
-                        .fillMaxWidth(0.9f)
-                        .padding(top = 24.dp, bottom = 8.dp)
-                )
-            }
+            item { ListSectionHeader("Offline Cache") }
 
             // Cache usage and size limit
             item {
@@ -521,16 +502,7 @@ fun SettingsScreen(
             }
 
             // About Section
-            item {
-                Text(
-                    text = "About",
-                    style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Medium),
-                    color = Color.White.copy(alpha = 0.7f),
-                    modifier = Modifier
-                        .fillMaxWidth(0.9f)
-                        .padding(top = 24.dp, bottom = 8.dp)
-                )
-            }
+            item { ListSectionHeader("About") }
             
             // App Version
             item {
