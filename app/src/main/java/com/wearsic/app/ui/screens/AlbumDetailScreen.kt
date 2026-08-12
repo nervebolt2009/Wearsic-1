@@ -21,7 +21,6 @@ import androidx.wear.compose.material3.CircularProgressIndicator
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.IconButton
 import androidx.wear.compose.material3.MaterialTheme
-import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TextButton
 import androidx.compose.ui.res.painterResource
@@ -30,6 +29,7 @@ import com.wearsic.app.R
 import com.wearsic.app.data.model.Album
 import com.wearsic.app.data.model.Track
 import com.wearsic.app.ui.components.BackButton
+import com.wearsic.app.ui.components.WearsicScreenScaffold
 
 @Composable
 fun AlbumDetailScreen(
@@ -49,8 +49,11 @@ fun AlbumDetailScreen(
     onBack: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
-    ScreenScaffold(modifier = modifier) {
-        val listState = rememberScalingLazyListState()
+    val listState = rememberScalingLazyListState()
+    WearsicScreenScaffold(
+        modifier = modifier,
+        scrollState = listState
+    ) {
         ScalingLazyColumn(
             modifier = Modifier.fillMaxSize(),
             state = listState,

@@ -31,6 +31,7 @@ import com.wearsic.app.data.model.Album
 import com.wearsic.app.data.model.Track
 import com.wearsic.app.ui.components.BackButton
 import com.wearsic.app.ui.components.ErrorBanner
+import com.wearsic.app.ui.components.WearsicScreenScaffold
 
 /**
  * Search screen with text input, live suggestions, and results list
@@ -58,11 +59,12 @@ fun SearchScreen(
     onDismissError: () -> Unit = {},
     onBack: () -> Unit = {}
 ) {
-    ScreenScaffold(
-        modifier = modifier
+    val listState = rememberScalingLazyListState()
+    val rotaryBehavior = RotaryScrollableDefaults.behavior(listState)
+    WearsicScreenScaffold(
+        modifier = modifier,
+        scrollState = listState
     ) {
-        val listState = rememberScalingLazyListState()
-        val rotaryBehavior = RotaryScrollableDefaults.behavior(listState)
         ScalingLazyColumn(
             modifier = Modifier.fillMaxSize(),
             state = listState,

@@ -1,13 +1,14 @@
 package com.wearsic.app.ui.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,31 +22,35 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.onClick
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
 import androidx.wear.compose.foundation.rotary.RotaryScrollableDefaults
+import androidx.wear.compose.material.ToggleButtonDefaults
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.IconButton
 import androidx.wear.compose.material3.IconButtonDefaults
 import androidx.wear.compose.material3.LinearProgressIndicator
 import androidx.wear.compose.material3.MaterialTheme
-import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TextButton
 import coil.compose.AsyncImage
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
+import com.google.android.horologist.media.ui.components.MediaControlButtons
+import com.google.android.horologist.media.ui.components.controls.MediaButtonDefaults
+import com.google.android.horologist.media.ui.components.controls.ShuffleToggleButton
+import com.google.android.horologist.media.ui.state.model.TrackPositionUiModel
 import com.wearsic.app.R
 import com.wearsic.app.data.model.Track
 import com.wearsic.app.service.PlaybackEvents
 import com.wearsic.app.service.progressFraction
+import com.wearsic.app.ui.components.WearsicScreenScaffold
 import com.wearsic.app.ui.navigation.Screen
+import com.wearsic.app.ui.theme.WearsicAccent
+import kotlin.time.Duration.Companion.milliseconds
 
 private val Accent = Color(0xFFB7F397)
 
@@ -58,6 +63,7 @@ private fun formatTime(ms: Long): String {
     else "%d:%02d".format(minutes, seconds)
 }
 
+@OptIn(ExperimentalHorologistApi::class)
 @Composable
 fun NowPlayingScreen(
     currentTrack: Track?,
@@ -78,24 +84,22 @@ fun NowPlayingScreen(
 ) {
     // Ambient (always-on) mode is handled app-wide in the shell: every screen
     // is replaced by a single low-power monochrome overlay.
-    ScreenScaffold(modifier = modifier) {
-        Box(modifier = Modifier.fillMaxSize()) {
-            // Keep the watch GPU cool: use a static gradient instead of a
-            // full-screen blur. Artwork is decoded only once below.
-
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        Brush.verticalGradient(
-                            colors = if (currentTrack != null) {
-                                listOf(Color(0xFF202A32), Color(0xFF0C0D10), Color(0xFF080909))
-                            } else {
-                                listOf(Color(0xFF15171B), Color(0xFF080909))
-                            }
-                        )
+    WearsicScreenScaffold(modifier = modifier) {
+        // Keep the watch GPU cool: use a static gradient instead of a
+        // full-screen blur. Artwork is decoded only once below.
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    Brush.verticalGradient(
+                        colors = if (currentTrack != null) {
+                            listOf(Color(0xFF202A32), Color(0xFF0C0D10), Color(0xFF080909))
+                        } else {
+                            listOf(Color(0xFF15171B), Color(0xFF080909))
+                        }
                     )
-            )
+                )
+        )
         val listState = rememberScalingLazyListState()
         val rotaryBehavior = RotaryScrollableDefaults.behavior(listState)
         ScalingLazyColumn(
@@ -207,36 +211,17 @@ fun NowPlayingScreen(
                     // every progress tick — keeps the watch UI smooth.
                     PlaybackProgressSection(currentTrack = currentTrack, isPlaying = isPlaying)
 
-                    Spacer(modifier = Modifier.height(2.dp))
-                    val playDescription = if (isPlaying) {
-                        stringResource(R.string.pause)
-                    } else {
-                        stringResource(R.string.play)
-                    }
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceEvenly,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        SmallControl(R.drawable.ic_skip_previous, stringResource(R.string.skip_previous), false, onPrevious)
-                        IconButton(
-                            onClick = onPlayPause,
-                            modifier = Modifier
-                                .size(56.dp)
-                                .background(Color.White, CircleShape),
-                            colors = IconButtonDefaults.iconButtonColors(
-                                containerColor = Color.Transparent,
-                                contentColor = Color(0xFF121417)
-                            )
-                        ) {
-                            Icon(
-                                painter = painterResource(if (isPlaying) R.drawable.ic_pause else R.drawable.ic_play),
-                                contentDescription = playDescription,
-                                modifier = Modifier.size(30.dp)
-                            )
-                        }
-                        SmallControl(R.drawable.ic_skip_next, stringResource(R.string.skip_next), false, onNext)
-                    }
+                    Spacer(modifier = Modifier.height(6.dp))
+                    // Horologist media controls: previous / play-pause with a
+                    // circular progress ring / next. The ring runs on its own
+                    // 1Hz clock, isolated from the rest of the screen.
+                    HorologistMediaControls(
+                        currentTrack = currentTrack,
+                        isPlaying = isPlaying,
+                        onPlayPause = onPlayPause,
+                        onPrevious = onPrevious,
+                        onNext = onNext
+                    )
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -244,7 +229,17 @@ fun NowPlayingScreen(
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        SmallControl(R.drawable.ic_shuffle, stringResource(R.string.shuffle), shuffleEnabled, onShuffleToggle)
+                        ShuffleToggleButton(
+                            shuffleOn = shuffleEnabled,
+                            onToggle = { onShuffleToggle() },
+                            modifier = Modifier.size(44.dp),
+                            colors = ToggleButtonDefaults.toggleButtonColors(
+                                checkedBackgroundColor = Color.Transparent,
+                                checkedContentColor = WearsicAccent,
+                                uncheckedBackgroundColor = Color.Transparent,
+                                uncheckedContentColor = Color.White.copy(alpha = 0.62f)
+                            )
+                        )
                         SmallControl(R.drawable.ic_repeat, stringResource(R.string.repeat), repeatEnabled, onRepeatToggle)
                         SmallControl(
                             if (isFavorite) R.drawable.ic_favorite_filled else R.drawable.ic_favorite_outline,
@@ -257,35 +252,40 @@ fun NowPlayingScreen(
                 }
             }
         }
-        }
     }
 }
 
+/**
+ * Single 1Hz playback clock shared by the linear progress bar and the
+ * Horologist progress ring. Advances a local position every second while
+ * playing and resyncs to the service position whenever the service reports one
+ * (initial load, seek, pause, track change — including back to 0 for a
+ * repeated track, where the audio restarts but the id does not change). Both
+ * callers run it inside their own isolated subtree, so a tick only recomposes
+ * the small progress UI.
+ */
 @Composable
-private fun PlaybackProgressSection(currentTrack: Track?, isPlaying: Boolean) {
-    val positionMs by PlaybackEvents.positionMs.collectAsState()
-    val durationMs by PlaybackEvents.durationMs.collectAsState()
+private fun rememberTickingPositionMs(
+    videoId: String?,
+    isPlaying: Boolean,
+    fallbackDurationMs: Long = 0L
+): State<Long> {
+    val servicePositionMs by PlaybackEvents.positionMs.collectAsState()
+    val serviceDurationMs by PlaybackEvents.durationMs.collectAsState()
 
-    // The bar runs on its own clock: a local position that advances every
-    // second while playing, continuously resynced to the position reported by
-    // the playback service. Even if a service poll is delayed or the stream
-    // reports no duration, the indicator still moves smoothly.
-    var displayedPositionMs by remember(currentTrack?.videoId) { mutableStateOf(0L) }
+    var displayedPositionMs by remember(videoId) { mutableStateOf(0L) }
 
-    // Resync to the real stream position whenever the service reports one
-    // (initial load, seek, pause, track transition — including back to 0 for
-    // seek-to-start or a repeated track, where the audio restarts but the
-    // track id does not change).
-    LaunchedEffect(positionMs) {
-        displayedPositionMs = positionMs
+    // Resync to the real stream position whenever the service reports one.
+    LaunchedEffect(servicePositionMs) {
+        displayedPositionMs = servicePositionMs
     }
 
     // Self-driving 1Hz tick while playing; freezes the moment playback stops.
-    LaunchedEffect(isPlaying, currentTrack?.videoId) {
+    LaunchedEffect(isPlaying, videoId) {
         if (isPlaying) {
             while (true) {
                 delay(1_000)
-                val duration = if (durationMs > 0L) durationMs else currentTrack?.durationMs ?: 0L
+                val duration = if (serviceDurationMs > 0L) serviceDurationMs else fallbackDurationMs
                 displayedPositionMs = if (duration > 0L) {
                     (displayedPositionMs + 1_000L).coerceAtMost(duration)
                 } else {
@@ -294,6 +294,74 @@ private fun PlaybackProgressSection(currentTrack: Track?, isPlaying: Boolean) {
             }
         }
     }
+
+    return derivedStateOf { displayedPositionMs }
+}
+
+/**
+ * Horologist [MediaControlButtons] with the play/pause button wrapped in a
+ * circular progress ring driven by the shared playback clock. Only this small
+ * subtree recomposes on each tick.
+ */
+@OptIn(ExperimentalHorologistApi::class)
+@Composable
+private fun HorologistMediaControls(
+    currentTrack: Track?,
+    isPlaying: Boolean,
+    onPlayPause: () -> Unit,
+    onPrevious: () -> Unit,
+    onNext: () -> Unit
+) {
+    val durationMs by PlaybackEvents.durationMs.collectAsState()
+    val displayedPositionMs by rememberTickingPositionMs(
+        videoId = currentTrack?.videoId,
+        isPlaying = isPlaying,
+        fallbackDurationMs = currentTrack?.durationMs ?: 0L
+    )
+
+    val effectiveDuration = if (durationMs > 0L) durationMs else currentTrack?.durationMs ?: 0L
+    val percent = if (effectiveDuration > 0L) {
+        (displayedPositionMs.toFloat() / effectiveDuration).coerceIn(0f, 1f)
+    } else {
+        0f
+    }
+    val positionModel = if (currentTrack != null) {
+        TrackPositionUiModel.Actual(
+            percent = percent,
+            duration = effectiveDuration.milliseconds,
+            position = displayedPositionMs.milliseconds
+        )
+    } else {
+        TrackPositionUiModel.Hidden
+    }
+
+    MediaControlButtons(
+        onPlayButtonClick = onPlayPause,
+        onPauseButtonClick = onPlayPause,
+        playPauseButtonEnabled = true,
+        playing = isPlaying,
+        onSeekToPreviousButtonClick = onPrevious,
+        seekToPreviousButtonEnabled = currentTrack != null,
+        onSeekToNextButtonClick = onNext,
+        seekToNextButtonEnabled = currentTrack != null,
+        modifier = Modifier.fillMaxWidth(0.94f),
+        trackPositionUiModel = positionModel,
+        colors = MediaButtonDefaults.mediaButtonDefaultColors
+    )
+}
+
+@Composable
+private fun PlaybackProgressSection(currentTrack: Track?, isPlaying: Boolean) {
+    val durationMs by PlaybackEvents.durationMs.collectAsState()
+    // The bar runs on the same 1Hz clock as the Horologist progress ring (kept
+    // in sync by construction), resynced to the service position whenever it
+    // reports one. Even if a service poll is delayed or the stream reports no
+    // duration, the indicator still moves smoothly.
+    val displayedPositionMs by rememberTickingPositionMs(
+        videoId = currentTrack?.videoId,
+        isPlaying = isPlaying,
+        fallbackDurationMs = currentTrack?.durationMs ?: 0L
+    )
 
     val fraction = progressFraction(displayedPositionMs, durationMs, currentTrack?.durationMs ?: 0L)
     Column(modifier = Modifier.fillMaxWidth()) {

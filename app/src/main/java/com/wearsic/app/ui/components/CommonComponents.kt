@@ -1,6 +1,8 @@
 package com.wearsic.app.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.ScrollableState
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,6 +25,9 @@ import androidx.wear.compose.material3.IconButton
 import androidx.wear.compose.material3.IconButtonDefaults
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Text
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
+import com.google.android.horologist.compose.layout.ResponsiveTimeText
+import com.google.android.horologist.compose.layout.ScreenScaffold
 import com.wearsic.app.R
 
 /**
@@ -48,6 +53,30 @@ fun BackButton(
             modifier = Modifier.size(20.dp)
         )
     }
+}
+
+/**
+ * Horologist-based screen scaffold used by every screen. It renders the app's
+ * [ResponsiveTimeText] at the top and a scroll [PositionIndicator] on the right
+ * edge whenever a scroll state is supplied, plus the Horologist scroll-away
+ * behaviour (the time text glides out while the list scrolls). The shell wraps
+ * the whole app in a Horologist [AppScaffold], so the time text is drawn once
+ * and shared across screen transitions.
+ */
+@OptIn(ExperimentalHorologistApi::class)
+@Composable
+fun WearsicScreenScaffold(
+    modifier: Modifier = Modifier,
+    scrollState: ScrollableState? = null,
+    timeText: @Composable () -> Unit = { ResponsiveTimeText() },
+    content: @Composable BoxScope.() -> Unit
+) {
+    ScreenScaffold(
+        modifier = modifier,
+        timeText = timeText,
+        scrollState = scrollState,
+        content = content
+    )
 }
 
 /**

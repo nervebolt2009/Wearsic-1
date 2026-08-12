@@ -32,6 +32,7 @@ import coil.compose.AsyncImage
 import com.wearsic.app.R
 import com.wearsic.app.data.model.Track
 import com.wearsic.app.ui.components.BackButton
+import com.wearsic.app.ui.components.WearsicScreenScaffold
 import kotlinx.coroutines.delay
 
 /**
@@ -59,11 +60,12 @@ fun QueueScreen(
             confirmClearQueue = false
         }
     }
-    ScreenScaffold(
-        modifier = modifier
+    val listState = rememberScalingLazyListState()
+    val rotaryBehavior = RotaryScrollableDefaults.behavior(listState)
+    WearsicScreenScaffold(
+        modifier = modifier,
+        scrollState = listState
     ) {
-        val listState = rememberScalingLazyListState()
-        val rotaryBehavior = RotaryScrollableDefaults.behavior(listState)
         ScalingLazyColumn(
             modifier = Modifier.fillMaxSize(),
             state = listState,

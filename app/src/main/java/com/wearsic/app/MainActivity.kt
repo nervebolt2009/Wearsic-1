@@ -31,6 +31,9 @@ import androidx.wear.ambient.AmbientLifecycleObserver
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Text
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
+import com.google.android.horologist.compose.layout.AppScaffold
+import com.google.android.horologist.compose.layout.ResponsiveTimeText
 import com.wearsic.app.R
 import com.wearsic.app.data.model.Track
 import com.wearsic.app.ui.ambient.AmbientState
@@ -99,7 +102,13 @@ class MainActivity : ComponentActivity() {
  * inside its own branch — so e.g. search-suggestion updates never recompose the
  * Now Playing screen, and download progress ticks only affect screens that
  * show download buttons. This keeps the watch UI smooth.
+ *
+ * The shell sits inside a Horologist [AppScaffold], which renders a single
+ * shared [ResponsiveTimeText] above every screen and scrolls it away while a
+ * list scrolls (each screen registers its scroll state via
+ * WearsicScreenScaffold).
  */
+@OptIn(ExperimentalHorologistApi::class)
 @Composable
 fun WearsicApp(
     viewModel: MainViewModel = viewModel()
@@ -127,7 +136,7 @@ fun WearsicApp(
     // No permanent bottom bar: the screens navigate on their own. Now Playing
     // exposes Search/Favorites/Queue/Settings icons, and every other screen has
     // a back button, so the whole 235dp round display stays usable.
-    Box(modifier = Modifier.fillMaxSize()) {
+    AppScaffold(timeText = { ResponsiveTimeText() }) {
         when (currentScreen) {
             is Screen.NowPlaying -> {
                 val currentTrack by viewModel.currentTrack.collectAsState()

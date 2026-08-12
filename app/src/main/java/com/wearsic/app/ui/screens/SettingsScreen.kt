@@ -30,6 +30,7 @@ import com.wearsic.app.R
 import com.wearsic.app.data.preferences.SettingsManager
 import com.wearsic.app.ui.components.BackButton
 import com.wearsic.app.ui.components.ErrorBanner
+import com.wearsic.app.ui.components.WearsicScreenScaffold
 import java.util.Locale
 import kotlinx.coroutines.delay
 
@@ -81,11 +82,12 @@ fun SettingsScreen(
             confirmClearCache = false
         }
     }
-    ScreenScaffold(
-        modifier = modifier
+    val listState = rememberScalingLazyListState()
+    val rotaryBehavior = RotaryScrollableDefaults.behavior(listState)
+    WearsicScreenScaffold(
+        modifier = modifier,
+        scrollState = listState
     ) {
-        val listState = rememberScalingLazyListState()
-        val rotaryBehavior = RotaryScrollableDefaults.behavior(listState)
         ScalingLazyColumn(
             modifier = Modifier.fillMaxSize(),
             state = listState,

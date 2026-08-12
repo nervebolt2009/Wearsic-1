@@ -19,6 +19,13 @@ roborazzi = "1.42.0"
 # androidx.wear:wear still pins the ancient fragment 1.2.4; force a modern
 # fragment so ActivityResult APIs and lint are satisfied.
 fragment = "1.8.5"
+# Horologist: Wear OS Compose UI toolkit. 0.7.5-alpha is the sweet spot for
+# this project's stack: it is built with Kotlin 2.0.21 (matches the app's
+# compiler exactly) and against Wear Compose 1.5.0-alpha05, whose focus APIs
+# (ActiveFocusListener) match the app's pinned Wear Compose 1.5.0 stable at
+# runtime. Earlier 0.6.x builds need the removed OnFocusChange API (crash), and
+# 0.7.6+ require Kotlin 2.1+/2.2 metadata the 2.0.21 compiler cannot read.
+horologist = "0.7.5-alpha"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -66,6 +73,12 @@ androidx-test-runner = { group = "androidx.test", name = "runner", version = "1.
 androidx-test-junit = { group = "androidx.test.ext", name = "junit", version = "1.2.1" }
 roborazzi = { group = "io.github.takahirom.roborazzi", name = "roborazzi", version.ref = "roborazzi" }
 roborazzi-compose = { group = "io.github.takahirom.roborazzi", name = "roborazzi-compose", version.ref = "roborazzi" }
+
+# Horologist (Wear OS UI toolkit): TimeText / AppScaffold / PositionIndicator /
+# rotary scroll+snap (compose-layout) and PlayerScreen / media controls (media-ui).
+horologist-compose-layout = { group = "com.google.android.horologist", name = "horologist-compose-layout", version.ref = "horologist" }
+horologist-media-ui = { group = "com.google.android.horologist", name = "horologist-media-ui", version.ref = "horologist" }
+horologist-media-ui-model = { group = "com.google.android.horologist", name = "horologist-media-ui-model", version.ref = "horologist" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

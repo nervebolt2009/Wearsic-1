@@ -32,6 +32,7 @@ import com.wearsic.app.data.model.Track
 import com.wearsic.app.data.model.Playlist
 import com.wearsic.app.ui.components.BackButton
 import com.wearsic.app.ui.components.ErrorBanner
+import com.wearsic.app.ui.components.WearsicScreenScaffold
 
 /**
  * Favorites/Playlists screen with tabs for favorites and playlists
@@ -56,11 +57,12 @@ fun FavoritesPlaylistsScreen(
 ) {
     var selectedTab by remember { mutableIntStateOf(0) }
     
-    ScreenScaffold(
-        modifier = modifier
+    val listState = rememberScalingLazyListState()
+    val rotaryBehavior = RotaryScrollableDefaults.behavior(listState)
+    WearsicScreenScaffold(
+        modifier = modifier,
+        scrollState = listState
     ) {
-        val listState = rememberScalingLazyListState()
-        val rotaryBehavior = RotaryScrollableDefaults.behavior(listState)
         ScalingLazyColumn(
             modifier = Modifier.fillMaxSize(),
             state = listState,

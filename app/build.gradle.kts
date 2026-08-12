@@ -25,8 +25,8 @@ android {
         applicationId = "com.wearsic.app"
         minSdk = 30
         targetSdk = 36
-        versionCode = 8
-        versionName = "1.7.1"
+        versionCode = 9
+        versionName = "1.8"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -112,6 +112,14 @@ dependencies {
     implementation(libs.wear.compose.material3)
     implementation(libs.wear.compose.foundation)
     implementation(libs.wear.compose.navigation)
+
+    // Horologist: Wear OS UI toolkit — TimeText/AppScaffold/PositionIndicator
+    // and rotary scroll+snap (compose-layout) + media controls (media-ui).
+    implementation(libs.horologist.compose.layout)
+    implementation(libs.horologist.media.ui)
+    // TrackPositionUiModel (circular progress ring on the play button) lives
+    // in this module since 0.7.x.
+    implementation(libs.horologist.media.ui.model)
 
     // Media3 for Playback + offline cache (SQLite-backed cache index)
     implementation(libs.media3.exoplayer)
