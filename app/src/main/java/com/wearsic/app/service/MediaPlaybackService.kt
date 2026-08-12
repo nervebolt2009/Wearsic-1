@@ -586,18 +586,26 @@ class MediaPlaybackService : MediaSessionService() {
 
     /**
      * Remove one track's audio from the offline cache and forget its download
-     * marker. Safe while the player may hold the cache handle: spans are
-     * removed off the main thread (the cache locks per span internally).
+     * marker. Safe while the player may hold the cache handle: if the track is
+     * the currently playing item, playback is paused first (like clearCache),
+     * the spans are removed off the main thread, then playback resumes.
      */
     private fun removeDownload(track: Track) {
         if (track.videoId.isBlank()) return
+        val player = mediaSession?.player
+        val wasPlaying = player?.isPlaying == true
+        val isCurrent = player?.currentMediaItem?.mediaId == track.videoId
+        player?.pause()
         serviceScope.launch(Dispatchers.IO) {
             try {
-                downloadJobs[track.videoId]?.cancel()
-                downloadJobs.remove(track.videoId)
+                // Await the cancelled writer before deleting spans, so the
+                // CacheWriter cannot hold a locked span while we remove it.
+                downloadJobs.remove(track.videoId)?.cancel()?.join()
                 // cacheKeyFor needs a configured server URL; when the URL was
                 // cleared after the download, still forget the marker so the
-                // Downloads list stays truthful.
+                // Downloads list stays truthful. Note: if the server URL changed
+                // since download, the recomputed key differs and the old bytes
+                // linger until LRU eviction — harmless.
                 runCatching { cacheKeyFor(track.videoId) }.onSuccess { key ->
                     PlaybackCache.get()?.let { cache ->
                         runCatching { cache.removeResource(key) }
@@ -607,6 +615,9 @@ class MediaPlaybackService : MediaSessionService() {
                 PlaybackEvents.reportDownloadedIds(OfflineDownloadStore.readIds(applicationContext))
                 PlaybackEvents.reportDownloadProgress(track.videoId, null)
             } finally {
+                if (isCurrent && wasPlaying) {
+                    withContext(Dispatchers.Main.immediate) { player?.play() }
+                }
                 finishDownloadServiceIfIdle()
             }
         }

@@ -318,6 +318,13 @@ fun FavoritesPlaylistsScreen(
                                 color = Color.White.copy(alpha = 0.5f),
                                 textAlign = TextAlign.Center
                             )
+                            Spacer(modifier = Modifier.height(6.dp))
+                            Text(
+                                text = "Saved songs play without internet (keep your server address in Settings)",
+                                style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
+                                color = Color.White.copy(alpha = 0.4f),
+                                textAlign = TextAlign.Center
+                            )
                         }
                     }
                 } else {
@@ -566,9 +573,9 @@ private fun DownloadItem(
                 modifier = Modifier.size(48.dp)
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_download),
+                    painter = painterResource(id = R.drawable.ic_close),
                     contentDescription = "Remove download",
-                    tint = Color(0xFFB7F397),
+                    tint = Color(0xFFE91E63),
                     modifier = Modifier.size(18.dp)
                 )
             }

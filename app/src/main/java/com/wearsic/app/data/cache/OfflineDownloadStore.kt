@@ -139,11 +139,13 @@ object OfflineDownloadStore {
         }.getOrDefault(emptyMap())
     }
 
+    // Marker file preserves insertion order (newest last). readTracks reverses
+    // it so the Downloads list shows the most recently downloaded track first.
     private fun writeEntries(context: Context, entries: Map<String, Long>) {
         val file = File(context.filesDir, FILE_NAME)
         file.parentFile?.mkdirs()
         file.writeText(
-            entries.toSortedMap().entries.joinToString("\n") { (id, length) ->
+            entries.entries.joinToString("\n") { (id, length) ->
                 "$id$SEPARATOR$length"
             }
         )
